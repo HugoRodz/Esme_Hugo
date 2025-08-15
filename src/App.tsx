@@ -12,9 +12,32 @@ function LeafDivider() {
 }
 
 export default function App() {
+  const base = import.meta.env.BASE_URL
+  const img = (name: string) => `${base}images/${encodeURIComponent(name)}`
+  const gallery = [
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM (1).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM (3).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM (4).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM (5).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM (6).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM (7).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM (8).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.13 AM.jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.14 AM (1).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.14 AM (2).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.14 AM (3).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.14 AM (4).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.14 AM (5).jpeg',
+    'WhatsApp Image 2025-08-14 at 1.54.14 AM.jpeg',
+  ]
   return (
     <div className="min-h-screen bg-emerald-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/60 via-emerald-50 to-white">
       <header className="relative isolate overflow-hidden">
+        {/* Imagen hero: Colima */}
+        <div className="absolute inset-0 -z-10">
+          <img src={img('colima.jpeg')} alt="Comala, Colima" className="h-full w-full object-cover opacity-35" loading="eager" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-emerald-50/60 to-white"></div>
+        </div>
         <div className="absolute inset-0 pointer-events-none">
           <svg className="absolute -top-10 -left-10 h-40 w-40 text-emerald-200" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
           <svg className="absolute -bottom-10 -right-10 h-48 w-48 text-emerald-100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
@@ -22,7 +45,7 @@ export default function App() {
         <div className="mx-auto max-w-4xl px-6 py-16 text-center">
           <p className="tracking-widest text-emerald-700 uppercase text-sm">Comala, Colima</p>
           <h1 className="mt-4 text-4xl sm:text-6xl font-serif text-emerald-900">Jorge & Esmeralda</h1>
-          <p className="mt-3 text-slate-600">Nos casamos el 29 de noviembre de 2025</p>
+          <p className="mt-3 text-slate-700">Nos casamos el 29 de noviembre de 2025</p>
           <LeafDivider />
           <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow hover:bg-emerald-700 transition">Confirmar asistencia</a>
         </div>
@@ -34,7 +57,9 @@ export default function App() {
             <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
             <p className="mt-3 text-slate-700">Bienvenidos a nuestra invitación digital. Queremos celebrar con ustedes en un jardín rodeado de hojas y ramas, con el toque natural que tanto nos gusta.</p>
           </div>
-          <div className="rounded-2xl bg-emerald-100 aspect-[4/3] grid place-content-center text-emerald-700">Foto del jardín</div>
+          <div className="overflow-hidden rounded-2xl aspect-[4/3] shadow ring-1 ring-emerald-200/50">
+            <img src={img('propuesta de matrimonio.jpeg')} alt="Propuesta de matrimonio" className="h-full w-full object-cover" loading="lazy" />
+          </div>
         </section>
 
         <LeafDivider />
@@ -54,6 +79,25 @@ export default function App() {
             <h3 className="font-semibold text-emerald-900">Dress code</h3>
             <p className="mt-2 text-slate-700">Formal jardín</p>
             <p className="text-slate-600">Tonos tierra, verdes, neutros</p>
+          </div>
+        </section>
+
+        <LeafDivider />
+
+        {/* Galería */}
+        <section id="galeria" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Galería</h2>
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {gallery.map((name) => (
+              <div key={name} className="overflow-hidden rounded-xl ring-1 ring-emerald-200/40 bg-white">
+                <img
+                  src={img(name)}
+                  alt={name}
+                  className="h-40 w-full object-cover sm:h-48 md:h-56 hover:scale-[1.02] transition"
+                  loading="lazy"
+                />
+              </div>
+            ))}
           </div>
         </section>
 
