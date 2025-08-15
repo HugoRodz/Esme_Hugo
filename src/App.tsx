@@ -131,7 +131,10 @@ export default function App() {
                     await navigator.clipboard.writeText(shareData.url)
                     alert('Enlace copiado')
                   }
-                } catch {}
+                } catch {
+                  // Ignorar si el usuario cancela o el navegador bloquea compartir
+                  void 0
+                }
               }}
             >
               Compartir
