@@ -91,5 +91,16 @@ export const HOTELS = [
 
 // Álbum compartido (pega aquí el enlace de tu álbum de Google Photos o Drive con permiso para subir)
 export const ALBUM = {
-  photosUrl: '', // Ejemplo: https://photos.app.goo.gl/XXXX
+  photosUrl: 'https://photos.app.goo.gl/yTfEDfix7xw5Xpn99', // Enlace real del álbum compartido
+}
+
+// Música de la página (elige al menos una fuente)
+export const MUSIC = {
+  title: 'Amor del Bueno — Reyli',
+  // Pega el enlace de Spotify del track y lo convertiremos a embed automáticamente
+  spotifyUrl: '', // Ej: https://open.spotify.com/track/XXXXXXXX
+  // Si prefieres YouTube, pega el ID del video (lo que va después de v=)
+  youtubeId: '', // Ej: AbCdEfGhIjk
+  // O un archivo de audio propio alojado con permiso (mp3/ogg)
+  audioUrl: '',
 }

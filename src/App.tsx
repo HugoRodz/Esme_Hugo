@@ -1,6 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
-import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS, ALBUM } from './config'
+import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS, ALBUM, MUSIC } from './config'
 
 function PreferenciasForm() {
   const [nombre, setNombre] = useState('')
@@ -604,6 +604,37 @@ export default function App() {
           <a className="text-emerald-700 hover:underline" href="#">#JorgeYEsme</a>
         </div>
       </footer>
+
+      {/* Música: nativo si hay audio propio; fallback a Spotify/YouTube si no */}
+      {MUSIC.audioUrl ? (
+        <audio
+          src={MUSIC.audioUrl}
+          controls
+          preload="none"
+          className="fixed bottom-3 right-3 z-30 w-64 max-w-[80vw] rounded-lg bg-white/90 px-2 py-1 ring-1 ring-emerald-200 shadow"
+          aria-label={`Reproductor: ${MUSIC.title}`}
+          title={MUSIC.title}
+        />
+      ) : MUSIC.spotifyUrl ? (
+        <iframe
+          style={{ borderRadius: 12 }}
+          src={MUSIC.spotifyUrl.replace('open.spotify.com/track', 'open.spotify.com/embed/track')}
+          width="320" height="80" frameBorder={0} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          className="fixed bottom-3 right-3 z-30"
+          title={MUSIC.title}
+        />
+      ) : MUSIC.youtubeId ? (
+        <iframe
+          width="320" height="180"
+          src={`https://www.youtube.com/embed/${MUSIC.youtubeId}?modestbranding=1&rel=0`}
+          title={MUSIC.title}
+          frameBorder={0}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="fixed bottom-3 right-3 z-30"
+        />
+      ) : null}
 
       {/* Lightbox */}
       {isLightboxOpen && (
