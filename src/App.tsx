@@ -349,7 +349,7 @@ export default function App() {
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {HOTELS.map((h) => (
               <div key={h.name} className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
-                <h3 className="font-medium text-emerald-900">{h.name}</h3>
+                <h3 className="font-medium text-emerald-900 flex items-center gap-2"><IconBadge>🏨</IconBadge>{h.name}</h3>
                 <p className="mt-1 text-slate-700">{h.address}</p>
                 <div className="mt-2 flex flex-wrap gap-2 text-sm">
                   {h.phones.map((p) => (
