@@ -100,24 +100,24 @@ export default function App() {
         {ornaments}
         {/* Imagen hero: Colima */}
         <div className="absolute inset-0 -z-10">
-          <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-35" loading="eager" />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-emerald-50/60 to-white"></div>
+          <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-60" loading="eager" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-emerald-50/30 to-white"></div>
         </div>
         <div className="absolute inset-0 pointer-events-none">
           <svg className="absolute -top-10 -left-10 h-40 w-40 text-emerald-200" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
           <svg className="absolute -bottom-10 -right-10 h-48 w-48 text-emerald-100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
         </div>
-        <div className="mx-auto max-w-4xl px-6 py-16 text-center">
-          <p className="tracking-widest text-emerald-700 uppercase text-sm">Comala, Colima</p>
-          <h1 className="mt-4 text-4xl sm:text-6xl font-serif text-emerald-900">Jorge & Esmeralda</h1>
-          <p className="mt-3 text-slate-700">Nos casamos el 29 de noviembre de 2025</p>
+        <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+          <p className="tracking-widest text-emerald-700/90 uppercase text-xs sm:text-sm">Comala, Colima</p>
+          <h1 className="mt-3 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">Jorge & Esmeralda</h1>
+          <p className="mt-3 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
           <div className="flex items-center justify-center gap-3">
-            <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow hover:bg-emerald-700 transition">Confirmar asistencia</a>
+            <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow-md hover:shadow-lg hover:bg-emerald-700 transition">Confirmar asistencia</a>
             <button
               type="button"
-              className="inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white"
+              className="inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-emerald-800 ring-1 ring-emerald-200/70 hover:bg-white shadow-sm"
               onClick={async () => {
                 const shareData = {
                   title: 'Boda Jorge & Esmeralda',
@@ -143,7 +143,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 pb-24">
+  <main className="mx-auto max-w-5xl px-6 pb-24">
         <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
           <div>
             <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
@@ -211,23 +211,44 @@ export default function App() {
           </div>
         </section>
 
-    <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
+        <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900">Ceremonia</h3>
-            <p className="mt-2 text-slate-700">29/11/2025 • 17:00 h</p>
+            <p className="mt-2 text-slate-700">29/11/2025 • 13:30 h</p>
       <p className="text-slate-600">{MAP.ceremony.name}</p>
       <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900">Recepción</h3>
-            <p className="mt-2 text-slate-700">Después de la ceremonia</p>
+            <p className="mt-2 text-slate-700">29/11/2025 • 15:45 h</p>
       <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
       <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-emerald-900">Dress code</h3>
-            <p className="mt-2 text-slate-700">Formal jardín</p>
-            <p className="text-slate-600">Tonos tierra, verdes, neutros</p>
+            <h3 className="font-semibold text-emerald-900">Código de vestimenta</h3>
+            <p className="mt-2 text-slate-700">Formal</p>
+            <p className="text-slate-600">Opcional: tonos tierra, verdes y neutros</p>
+          </div>
+        </section>
+
+        {/* La Molienda (Museo) */}
+        <section id="museo-la-molienda" className="mt-8 grid gap-6 sm:grid-cols-5 items-center">
+          <div className="sm:col-span-3">
+            <h2 className="text-2xl font-semibold text-emerald-900">La Molienda (Museo)</h2>
+            <p className="mt-2 text-slate-700">La Molienda es un museo y espacio cultural en Comala, parte de la antigua Hacienda Noguera. Un lugar con historia, jardines y arquitectura tradicional que harán de nuestra celebración un momento encantador.</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="inline-block text-emerald-700 hover:underline">Ver ubicación</a>
+              {MAP.streetNote && <span className="text-slate-600">Referencia: {MAP.streetNote}</span>}
+            </div>
+          </div>
+          <div className="sm:col-span-2 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
+            <iframe
+              className="h-56 w-full sm:h-64"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={mapEmbed(MAP.reception.query)}
+              title={`Mapa ${MAP.reception.name}`}
+            />
           </div>
         </section>
 

@@ -1,7 +1,8 @@
 // Configuración central del sitio
 
 // Fecha y hora del evento (hora local del navegador)
-export const EVENT_DATETIME = new Date('2025-11-29T17:00:00')
+// Ajustado a la hora de inicio de la ceremonia
+export const EVENT_DATETIME = new Date('2025-11-29T13:30:00')
 
 // Información de regalos (editar cuando tengan datos definitivos)
 export const GIFTS = {
