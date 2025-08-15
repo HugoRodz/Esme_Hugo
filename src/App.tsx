@@ -459,9 +459,24 @@ export default function App() {
               <div className="rounded-xl border border-emerald-200 bg-white p-4">
                 <p className="text-sm text-emerald-800">WhatsApp</p>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {(RSVP.whatsapps || []).map((num) => (
-                    <a key={num} className="rounded-lg bg-emerald-600 px-4 py-2 text-white text-center font-medium hover:bg-emerald-700" href={`https://wa.me/${num.replace('+','')}`} target="_blank" rel="noopener">{num}</a>
-                  ))}
+                  {(RSVP.whatsapps || []).map((num) => {
+                    const normalized = num.replace('+','')
+                    const local = normalized.startsWith('52') ? normalized.slice(2) : normalized
+                    const label = local.startsWith('452') ? 'Jorge' : (local.startsWith('312') ? 'Esmeralda' : 'WhatsApp')
+                    return (
+                      <a
+                        key={num}
+                        className="rounded-lg bg-emerald-600 px-4 py-2 text-white text-center font-medium hover:bg-emerald-700"
+                        href={`https://wa.me/${normalized}`}
+                        target="_blank"
+                        rel="noopener"
+                        aria-label={`WhatsApp ${label} ${num}`}
+                        title={`${label} · ${num}`}
+                      >
+                        {label}
+                      </a>
+                    )
+                  })}
                 </div>
               </div>
               <a className="rounded-lg bg-white px-4 py-2 text-emerald-800 text-center ring-1 ring-emerald-200 hover:bg-emerald-50" href={RSVP.mailto}>Confirmar por correo ({RSVP.emailAddress || 'correo'})</a>
