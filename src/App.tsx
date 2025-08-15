@@ -288,19 +288,35 @@ export default function App() {
 
         <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-emerald-900">Ceremonia</h3>
+            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
+              <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <circle cx="12" cy="13" r="5" />
+                <path d="M12 3l2 2-2 2-2-2 2-2z" />
+              </svg>
+              Ceremonia
+            </h3>
             <p className="mt-2 text-slate-700">29/11/2025 • 13:30 h</p>
       <p className="text-slate-600">{MAP.ceremony.name}</p>
       <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-emerald-900">Recepción</h3>
+            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
+              <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 3h8v2c0 3.3-2.7 6-6 6H8V3zm4 8v5H9v2h6v-2h-3v-5z" />
+              </svg>
+              Recepción
+            </h3>
             <p className="mt-2 text-slate-700">29/11/2025 • 15:45 h</p>
       <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
       <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-emerald-900">Código de vestimenta</h3>
+            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
+              <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 4a2 2 0 00-2 2h2a1 1 0 110 2v1l-6 4v6h12v-6l-6-4V8a3 3 0 000-6z" />
+              </svg>
+              Código de vestimenta
+            </h3>
             <p className="mt-2 text-slate-700">Formal</p>
           </div>
         </section>
