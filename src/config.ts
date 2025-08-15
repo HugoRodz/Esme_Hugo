@@ -22,11 +22,15 @@ export const RSVP = {
   whatsapp: 'https://wa.me/521234567890?text=Quiero%20confirmar%20mi%20asistencia%20a%20la%20boda',
 }
 
-// Mapa y cómo llegar
+// Mapa y cómo llegar (lugares del evento)
 export const MAP = {
-  placeQuery: 'Comala, Colima',
-  mapsLink: 'https://www.google.com/maps?q=Comala,+Colima',
-  // Embed básico con query; reemplaza con un embed específico del venue cuando lo tengas
-  embedSrc:
-    'https://www.google.com/maps?q=Comala,+Colima&output=embed',
+  ceremony: {
+    name: 'Parque Central',
+    query: 'Parque Central, Comala, Colima',
+  },
+  reception: {
+    name: 'La Molienda',
+    query: 'La Molienda, Hacienda Noguera, Comala, Colima',
+  },
+  streetNote: 'Hacienda Noguera (Ex Hacienda de Noguera)',
 }
