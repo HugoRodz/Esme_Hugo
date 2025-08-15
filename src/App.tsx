@@ -1,6 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
-import { EVENT_DATETIME, GIFTS, MAP, RSVP } from './config'
+import { EVENT_DATETIME, GIFTS, MAP, RSVP, HOTELS } from './config'
 
 function PreferenciasForm() {
   const [nombre, setNombre] = useState('')
@@ -180,7 +180,15 @@ export default function App() {
           <p className="mt-3 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
-          <div className="relative z-10 flex items-center justify-center gap-3">
+          <nav aria-label="Secciones" className="mx-auto mt-2 flex flex-wrap items-center justify-center gap-3 text-sm">
+            <a href="#evento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Evento</a>
+            <a href="#como-llegar" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Cómo llegar</a>
+            <a href="#alojamiento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Alojamiento</a>
+            <a href="#galeria" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Galería</a>
+            <a href="#regalos" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Regalos</a>
+            <a href="#rsvp" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">RSVP</a>
+          </nav>
+          <div className="relative z-10 mt-3 flex items-center justify-center gap-3">
             <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow-md hover:shadow-lg hover:bg-emerald-700 transition">Confirmar asistencia</a>
             <button
               type="button"
@@ -320,18 +328,20 @@ export default function App() {
         {/* Alojamiento */}
         <section id="alojamiento" className="mt-8">
           <h2 className="text-2xl font-semibold text-emerald-900">Alojamiento</h2>
-          <p className="mt-2 text-slate-700">Por disponibilidad, te sugerimos reservar con anticipación. Aquí algunas zonas recomendadas:</p>
+          <p className="mt-2 text-slate-700">Por disponibilidad, te sugerimos reservar con anticipación. Opciones en Comala:</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
-              <h3 className="font-medium text-emerald-900">Comala (centro)</h3>
-              <p className="mt-1 text-slate-700">Hospedajes cercanos al lugar de la ceremonia y recepción.</p>
-              <a className="mt-2 inline-block text-emerald-700 hover:underline" href={mapLink('Hoteles en Comala, Colima')} target="_blank" rel="noopener">Buscar hoteles en Comala</a>
-            </div>
-            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
-              <h3 className="font-medium text-emerald-900">Colima (ciudad)</h3>
-              <p className="mt-1 text-slate-700">Más opciones y disponibilidad a ~20-30 min de Comala.</p>
-              <a className="mt-2 inline-block text-emerald-700 hover:underline" href={mapLink('Hoteles en Colima, Colima')} target="_blank" rel="noopener">Buscar hoteles en Colima</a>
-            </div>
+            {HOTELS.map((h) => (
+              <div key={h.name} className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
+                <h3 className="font-medium text-emerald-900">{h.name}</h3>
+                <p className="mt-1 text-slate-700">{h.address}</p>
+                <div className="mt-2 flex flex-wrap gap-2 text-sm">
+                  {h.phones.map((p) => (
+                    <a key={p} className="text-emerald-700 hover:underline" href={`tel:${p.replace(/\s/g,'')}`}>{p}</a>
+                  ))}
+                </div>
+                <a className="mt-2 inline-block text-emerald-700 hover:underline" href={mapLink(h.mapQuery)} target="_blank" rel="noopener">Ver en Maps</a>
+              </div>
+            ))}
           </div>
         </section>
 

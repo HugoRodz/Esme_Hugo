@@ -40,3 +40,49 @@ export const MAP = {
   },
   streetNote: 'Hacienda Noguera (Ex Hacienda de Noguera)',
 }
+
+// Opciones de alojamiento en Comala (fuente: lista proporcionada)
+export const HOTELS = [
+  {
+    name: 'Hotel Posada Comala',
+    address: 'Ignacio Allende #43',
+    phones: ['312 315 51 65', '312 943 04 26'],
+    mapQuery: 'Hotel Posada Comala, Comala, Colima',
+  },
+  {
+    name: 'Hotel Quinta Comala',
+    address: 'Reforma #137',
+    phones: ['312 307 25 33'],
+    mapQuery: 'Hotel Quinta Comala, Comala, Colima',
+  },
+  {
+    name: 'Hotel La Paramera',
+    address: 'Degollado #81',
+    phones: ['312 688 29 29'],
+    mapQuery: 'Hotel La Paramera, Comala, Colima',
+  },
+  {
+    name: 'Hotel Los Suspiros',
+    address: '16 de Septiembre #74',
+    phones: ['312 317 78 70'],
+    mapQuery: 'Hotel Los Suspiros, Comala, Colima',
+  },
+  {
+    name: 'Hotel Comalitas',
+    address: 'Capitán Iteneds #6',
+    phones: ['312 273 76 82'],
+    mapQuery: 'Hotel Comalitas, Comala, Colima',
+  },
+  {
+    name: 'Hostal Casa Blanca',
+    address: 'Degollado #75',
+    phones: ['312 138 66 77'],
+    mapQuery: 'Hostal Casa Blanca, Comala, Colima',
+  },
+  {
+    name: 'Hotel La Parroquia',
+    address: 'Miguel Hidalgo #287',
+    phones: ['312 103 70 61'],
+    mapQuery: 'Hotel La Parroquia, Comala, Colima',
+  },
+] as const
