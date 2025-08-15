@@ -55,7 +55,26 @@ export default function App() {
         <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
           <div>
             <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
-            <p className="mt-3 text-slate-700">Bienvenidos a nuestra invitación digital. Queremos celebrar con ustedes en un jardín rodeado de hojas y ramas, con el toque natural que tanto nos gusta.</p>
+            <ol className="mt-4 space-y-6">
+              <li className="relative pl-6">
+                <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
+                <p className="text-sm text-emerald-700">26 feb, 2024 · Sahuayo</p>
+                <h3 className="font-medium text-emerald-900">Primer encuentro</h3>
+                <p className="mt-1 text-slate-700">Fue una tarde templada en Sahuayo, cuando el trabajo nos convirtió en presencia el uno del otro. Nos presentaron con cortesía; un saludo tranquilo y una conversación que, sin llamarlo así, prendió una curiosidad amable. Había en el aire una chispa delicada: palabras que encendieron la posibilidad de algo distinto. Sin promesas, solo la certeza de que algo hermoso había comenzado a germinar.</p>
+              </li>
+              <li className="relative pl-6">
+                <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
+                <p className="text-sm text-emerald-700">26 ene, 2025 · Uruapan</p>
+                <h3 className="font-medium text-emerald-900">La primera cita</h3>
+                <p className="mt-1 text-slate-700">Aunque éramos compañeros, aquella noche en Uruapan se sintió como el primer acto verdadero. Esmeralda vino a visitarme y salimos a un bar pequeño, iluminado por la ciudad. Hablamos de sueños, miedos y pequeñas alegrías; cada palabra fue una concesión de confianza que acercó nuestras manos y nuestras historias. Al despedirnos, supimos que lo que había nacido aquella noche no era solo amistad.</p>
+              </li>
+              <li className="relative pl-6">
+                <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
+                <p className="text-sm text-emerald-700">27 jun, 2025 · Uruapan</p>
+                <h3 className="font-medium text-emerald-900">La promesa bajo la ciudad</h3>
+                <p className="mt-1 text-slate-700">Una cena sorpresa, la ciudad extendiéndose como un velo de luces, y yo en un punto donde ya no quería esperar: le pedí que fuera mi compañera para siempre. Fue un sí dicho entre sonrisas y un abrazo sostenido, la promesa que cerró el círculo de nuestras pequeñas señales cotidianas y lo abrió a un camino compartido.</p>
+              </li>
+            </ol>
           </div>
           <div className="overflow-hidden rounded-2xl aspect-[4/3] shadow ring-1 ring-emerald-200/50">
             <img src={img('propuesta de matrimonio.jpeg')} alt="Propuesta de matrimonio" className="h-full w-full object-cover" loading="lazy" />
