@@ -51,6 +51,8 @@ export default function App() {
   const img = (name: string) => `${base}images/${encodeURIComponent(name)}`
   // Cache-buster para evitar posibles 404 cacheados en Pages en el hero
   const heroSrc = `${img('colima.jpeg')}?v=1`
+  const mapLink = (q: string) => `https://www.google.com/maps?q=${encodeURIComponent(q)}`
+  const mapEmbed = (q: string) => `${mapLink(q)}&output=embed`
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const isLightboxOpen = lightboxIndex !== null
   const gallery = [
@@ -173,29 +175,51 @@ export default function App() {
         {/* Cómo llegar */}
         <section id="como-llegar" className="mt-8">
           <h2 className="text-2xl font-semibold text-emerald-900">Cómo llegar</h2>
-          <p className="mt-2 text-slate-700">Lugar tentativo: {MAP.placeQuery}</p>
-          <div className="mt-4 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
-            <iframe
-              className="h-72 w-full"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              src={MAP.embedSrc}
-              title="Mapa"
-            />
+          {MAP.streetNote && (
+            <p className="mt-2 text-slate-700">Zona de referencia: {MAP.streetNote}</p>
+          )}
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
+              <div className="px-4 pt-4">
+                <h3 className="font-medium text-emerald-900">{MAP.ceremony.name}</h3>
+                <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
+              </div>
+              <iframe
+                className="h-72 w-full"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                src={mapEmbed(MAP.ceremony.query)}
+                title={`Mapa ${MAP.ceremony.name}`}
+              />
+            </div>
+            <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
+              <div className="px-4 pt-4">
+                <h3 className="font-medium text-emerald-900">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</h3>
+                <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
+              </div>
+              <iframe
+                className="h-72 w-full"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                src={mapEmbed(MAP.reception.query)}
+                title={`Mapa ${MAP.reception.name}`}
+              />
+            </div>
           </div>
-          <a href={MAP.mapsLink} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Abrir en Google Maps</a>
         </section>
 
-        <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
+    <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900">Ceremonia</h3>
             <p className="mt-2 text-slate-700">29/11/2025 • 17:00 h</p>
-            <p className="text-slate-600">Lugar por confirmar en Comala</p>
+      <p className="text-slate-600">{MAP.ceremony.name}</p>
+      <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900">Recepción</h3>
             <p className="mt-2 text-slate-700">Después de la ceremonia</p>
-            <p className="text-slate-600">Jardín principal</p>
+      <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
+      <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900">Dress code</h3>
