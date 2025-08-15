@@ -616,14 +616,28 @@ export default function App() {
           title={MUSIC.title}
         />
       ) : MUSIC.spotifyUrl ? (
-        <iframe
-          style={{ borderRadius: 12 }}
-          src={MUSIC.spotifyUrl.replace('open.spotify.com/track', 'open.spotify.com/embed/track')}
-          width="320" height="80" frameBorder={0} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-          className="fixed bottom-3 right-3 z-30"
-          title={MUSIC.title}
-        />
+        (() => {
+          // Normaliza posibles prefijos (intl-es, locale) y quita query params
+          try {
+            const u = new URL(MUSIC.spotifyUrl)
+            const parts = u.pathname.split('/').filter(Boolean)
+            const trackIdx = parts.indexOf('track')
+            const id = trackIdx !== -1 && parts[trackIdx+1] ? parts[trackIdx+1] : ''
+            const embed = id ? `https://open.spotify.com/embed/track/${id}` : MUSIC.spotifyUrl.replace('open.spotify.com/track', 'open.spotify.com/embed/track')
+            return (
+              <iframe
+                style={{ borderRadius: 12 }}
+                src={embed}
+                width="320" height="80" frameBorder={0} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="fixed bottom-3 right-3 z-30"
+                title={MUSIC.title}
+              />
+            )
+          } catch {
+            return null
+          }
+        })()
       ) : MUSIC.youtubeId ? (
         <iframe
           width="320" height="180"
