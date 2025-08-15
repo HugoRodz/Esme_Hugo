@@ -204,10 +204,7 @@ export default function App() {
         {ornaments}
         {/* Imagen hero: Colima */}
         <div className="absolute inset-0 -z-10">
-          <picture>
-            <source srcSet={`${base}images/colima.webp?v=1`} type="image/webp" />
-            <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-60" loading="eager" />
-          </picture>
+          <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-60" loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-emerald-50/30 to-white"></div>
         </div>
         <div className="absolute inset-0 pointer-events-none -z-10">
@@ -259,17 +256,6 @@ export default function App() {
       </header>
 
   <main className="mx-auto max-w-5xl px-6 pb-24">
-        {/* Sticky nav minimalista */}
-        <div className="sticky top-0 z-30 -mx-6 mb-2 hidden bg-white/70 px-6 py-2 backdrop-blur md:block">
-          <nav className="mx-auto max-w-5xl flex flex-wrap items-center gap-3 text-sm">
-            <a href="#evento" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Evento</a>
-            <a href="#como-llegar" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Cómo llegar</a>
-            <a href="#alojamiento" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Alojamiento</a>
-            <a href="#galeria" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Galería</a>
-            <a href="#regalos" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Regalos</a>
-            <a href="#rsvp" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">RSVP</a>
-          </nav>
-        </div>
         <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
           <div>
             <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
