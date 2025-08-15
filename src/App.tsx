@@ -1,6 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
-import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS } from './config'
+import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS, ALBUM } from './config'
 
 function PreferenciasForm() {
   const [nombre, setNombre] = useState('')
@@ -222,6 +222,7 @@ export default function App() {
             <a href="#como-llegar" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Cómo llegar</a>
             <a href="#alojamiento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Alojamiento</a>
             <a href="#galeria" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Galería</a>
+            <a href="#album" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Álbum</a>
             <a href="#regalos" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Regalos</a>
             <a href="#rsvp" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">RSVP</a>
           </nav>
@@ -460,6 +461,54 @@ export default function App() {
         </section>
 
         <LeafDivider />
+
+        {/* Álbum compartido */}
+        <section id="album" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Álbum compartido</h2>
+          <p className="mt-2 text-slate-700">Ayúdanos a guardar recuerdos de la fiesta. Sube tus fotos y videos al álbum compartido.</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3 items-start">
+            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm sm:col-span-2">
+              <p className="text-sm text-emerald-800">Enlace al álbum</p>
+              {ALBUM.photosUrl ? (
+                <a className="mt-2 inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700" href={ALBUM.photosUrl} target="_blank" rel="noopener">Abrir álbum</a>
+              ) : (
+                <p className="mt-2 text-slate-700">Pronto compartiremos el enlace del álbum. ¡Vuelve más tarde!</p>
+              )}
+              {ALBUM.photosUrl && (
+                <div className="mt-3 flex gap-2">
+                  <button
+                    className="rounded-lg bg-white px-3 py-2 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(ALBUM.photosUrl)
+                        alert('Enlace copiado')
+                      } catch {}
+                    }}
+                  >Copiar enlace</button>
+                  <button
+                    className="rounded-lg bg-emerald-50 px-3 py-2 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100"
+                    onClick={async () => {
+                      const shareData = { title: 'Álbum compartido', url: ALBUM.photosUrl }
+                      if (navigator.share) {
+                        try { await navigator.share(shareData) } catch {}
+                      } else {
+                        try { await navigator.clipboard.writeText(ALBUM.photosUrl); alert('Enlace copiado') } catch {}
+                      }
+                    }}
+                  >Compartir</button>
+                </div>
+              )}
+            </div>
+            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm text-sm">
+              <p className="text-emerald-900 font-medium">Sugerencias</p>
+              <ul className="mt-2 list-disc pl-5 text-slate-700 space-y-1">
+                <li>Sube en alta calidad si puedes (Wi‑Fi recomendado).</li>
+                <li>Añade una breve descripción o nombres si gustas.</li>
+                <li>Si tomas en vertical, también es bienvenido.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
         {/* Regalos */}
         <section id="regalos" className="mt-8">

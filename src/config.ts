@@ -88,3 +88,8 @@ export const HOTELS = [
     mapQuery: 'Hotel La Parroquia, Comala, Colima',
   },
 ] as const
+
+// Álbum compartido (pega aquí el enlace de tu álbum de Google Photos o Drive con permiso para subir)
+export const ALBUM = {
+  photosUrl: '', // Ejemplo: https://photos.app.goo.gl/XXXX
+}
