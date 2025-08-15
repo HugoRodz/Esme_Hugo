@@ -25,6 +25,10 @@ Invitación web para la boda de Jorge Hugo Rodríguez Peñaloza y Esmeralda Due�
 - Agregar sección de mapa y rutas
 - Agregar formulario de RSVP conectado a un backend (o Google Forms / Airtable)
 
+## Imágenes
+- Sube tus imágenes a `public/images/` (se versionan con `.gitkeep`).
+- Para usarlas, referencia rutas absolutas desde `public`: `/images/archivo.jpg`.
+
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
