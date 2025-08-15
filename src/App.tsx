@@ -2,6 +2,71 @@ import './index.css'
 import { useEffect, useState } from 'react'
 import { EVENT_DATETIME, GIFTS, MAP, RSVP } from './config'
 
+function PreferenciasForm() {
+  const [nombre, setNombre] = useState('')
+  const [vegetariano, setVegetariano] = useState<'si' | 'no' | ''>('')
+  const [alergias, setAlergias] = useState('')
+  const [notas, setNotas] = useState('')
+
+  const mensaje = () => {
+    const v = vegetariano === '' ? 'No especificado' : (vegetariano === 'si' ? 'Sí' : 'No')
+    const lineas = [
+      `Preferencias de invitado`,
+      `Nombre: ${nombre || 'No especificado'}`,
+      `Vegetariano: ${v}`,
+      `Alergias: ${alergias || 'Ninguna'}`,
+      `Notas: ${notas || 'Sin notas'}`,
+    ]
+    return lineas.join('\n')
+  }
+
+  const enviarWhatsApp = () => {
+    const url = `https://wa.me/?text=${encodeURIComponent(mensaje())}`
+    window.open(url, '_blank', 'noopener')
+  }
+
+  const enviarCorreo = () => {
+    const subject = `Preferencias invitado - ${nombre || 'Sin nombre'}`
+    const body = mensaje()
+    const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = mailto
+  }
+
+  return (
+    <div className="mt-3 rounded-xl border border-emerald-200 bg-white p-5 shadow-sm sm:max-w-2xl">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="block text-sm text-emerald-700">Nombre</label>
+          <input value={nombre} onChange={(e) => setNombre(e.target.value)} className="mt-1 w-full rounded-lg border border-emerald-200 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400" placeholder="Tu nombre" />
+        </div>
+        <div>
+          <label className="block text-sm text-emerald-700">¿Eres vegetariano?</label>
+          <div className="mt-2 flex gap-4">
+            <label className="inline-flex items-center gap-2 text-slate-700">
+              <input type="radio" name="veg" value="si" checked={vegetariano==='si'} onChange={() => setVegetariano('si')} /> Sí
+            </label>
+            <label className="inline-flex items-center gap-2 text-slate-700">
+              <input type="radio" name="veg" value="no" checked={vegetariano==='no'} onChange={() => setVegetariano('no')} /> No
+            </label>
+          </div>
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-sm text-emerald-700">Alergias</label>
+          <input value={alergias} onChange={(e) => setAlergias(e.target.value)} className="mt-1 w-full rounded-lg border border-emerald-200 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400" placeholder="Ej. nueces, mariscos" />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="block text-sm text-emerald-700">Otras preferencias / notas</label>
+          <textarea value={notas} onChange={(e) => setNotas(e.target.value)} className="mt-1 w-full rounded-lg border border-emerald-200 px-3 py-2 outline-none focus:ring-2 focus:ring-emerald-400" rows={3} placeholder="Háznos saber cualquier detalle" />
+        </div>
+      </div>
+      <div className="mt-4 flex flex-wrap gap-3">
+        <button onClick={enviarWhatsApp} className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700">Enviar por WhatsApp</button>
+        <button onClick={enviarCorreo} className="rounded-lg bg-white px-4 py-2 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50">Enviar por correo</button>
+      </div>
+    </div>
+  )
+}
+
 function LeafDivider() {
   return (
     <div className="flex items-center justify-center py-6">
@@ -227,7 +292,6 @@ export default function App() {
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900">Código de vestimenta</h3>
             <p className="mt-2 text-slate-700">Formal</p>
-            <p className="text-slate-600">Opcional: tonos tierra, verdes y neutros</p>
           </div>
         </section>
 
@@ -241,33 +305,68 @@ export default function App() {
               {MAP.streetNote && <span className="text-slate-600">Referencia: {MAP.streetNote}</span>}
             </div>
           </div>
-          <div className="sm:col-span-2 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
-            <iframe
-              className="h-56 w-full sm:h-64"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              src={mapEmbed(MAP.reception.query)}
-              title={`Mapa ${MAP.reception.name}`}
-            />
-          </div>
+          {/* Se retiró el mapa embebido para no saturar con iframes */}
         </section>
 
         {/* Comala, tierra de Esmeralda */}
-        <section id="comala" className="mt-8 grid gap-6 sm:grid-cols-5 items-start">
-          <div className="sm:col-span-3">
-            <h2 className="text-2xl font-semibold text-emerald-900">Comala, tierra de Esmeralda</h2>
-            <p className="mt-2 text-slate-700">Comala es un Pueblo Mágico conocido por sus fachadas blancas, portales y cafés tradicionales. Entre sus volcanes cercanos y su historia literaria, el pueblo guarda una calidez que nos acompaña en este día especial. Es de aquí de donde es originaria Esmeralda, y por eso quisimos celebrar en su tierra.</p>
-            <a href={mapLink('Comala, Colima')} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Ver Comala en Maps</a>
+        <section id="comala" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Comala, tierra de Esmeralda</h2>
+          <p className="mt-2 text-slate-700">Comala es un Pueblo Mágico conocido por sus fachadas blancas, portales y cafés tradicionales. Entre sus volcanes cercanos y su historia literaria, el pueblo guarda una calidez que nos acompaña en este día especial. Es de aquí de donde es originaria Esmeralda, y por eso quisimos celebrar en su tierra.</p>
+          <a href={mapLink('Comala, Colima')} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Ver Comala en Maps</a>
+        </section>
+
+        {/* Alojamiento */}
+        <section id="alojamiento" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Alojamiento</h2>
+          <p className="mt-2 text-slate-700">Por disponibilidad, te sugerimos reservar con anticipación. Aquí algunas zonas recomendadas:</p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
+              <h3 className="font-medium text-emerald-900">Comala (centro)</h3>
+              <p className="mt-1 text-slate-700">Hospedajes cercanos al lugar de la ceremonia y recepción.</p>
+              <a className="mt-2 inline-block text-emerald-700 hover:underline" href={mapLink('Hoteles en Comala, Colima')} target="_blank" rel="noopener">Buscar hoteles en Comala</a>
+            </div>
+            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
+              <h3 className="font-medium text-emerald-900">Colima (ciudad)</h3>
+              <p className="mt-1 text-slate-700">Más opciones y disponibilidad a ~20-30 min de Comala.</p>
+              <a className="mt-2 inline-block text-emerald-700 hover:underline" href={mapLink('Hoteles en Colima, Colima')} target="_blank" rel="noopener">Buscar hoteles en Colima</a>
+            </div>
           </div>
-          <div className="sm:col-span-2 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
-            <iframe
-              className="h-56 w-full sm:h-64"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              src={mapEmbed('Comala, Colima')}
-              title="Mapa Comala"
-            />
-          </div>
+        </section>
+
+        {/* Itinerario de boda */}
+        <section id="itinerario" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Itinerario</h2>
+          <ol className="mt-4 space-y-4">
+            <li className="relative pl-6">
+              <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
+              <p className="text-sm text-emerald-700">13:30</p>
+              <h3 className="font-medium text-emerald-900">Ceremonia</h3>
+              <p className="text-slate-700">{MAP.ceremony.name}</p>
+            </li>
+            <li className="relative pl-6">
+              <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
+              <p className="text-sm text-emerald-700">15:45</p>
+              <h3 className="font-medium text-emerald-900">Recepción</h3>
+              <p className="text-slate-700">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
+            </li>
+          </ol>
+        </section>
+
+        {/* Avisos y restricciones */}
+        <section id="avisos" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Avisos y restricciones</h2>
+          <ul className="mt-3 list-disc pl-6 text-slate-700 space-y-1">
+            <li>Evento principalmente al aire libre. Considera calzado cómodo.</li>
+            <li>Estacionamiento limitado. Sugerimos compartir vehículo cuando sea posible.</li>
+            <li>Cuidemos el espacio: evita confeti o pirotecnia.</li>
+            <li>Te recomendamos llegar 15 minutos antes de la ceremonia.</li>
+          </ul>
+        </section>
+
+        {/* Preferencias de invitado */}
+        <section id="preferencias" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Preferencias de invitado</h2>
+          <PreferenciasForm />
         </section>
 
         <LeafDivider />
