@@ -69,6 +69,14 @@ function PreferenciasForm() {
   )
 }
 
+function IconBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-base ring-1 ring-emerald-200 shadow-sm">
+      <span aria-hidden="true">{children}</span>
+    </span>
+  )
+}
+
 function LeafDivider() {
   return (
     <div className="flex items-center justify-center py-6">
@@ -289,10 +297,7 @@ export default function App() {
         <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
-              <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <circle cx="12" cy="13" r="5" />
-                <path d="M12 3l2 2-2 2-2-2 2-2z" />
-              </svg>
+              <IconBadge>💍</IconBadge>
               Ceremonia
             </h3>
             <p className="mt-2 text-slate-700">29/11/2025 • 13:30 h</p>
@@ -301,9 +306,7 @@ export default function App() {
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
-              <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M8 3h8v2c0 3.3-2.7 6-6 6H8V3zm4 8v5H9v2h6v-2h-3v-5z" />
-              </svg>
+              <IconBadge>🥂</IconBadge>
               Recepción
             </h3>
             <p className="mt-2 text-slate-700">29/11/2025 • 15:45 h</p>
@@ -312,9 +315,7 @@ export default function App() {
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
-              <svg className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 4a2 2 0 00-2 2h2a1 1 0 110 2v1l-6 4v6h12v-6l-6-4V8a3 3 0 000-6z" />
-              </svg>
+              <IconBadge>👔</IconBadge>
               Código de vestimenta
             </h3>
             <p className="mt-2 text-slate-700">Formal</p>
