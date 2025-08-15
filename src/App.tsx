@@ -1,4 +1,6 @@
 import './index.css'
+import { useEffect, useState } from 'react'
+import { EVENT_DATETIME, GIFTS } from './config'
 
 function LeafDivider() {
   return (
@@ -11,11 +13,46 @@ function LeafDivider() {
   )
 }
 
+function Countdown({ date }: { date: Date }) {
+  const calc = () => {
+    const now = new Date().getTime()
+    const target = date.getTime()
+    const diff = Math.max(0, target - now)
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24)
+    const m = Math.floor((diff / (1000 * 60)) % 60)
+    const s = Math.floor((diff / 1000) % 60)
+    return { d, h, m, s, done: diff === 0 }
+  }
+  const [t, setT] = useState(calc())
+  useEffect(() => {
+    const id = setInterval(() => setT(calc()), 1000)
+    return () => clearInterval(id)
+  }, [])
+  return (
+    <div className="mt-6 flex items-center justify-center gap-3 sm:gap-4">
+      {[
+        { label: 'Días', value: t.d },
+        { label: 'Horas', value: t.h },
+        { label: 'Min', value: t.m },
+        { label: 'Seg', value: t.s },
+      ].map((item) => (
+        <div key={item.label} className="min-w-[64px] rounded-xl bg-white/70 ring-1 ring-emerald-200/60 px-3 py-2 text-center shadow-sm">
+          <div className="text-xl font-semibold text-emerald-900 tabular-nums">{String(item.value).padStart(2, '0')}</div>
+          <div className="text-[10px] uppercase tracking-wider text-emerald-700">{item.label}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function App() {
   const base = import.meta.env.BASE_URL
   const img = (name: string) => `${base}images/${encodeURIComponent(name)}`
   // Cache-buster para evitar posibles 404 cacheados en Pages en el hero
   const heroSrc = `${img('colima.jpeg')}?v=1`
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const isLightboxOpen = lightboxIndex !== null
   const gallery = [
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (1).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (3).jpeg',
@@ -32,9 +69,33 @@ export default function App() {
     'WhatsApp Image 2025-08-14 at 1.54.14 AM (5).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.14 AM.jpeg',
   ]
+
+  useEffect(() => {
+    if (!isLightboxOpen) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxIndex(null)
+      if (e.key === 'ArrowRight') setLightboxIndex((i) => (i === null ? 0 : (i + 1) % gallery.length))
+      if (e.key === 'ArrowLeft') setLightboxIndex((i) => (i === null ? 0 : (i - 1 + gallery.length) % gallery.length))
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [isLightboxOpen])
+
+  const ornaments = (
+    <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+      {/* Ramas decorativas suaves */}
+      <svg className="absolute -top-12 -left-12 h-56 w-56 text-emerald-100/80" viewBox="0 0 200 200" fill="currentColor">
+        <path d="M20 120c40-40 70-60 120-70-30 20-50 40-60 60 20-10 40-15 60-10-25 10-45 25-60 45 10-5 25-5 40 0-30 10-55 25-80 45-10-20-15-45-20-70z" />
+      </svg>
+      <svg className="absolute -bottom-16 -right-16 h-72 w-72 text-emerald-100/70" viewBox="0 0 200 200" fill="currentColor">
+        <path d="M180 80c-30 10-60 30-90 70 15-35 20-60 10-90-5 30-20 55-45 80 5-15 5-30 0-40-15 25-25 50-30 80 35-25 70-40 110-50-20 0-30 0-50 10 25-25 55-45 95-60z" />
+      </svg>
+    </div>
+  )
   return (
     <div className="min-h-screen bg-emerald-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/60 via-emerald-50 to-white">
       <header className="relative isolate overflow-hidden">
+        {ornaments}
         {/* Imagen hero: Colima */}
         <div className="absolute inset-0 -z-10">
           <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-35" loading="eager" />
@@ -48,6 +109,7 @@ export default function App() {
           <p className="tracking-widest text-emerald-700 uppercase text-sm">Comala, Colima</p>
           <h1 className="mt-4 text-4xl sm:text-6xl font-serif text-emerald-900">Jorge & Esmeralda</h1>
           <p className="mt-3 text-slate-700">Nos casamos el 29 de noviembre de 2025</p>
+          <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
           <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow hover:bg-emerald-700 transition">Confirmar asistencia</a>
         </div>
@@ -109,20 +171,71 @@ export default function App() {
         <section id="galeria" className="mt-8">
           <h2 className="text-2xl font-semibold text-emerald-900">Galería</h2>
           <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {gallery.map((name) => (
-              <div key={name} className="overflow-hidden rounded-xl ring-1 ring-emerald-200/40 bg-white">
+            {gallery.map((name, idx) => (
+              <button
+                key={name}
+                type="button"
+                className="group overflow-hidden rounded-xl ring-1 ring-emerald-200/40 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                onClick={() => setLightboxIndex(idx)}
+              >
                 <img
                   src={img(name)}
                   alt={name}
-                  className="h-40 w-full object-cover sm:h-48 md:h-56 hover:scale-[1.02] transition"
+                  className="h-40 w-full object-cover sm:h-48 md:h-56 group-hover:scale-[1.03] transition"
                   loading="lazy"
                 />
-              </div>
+              </button>
             ))}
           </div>
         </section>
 
         <LeafDivider />
+
+        {/* Regalos */}
+        <section id="regalos" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Regalos</h2>
+          <p className="mt-2 text-slate-700">{GIFTS.message}</p>
+
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
+              <h3 className="font-medium text-emerald-900">Transferencia bancaria</h3>
+              <dl className="mt-3 space-y-2 text-slate-700">
+                <div>
+                  <dt className="text-sm text-emerald-700">Banco</dt>
+                  <dd className="font-medium">{GIFTS.bank.bankName}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-emerald-700">Beneficiario</dt>
+                  <dd className="font-medium">{GIFTS.bank.beneficiary}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-emerald-700">CLABE</dt>
+                  <dd className="font-mono select-all break-all">{GIFTS.bank.clabe}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-emerald-700">Cuenta</dt>
+                  <dd className="font-mono select-all break-all">{GIFTS.bank.accountNumber}</dd>
+                </div>
+              </dl>
+              <div className="mt-3 flex gap-2">
+                <button
+                  className="rounded-lg bg-emerald-600 px-3 py-2 text-white text-sm hover:bg-emerald-700"
+                  onClick={() => navigator.clipboard.writeText(GIFTS.bank.clabe)}
+                >Copiar CLABE</button>
+                <button
+                  className="rounded-lg bg-emerald-50 px-3 py-2 text-emerald-800 text-sm ring-1 ring-emerald-200 hover:bg-emerald-100"
+                  onClick={() => navigator.clipboard.writeText(GIFTS.bank.accountNumber)}
+                >Copiar cuenta</button>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-5">
+              <h3 className="font-medium text-emerald-900">Otras opciones</h3>
+              <p className="mt-2 text-slate-700">Si prefieres, escríbenos y te compartimos más opciones o un número para transferencia.</p>
+              <a href="#rsvp" className="mt-3 inline-block text-emerald-700 hover:underline">Contactarnos</a>
+            </div>
+          </div>
+        </section>
 
         <section id="rsvp" className="mt-8">
           <h2 className="text-2xl font-semibold text-emerald-900">Confirma tu asistencia</h2>
@@ -140,6 +253,39 @@ export default function App() {
           <a className="text-emerald-700 hover:underline" href="#">#JorgeYEsme</a>
         </div>
       </footer>
+
+      {/* Lightbox */}
+      {isLightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setLightboxIndex(null)}
+        >
+          <div className="relative max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={img(gallery[lightboxIndex!])}
+              alt={gallery[lightboxIndex!]}
+              className="max-h-[80vh] w-full object-contain rounded-lg shadow-2xl"
+            />
+            <button
+              className="absolute top-2 right-2 rounded-full bg-black/60 p-2 text-white hover:bg-black/80"
+              onClick={() => setLightboxIndex(null)}
+              aria-label="Cerrar"
+            >✕</button>
+            <button
+              className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-3 text-white hover:bg-black/80"
+              onClick={() => setLightboxIndex((i) => (i === null ? 0 : (i - 1 + gallery.length) % gallery.length))}
+              aria-label="Anterior"
+            >‹</button>
+            <button
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-3 text-white hover:bg-black/80"
+              onClick={() => setLightboxIndex((i) => (i === null ? 0 : (i + 1) % gallery.length))}
+              aria-label="Siguiente"
+            >›</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
