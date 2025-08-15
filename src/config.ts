@@ -3,6 +3,8 @@
 // Fecha y hora del evento (hora local del navegador)
 // Ajustado a la hora de inicio de la ceremonia
 export const EVENT_DATETIME = new Date('2025-11-29T13:30:00')
+// Hora de la recepción
+export const RECEPTION_DATETIME = new Date('2025-11-29T15:45:00')
 
 // Información de regalos (editar cuando tengan datos definitivos)
 export const GIFTS = {

@@ -1,6 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
-import { EVENT_DATETIME, GIFTS, MAP, RSVP, HOTELS } from './config'
+import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS } from './config'
 
 function PreferenciasForm() {
   const [nombre, setNombre] = useState('')
@@ -128,6 +128,35 @@ export default function App() {
   const heroSrc = `${img('colima.jpeg')}?v=1`
   const mapLink = (q: string) => `https://www.google.com/maps?q=${encodeURIComponent(q)}`
   const mapEmbed = (q: string) => `${mapLink(q)}&output=embed`
+  const fmtDate = (d: Date) => {
+    const pad = (n: number) => String(n).padStart(2, '0')
+    const y = d.getFullYear(); const m = pad(d.getMonth()+1); const day = pad(d.getDate())
+    const h = pad(d.getHours()); const min = pad(d.getMinutes())
+    return `${y}${m}${day}T${h}${min}00`
+  }
+  const makeGoogleCal = (title: string, start: Date, end: Date, details: string, location: string) => {
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: title,
+      dates: `${fmtDate(start)}/${fmtDate(end)}`,
+      details,
+      location,
+    })
+    return `https://www.google.com/calendar/render?${params.toString()}`
+  }
+  const makeICS = (title: string, start: Date, end: Date, details: string, location: string) => {
+    const ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//boda//jorge-esmeralda//ES',
+      'BEGIN:VEVENT',
+      `DTSTART:${fmtDate(start)}`,
+      `DTEND:${fmtDate(end)}`,
+      `SUMMARY:${title}`,
+      `DESCRIPTION:${details.replace(/\n/g,'\\n')}`,
+      `LOCATION:${location}`,
+      'END:VEVENT','END:VCALENDAR',
+    ].join('\n')
+    return URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }))
+  }
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const isLightboxOpen = lightboxIndex !== null
   const gallery = [
@@ -175,7 +204,10 @@ export default function App() {
         {ornaments}
         {/* Imagen hero: Colima */}
         <div className="absolute inset-0 -z-10">
-          <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-60" loading="eager" />
+          <picture>
+            <source srcSet={`${base}images/colima.webp?v=1`} type="image/webp" />
+            <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-60" loading="eager" />
+          </picture>
           <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-emerald-50/30 to-white"></div>
         </div>
         <div className="absolute inset-0 pointer-events-none -z-10">
@@ -227,6 +259,17 @@ export default function App() {
       </header>
 
   <main className="mx-auto max-w-5xl px-6 pb-24">
+        {/* Sticky nav minimalista */}
+        <div className="sticky top-0 z-30 -mx-6 mb-2 hidden bg-white/70 px-6 py-2 backdrop-blur md:block">
+          <nav className="mx-auto max-w-5xl flex flex-wrap items-center gap-3 text-sm">
+            <a href="#evento" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Evento</a>
+            <a href="#como-llegar" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Cómo llegar</a>
+            <a href="#alojamiento" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Alojamiento</a>
+            <a href="#galeria" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Galería</a>
+            <a href="#regalos" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">Regalos</a>
+            <a href="#rsvp" className="rounded-full px-3 py-1 text-emerald-800 hover:bg-emerald-50">RSVP</a>
+          </nav>
+        </div>
         <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
           <div>
             <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
@@ -303,6 +346,10 @@ export default function App() {
             <p className="mt-2 text-slate-700">29/11/2025 • 13:30 h</p>
       <p className="text-slate-600">{MAP.ceremony.name}</p>
       <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
+            <div className="mt-2 flex flex-wrap gap-2 text-sm">
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Ceremonia – Jorge & Esmeralda', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Ceremonia – Jorge & Esmeralda', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} download="ceremonia.ics">Descargar .ics</a>
+            </div>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
@@ -312,6 +359,10 @@ export default function App() {
             <p className="mt-2 text-slate-700">29/11/2025 • 15:45 h</p>
       <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
       <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
+            <div className="mt-2 flex flex-wrap gap-2 text-sm">
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Recepción – Jorge & Esmeralda', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Recepción – Jorge & Esmeralda', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} download="recepcion.ics">Descargar .ics</a>
+            </div>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
