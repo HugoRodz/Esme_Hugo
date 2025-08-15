@@ -103,7 +103,7 @@ export default function App() {
           <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-60" loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-emerald-50/30 to-white"></div>
         </div>
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none -z-10">
           <svg className="absolute -top-10 -left-10 h-40 w-40 text-emerald-200" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
           <svg className="absolute -bottom-10 -right-10 h-48 w-48 text-emerald-100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
         </div>
@@ -113,7 +113,7 @@ export default function App() {
           <p className="mt-3 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
-          <div className="flex items-center justify-center gap-3">
+          <div className="relative z-10 flex items-center justify-center gap-3">
             <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow-md hover:shadow-lg hover:bg-emerald-700 transition">Confirmar asistencia</a>
             <button
               type="button"
@@ -182,7 +182,7 @@ export default function App() {
             <p className="mt-2 text-slate-700">Zona de referencia: {MAP.streetNote}</p>
           )}
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
+            <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
               <div className="px-4 pt-4">
                 <h3 className="font-medium text-emerald-900">{MAP.ceremony.name}</h3>
                 <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
@@ -195,7 +195,7 @@ export default function App() {
                 title={`Mapa ${MAP.ceremony.name}`}
               />
             </div>
-            <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
+            <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
               <div className="px-4 pt-4">
                 <h3 className="font-medium text-emerald-900">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</h3>
                 <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
@@ -235,19 +235,37 @@ export default function App() {
         <section id="museo-la-molienda" className="mt-8 grid gap-6 sm:grid-cols-5 items-center">
           <div className="sm:col-span-3">
             <h2 className="text-2xl font-semibold text-emerald-900">La Molienda (Museo)</h2>
-            <p className="mt-2 text-slate-700">La Molienda es un museo y espacio cultural en Comala, parte de la antigua Hacienda Noguera. Un lugar con historia, jardines y arquitectura tradicional que harán de nuestra celebración un momento encantador.</p>
+            <p className="mt-2 text-slate-700">La Molienda es un museo y espacio cultural en Comala, parte de la antigua Hacienda Noguera. Antiguamente vinculada a las labores de molienda, hoy preserva su historia entre muros de cal y jardines arbolados. Es un sitio íntimo y con encanto, ideal para celebrar rodeados de tradición y naturaleza.</p>
             <div className="mt-3 flex flex-wrap gap-3">
               <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="inline-block text-emerald-700 hover:underline">Ver ubicación</a>
               {MAP.streetNote && <span className="text-slate-600">Referencia: {MAP.streetNote}</span>}
             </div>
           </div>
-          <div className="sm:col-span-2 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
+          <div className="sm:col-span-2 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
             <iframe
               className="h-56 w-full sm:h-64"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               src={mapEmbed(MAP.reception.query)}
               title={`Mapa ${MAP.reception.name}`}
+            />
+          </div>
+        </section>
+
+        {/* Comala, tierra de Esmeralda */}
+        <section id="comala" className="mt-8 grid gap-6 sm:grid-cols-5 items-start">
+          <div className="sm:col-span-3">
+            <h2 className="text-2xl font-semibold text-emerald-900">Comala, tierra de Esmeralda</h2>
+            <p className="mt-2 text-slate-700">Comala es un Pueblo Mágico conocido por sus fachadas blancas, portales y cafés tradicionales. Entre sus volcanes cercanos y su historia literaria, el pueblo guarda una calidez que nos acompaña en este día especial. Es de aquí de donde es originaria Esmeralda, y por eso quisimos celebrar en su tierra.</p>
+            <a href={mapLink('Comala, Colima')} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Ver Comala en Maps</a>
+          </div>
+          <div className="sm:col-span-2 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
+            <iframe
+              className="h-56 w-full sm:h-64"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={mapEmbed('Comala, Colima')}
+              title="Mapa Comala"
             />
           </div>
         </section>
