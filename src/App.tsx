@@ -1,6 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
-import { EVENT_DATETIME, GIFTS } from './config'
+import { EVENT_DATETIME, GIFTS, MAP, RSVP } from './config'
 
 function LeafDivider() {
   return (
@@ -84,10 +84,10 @@ export default function App() {
   const ornaments = (
     <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
       {/* Ramas decorativas suaves */}
-      <svg className="absolute -top-12 -left-12 h-56 w-56 text-emerald-100/80" viewBox="0 0 200 200" fill="currentColor">
+      <svg className="absolute -top-12 -left-12 h-56 w-56 text-emerald-100/80 animate-[float_12s_ease-in-out_infinite]" viewBox="0 0 200 200" fill="currentColor">
         <path d="M20 120c40-40 70-60 120-70-30 20-50 40-60 60 20-10 40-15 60-10-25 10-45 25-60 45 10-5 25-5 40 0-30 10-55 25-80 45-10-20-15-45-20-70z" />
       </svg>
-      <svg className="absolute -bottom-16 -right-16 h-72 w-72 text-emerald-100/70" viewBox="0 0 200 200" fill="currentColor">
+      <svg className="absolute -bottom-16 -right-16 h-72 w-72 text-emerald-100/70 animate-[float_16s_ease-in-out_infinite_reverse]" viewBox="0 0 200 200" fill="currentColor">
         <path d="M180 80c-30 10-60 30-90 70 15-35 20-60 10-90-5 30-20 55-45 80 5-15 5-30 0-40-15 25-25 50-30 80 35-25 70-40 110-50-20 0-30 0-50 10 25-25 55-45 95-60z" />
       </svg>
     </div>
@@ -111,7 +111,30 @@ export default function App() {
           <p className="mt-3 text-slate-700">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
-          <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow hover:bg-emerald-700 transition">Confirmar asistencia</a>
+          <div className="flex items-center justify-center gap-3">
+            <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow hover:bg-emerald-700 transition">Confirmar asistencia</a>
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white"
+              onClick={async () => {
+                const shareData = {
+                  title: 'Boda Jorge & Esmeralda',
+                  text: 'Acompáñanos el 29 de noviembre de 2025 en Comala, Colima',
+                  url: window.location.href,
+                }
+                try {
+                  if (navigator.share) {
+                    await navigator.share(shareData)
+                  } else if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(shareData.url)
+                    alert('Enlace copiado')
+                  }
+                } catch {}
+              }}
+            >
+              Compartir
+            </button>
+          </div>
         </div>
       </header>
 
@@ -146,6 +169,22 @@ export default function App() {
         </section>
 
         <LeafDivider />
+
+        {/* Cómo llegar */}
+        <section id="como-llegar" className="mt-8">
+          <h2 className="text-2xl font-semibold text-emerald-900">Cómo llegar</h2>
+          <p className="mt-2 text-slate-700">Lugar tentativo: {MAP.placeQuery}</p>
+          <div className="mt-4 overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white">
+            <iframe
+              className="h-72 w-full"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              src={MAP.embedSrc}
+              title="Mapa"
+            />
+          </div>
+          <a href={MAP.mapsLink} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Abrir en Google Maps</a>
+        </section>
 
         <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
@@ -239,11 +278,21 @@ export default function App() {
 
         <section id="rsvp" className="mt-8">
           <h2 className="text-2xl font-semibold text-emerald-900">Confirma tu asistencia</h2>
-          <form className="mt-4 grid gap-4 sm:max-w-md">
-            <input className="rounded-lg border border-emerald-200 px-4 py-2 outline-none focus:ring-2 focus:ring-emerald-400" placeholder="Tu nombre" />
-            <input className="rounded-lg border border-emerald-200 px-4 py-2 outline-none focus:ring-2 focus:ring-emerald-400" placeholder="Número de acompañantes" type="number" min={0} />
-            <button className="rounded-lg bg-emerald-600 px-4 py-2 text-white font-medium hover:bg-emerald-700 transition" type="button">Enviar</button>
-          </form>
+          {RSVP.formUrl ? (
+            <div className="mt-4">
+              <a
+                href={RSVP.formUrl}
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-white font-medium hover:bg-emerald-700"
+              >Abrir formulario</a>
+            </div>
+          ) : (
+            <div className="mt-4 grid gap-3 sm:max-w-md">
+              <a className="rounded-lg bg-emerald-600 px-4 py-2 text-white text-center font-medium hover:bg-emerald-700" href={RSVP.whatsapp} target="_blank" rel="noopener">Confirmar por WhatsApp</a>
+              <a className="rounded-lg bg-white px-4 py-2 text-emerald-800 text-center ring-1 ring-emerald-200 hover:bg-emerald-50" href={RSVP.mailto}>Confirmar por correo</a>
+            </div>
+          )}
         </section>
       </main>
 
