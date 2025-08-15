@@ -14,6 +14,8 @@ function LeafDivider() {
 export default function App() {
   const base = import.meta.env.BASE_URL
   const img = (name: string) => `${base}images/${encodeURIComponent(name)}`
+  // Cache-buster para evitar posibles 404 cacheados en Pages en el hero
+  const heroSrc = `${img('colima.jpeg')}?v=1`
   const gallery = [
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (1).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (3).jpeg',
@@ -35,7 +37,7 @@ export default function App() {
       <header className="relative isolate overflow-hidden">
         {/* Imagen hero: Colima */}
         <div className="absolute inset-0 -z-10">
-          <img src={img('colima.jpeg')} alt="Comala, Colima" className="h-full w-full object-cover opacity-35" loading="eager" />
+          <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-35" loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-emerald-50/60 to-white"></div>
         </div>
         <div className="absolute inset-0 pointer-events-none">
