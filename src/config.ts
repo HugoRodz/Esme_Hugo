@@ -19,8 +19,13 @@ export const GIFTS = {
 // RSVP: configura un formulario real o medios de contacto
 export const RSVP = {
   formUrl: '', // Pega aquí tu URL de Google Forms si la tienes
-  mailto: 'mailto:tu-correo@ejemplo.com?subject=RSVP%20Boda%20Jorge%20y%20Esmeralda',
-  whatsapp: 'https://wa.me/521234567890?text=Quiero%20confirmar%20mi%20asistencia%20a%20la%20boda',
+  // Correo de contacto para RSVP
+  emailAddress: 'gsrodz724704@gmail.com',
+  mailto: 'mailto:gsrodz724704@gmail.com?subject=RSVP%20Boda%20Jorge%20y%20Esmeralda',
+  // Números de WhatsApp para contacto directo (formato internacional sin espacios; recomendación: incluir código de país 52)
+  whatsapps: ['+524521820225', '+523121446290'],
+  // Compatibilidad: un enlace único si se requiere
+  whatsapp: 'https://wa.me/524521820225?text=Quiero%20confirmar%20mi%20asistencia%20a%20la%20boda',
 }
 
 // Mapa y cómo llegar (lugares del evento)

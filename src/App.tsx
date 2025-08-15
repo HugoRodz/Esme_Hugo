@@ -21,14 +21,16 @@ function PreferenciasForm() {
   }
 
   const enviarWhatsApp = () => {
-    const url = `https://wa.me/?text=${encodeURIComponent(mensaje())}`
+    const to = (RSVP.whatsapps && RSVP.whatsapps[0]) ? RSVP.whatsapps[0].replace('+','') : ''
+    const url = `https://wa.me/${to}?text=${encodeURIComponent(mensaje())}`
     window.open(url, '_blank', 'noopener')
   }
 
   const enviarCorreo = () => {
     const subject = `Preferencias invitado - ${nombre || 'Sin nombre'}`
     const body = mensaje()
-    const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const to = RSVP.emailAddress || ''
+    const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     window.location.href = mailto
   }
 
@@ -454,8 +456,15 @@ export default function App() {
             </div>
           ) : (
             <div className="mt-4 grid gap-3 sm:max-w-md">
-              <a className="rounded-lg bg-emerald-600 px-4 py-2 text-white text-center font-medium hover:bg-emerald-700" href={RSVP.whatsapp} target="_blank" rel="noopener">Confirmar por WhatsApp</a>
-              <a className="rounded-lg bg-white px-4 py-2 text-emerald-800 text-center ring-1 ring-emerald-200 hover:bg-emerald-50" href={RSVP.mailto}>Confirmar por correo</a>
+              <div className="rounded-xl border border-emerald-200 bg-white p-4">
+                <p className="text-sm text-emerald-800">WhatsApp</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {(RSVP.whatsapps || []).map((num) => (
+                    <a key={num} className="rounded-lg bg-emerald-600 px-4 py-2 text-white text-center font-medium hover:bg-emerald-700" href={`https://wa.me/${num.replace('+','')}`} target="_blank" rel="noopener">{num}</a>
+                  ))}
+                </div>
+              </div>
+              <a className="rounded-lg bg-white px-4 py-2 text-emerald-800 text-center ring-1 ring-emerald-200 hover:bg-emerald-50" href={RSVP.mailto}>Confirmar por correo ({RSVP.emailAddress || 'correo'})</a>
             </div>
           )}
         </section>
