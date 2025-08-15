@@ -1,5 +1,6 @@
 import './index.css'
 import { useEffect, useState } from 'react'
+import QRCode from 'qrcode'
 import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS, ALBUM, MUSIC } from './config'
 
 function PreferenciasForm() {
@@ -198,6 +199,54 @@ export default function App() {
       </svg>
     </div>
   )
+
+  function AlbumQRCard() {
+    const [dataUrl, setDataUrl] = useState<string>('')
+    useEffect(() => {
+      let cancelled = false
+      async function gen() {
+        if (!ALBUM.photosUrl) return
+        try {
+          const url = await QRCode.toDataURL(ALBUM.photosUrl, {
+            margin: 1,
+            width: 240,
+            color: { dark: '#065f46', light: '#ffffff' },
+          })
+          if (!cancelled) setDataUrl(url)
+        } catch {}
+      }
+      gen()
+      return () => { cancelled = true }
+    }, [])
+    return (
+      <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm text-sm">
+        <p className="text-emerald-900 font-medium">Escanéame para subir</p>
+        {ALBUM.photosUrl ? (
+          <div className="mt-3 flex flex-col items-center">
+            {dataUrl ? (
+              <img src={dataUrl} alt="QR del álbum compartido" className="h-40 w-40 rounded-lg ring-1 ring-emerald-200" />
+            ) : (
+              <div className="h-40 w-40 animate-pulse rounded-lg bg-emerald-50" aria-hidden="true" />
+            )}
+            <a
+              href={ALBUM.photosUrl}
+              target="_blank"
+              rel="noopener"
+              className="mt-3 inline-block rounded-lg bg-emerald-50 px-3 py-2 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100"
+            >Abrir álbum</a>
+          </div>
+        ) : (
+          <p className="mt-2 text-slate-700">Pronto habilitaremos el QR cuando tengamos el enlace del álbum.</p>
+        )}
+        <p className="mt-3 text-emerald-900 font-medium">Sugerencias</p>
+        <ul className="mt-2 list-disc pl-5 text-slate-700 space-y-1">
+          <li>Sube en alta calidad si puedes (Wi‑Fi recomendado).</li>
+          <li>Añade una breve descripción o nombres si gustas.</li>
+          <li>Si tomas en vertical, también es bienvenido.</li>
+        </ul>
+      </div>
+    )
+  }
   return (
     <div className="min-h-screen bg-emerald-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/60 via-emerald-50 to-white">
       <header className="relative isolate overflow-hidden">
@@ -470,7 +519,10 @@ export default function App() {
             <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm sm:col-span-2">
               <p className="text-sm text-emerald-800">Enlace al álbum</p>
               {ALBUM.photosUrl ? (
-                <a className="mt-2 inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700" href={ALBUM.photosUrl} target="_blank" rel="noopener">Abrir álbum</a>
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  <a className="inline-block rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700" href={ALBUM.photosUrl} target="_blank" rel="noopener">Abrir álbum</a>
+                  <a className="inline-block rounded-lg bg-emerald-50 px-4 py-2 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={ALBUM.photosUrl} target="_blank" rel="noopener">Subir ahora</a>
+                </div>
               ) : (
                 <p className="mt-2 text-slate-700">Pronto compartiremos el enlace del álbum. ¡Vuelve más tarde!</p>
               )}
@@ -499,14 +551,7 @@ export default function App() {
                 </div>
               )}
             </div>
-            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm text-sm">
-              <p className="text-emerald-900 font-medium">Sugerencias</p>
-              <ul className="mt-2 list-disc pl-5 text-slate-700 space-y-1">
-                <li>Sube en alta calidad si puedes (Wi‑Fi recomendado).</li>
-                <li>Añade una breve descripción o nombres si gustas.</li>
-                <li>Si tomas en vertical, también es bienvenido.</li>
-              </ul>
-            </div>
+            <AlbumQRCard />
           </div>
         </section>
 
