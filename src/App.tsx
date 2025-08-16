@@ -215,6 +215,18 @@ export default function App() {
   }, [])
 
   // Background audio: attempt autoplay, fall back to user-play button if blocked by browser
+  // Helper to resolve audio URL taking into account Vite base and origin
+  const resolveAudioUrl = (url: string) => {
+    if (!url) return ''
+    if (/^https?:\/\//.test(url)) return url
+    // base usually ends with '/'
+    const basePath = base || '/'
+    const clean = url.replace(/^\/+/, '')
+    const resolved = `${window.location.origin}${basePath}${clean}`
+    console.debug('Resolved audio URL', { url, base, resolved })
+    return resolved
+  }
+
   useEffect(() => {
     const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
     if (!audio) return
@@ -264,8 +276,9 @@ export default function App() {
 
       // If there's a configured local audio, try to fetch it and create a blob URL as a fallback
       if (MUSIC.audioUrl) {
-        try {
-          const resp = await fetch(MUSIC.audioUrl, { cache: 'no-store' })
+          try {
+          const fetchUrl = resolveAudioUrl(MUSIC.audioUrl)
+          const resp = await fetch(fetchUrl, { cache: 'no-store' })
           if (!resp.ok) {
             const text = `No se pudo descargar el audio (${resp.status})`
             setAudioError(text)
@@ -369,7 +382,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-emerald-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/60 via-emerald-50 to-white">
   {/* Background audio element (uses MUSIC.audioUrl if present) */}
-  <audio id="bg-audio" src={MUSIC.audioUrl || `${base}audio/song.mp3`} loop preload="auto" />
+  <audio id="bg-audio" src={resolveAudioUrl(MUSIC.audioUrl || `${base}audio/song.mp3`)} loop preload="auto" />
       <header className="relative isolate overflow-hidden">
         {ornaments}
         {/* Imagen hero: Colima */}
