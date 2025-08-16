@@ -267,26 +267,7 @@ export default function App() {
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
           {/* Nuestros padres */}
-          <div className="mx-auto max-w-2xl text-center mt-8 mb-8">
-            <div className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-lg px-6 py-5">
-              <h3 className="text-lg sm:text-xl font-bold text-emerald-900 flex items-center justify-center gap-2 mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 10-8 0 4 4 0 008 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" /></svg>
-                Nuestros padres
-              </h3>
-              <div className="mt-2 grid gap-2 sm:grid-cols-2 text-base">
-                <div className="flex flex-col items-center">
-                  <span className="text-emerald-700 font-semibold flex items-center gap-1"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Jorge</span>
-                  <span className="text-slate-800">Jorge Rodríguez Alvarez</span>
-                  <span className="text-slate-800">Raquel Peñaloza Cisneros</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <span className="text-emerald-700 font-semibold flex items-center gap-1"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Esmeralda</span>
-                  <span className="text-slate-800">Sabino Dueñas Montes</span>
-                  <span className="text-slate-800">Norma Angelica Fuentes Martinez</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* sección 'Nuestros padres' movida justo encima de 'Nuestra historia' */}
           <nav aria-label="Secciones" className="mx-auto mt-2 flex flex-wrap items-center justify-center gap-3 text-sm">
             <a href="#evento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Evento</a>
             <a href="#como-llegar" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Cómo llegar</a>
@@ -325,6 +306,30 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      {/* Nuestros padres: bloque ubicado entre el hero y la sección 'Nuestra historia' */}
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-2xl text-center mt-8 mb-8">
+          <div className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-lg px-6 py-5">
+            <h3 className="text-lg sm:text-xl font-bold text-emerald-900 flex items-center justify-center gap-2 mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 10-8 0 4 4 0 008 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" /></svg>
+              Nuestros padres
+            </h3>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2 text-base">
+              <div className="flex flex-col items-center">
+                <span className="text-emerald-700 font-semibold flex items-center gap-1"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Jorge</span>
+                <span className="text-slate-800">Jorge Rodríguez Alvarez</span>
+                <span className="text-slate-800">Raquel Peñaloza Cisneros</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-emerald-700 font-semibold flex items-center gap-1"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Esmeralda</span>
+                <span className="text-slate-800">Sabino Dueñas Montes</span>
+                <span className="text-slate-800">Norma Angelica Fuentes Martinez</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
   <main className="mx-auto max-w-5xl px-6 pb-24">
         <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
