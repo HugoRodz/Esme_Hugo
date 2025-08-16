@@ -81,11 +81,14 @@ function IconBadge({ children }: { children: React.ReactNode }) {
 function DressTuxBadge() {
   return (
     <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-base ring-1 ring-emerald-200 shadow-sm">
-      <svg viewBox="0 0 48 48" className="h-5 w-5 text-emerald-700" fill="currentColor" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-        {/* Dress (left) */}
-        <path d="M10 6c0 0 1.6 3 2.4 5.2C13.6 13 13 15 12 17c2 1 4 3.6 5 6 0 0-1 1-2 1s-2 0-2 0 0.6 0 1 0c.5 0 1-.2 1-.2s-1.2 0-2 0-2 .2-2 .2-1 0-2 0c-1 0-2-1-2-1 1-2.4 3-5 5-6-1-2-1.6-4-0.6-5.8C10.4 9 10 6 10 6z" />
-        {/* Tux (right) */}
-        <path d="M34 6c0 0-1 1.5-1.8 3.2C31 11 30 13 31 15c0 0-2 1-3 3v6h6v-6c-1-2-3-3-3-3 1-2 1-4.2-.2-5.8C32.6 7.5 34 6 34 6z" />
+      <svg viewBox="0 0 48 48" className="h-5 w-5 text-emerald-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        {/* Dress outline (left) */}
+        <path d="M6 8c2 0 4 1.5 5 3.5 1 2 1 4 0 6-1 2-3 3.5-5 3.5s-4-1.5-5-3.5c-1-2 0-4 0-6S4 8 6 8z" />
+        <path d="M6 8c1.5 0 2.5-1 3-2" />
+        {/* Tux outline (right) */}
+        <path d="M30 6c0 2 1 3.5 1 3.5l2 2c1 1 1 3 0 4l-2 2" />
+        <path d="M36 16l-2 2v6h6v-6l-2-2" />
+        <path d="M30 6l3 0.5 3-0.5" />
       </svg>
     </span>
   )
