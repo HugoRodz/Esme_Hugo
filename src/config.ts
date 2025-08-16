@@ -98,7 +98,7 @@ export const ALBUM = {
 export const MUSIC = {
   title: 'Amor del Bueno — Reyli',
   // Pega el enlace de Spotify del track y lo convertiremos a embed automáticamente
-  spotifyUrl: 'https://open.spotify.com/intl-es/track/2G74yhtIMW8tJY5I83dS4Z?si=186427a620f046d7', // Enlace de Spotify (track)
+  spotifyUrl: 'https://open.spotify.com/track/1OCre5vxYq2Vk1wfFsTWE1?si=KoXjwa4CSvSkt7mdjWE0fg', // Enlace de Spotify (track)
   // Si prefieres YouTube, pega el ID del video (lo que va después de v=)
   youtubeId: '', // Ej: AbCdEfGhIjk
   // O un archivo de audio propio alojado con permiso (mp3/ogg)
