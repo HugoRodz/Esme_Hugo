@@ -233,6 +233,23 @@ export default function App() {
     }
   }, [])
 
+  // Track play/pause state for the floating button icon
+  const [isPlaying, setIsPlaying] = useState(false)
+  useEffect(() => {
+    const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+    if (!audio) return
+    const onPlay = () => setIsPlaying(true)
+    const onPause = () => setIsPlaying(false)
+    audio.addEventListener('play', onPlay)
+    audio.addEventListener('pause', onPause)
+    // set initial state
+    setIsPlaying(!audio.paused)
+    return () => {
+      audio.removeEventListener('play', onPlay)
+      audio.removeEventListener('pause', onPause)
+    }
+  }, [])
+
   const ornaments = (
     <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
       {/* Ramas decorativas suaves */}
@@ -294,8 +311,8 @@ export default function App() {
   }
   return (
     <div className="min-h-screen bg-emerald-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/60 via-emerald-50 to-white">
-  {/* Background audio element (public/audio/song.mp3) */}
-  <audio id="bg-audio" src={`${base}audio/song.mp3`} loop preload="auto" />
+  {/* Background audio element (uses MUSIC.audioUrl if present) */}
+  <audio id="bg-audio" src={MUSIC.audioUrl || `${base}audio/song.mp3`} loop preload="auto" />
       <header className="relative isolate overflow-hidden">
         {ornaments}
         {/* Imagen hero: Colima */}
@@ -370,9 +387,15 @@ export default function App() {
           className="rounded-full bg-white/90 p-3 shadow-md ring-1 ring-emerald-200"
           aria-label="Reproducir / Pausar música de fondo"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M6 4.5v11L16 10 6 4.5z" />
-          </svg>
+          {isPlaying ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M6 4h3v12H6zM11 4h3v12h-3z" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M6 4.5v11L16 10 6 4.5z" />
+            </svg>
+          )}
         </button>
       </div>
 
