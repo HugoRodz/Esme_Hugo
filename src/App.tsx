@@ -78,6 +78,19 @@ function IconBadge({ children }: { children: React.ReactNode }) {
   )
 }
 
+function DressTuxBadge() {
+  return (
+    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-base ring-1 ring-emerald-200 shadow-sm">
+      <svg viewBox="0 0 24 24" className="h-4 w-4 text-emerald-700" fill="currentColor" aria-hidden="true">
+        {/* Dress silhouette (left) */}
+        <path d="M6 3c0 0 1 2 1.5 3.5S8.5 9 7 11c0 0 1.5 1 2 3 0 0-1 .5-1.5 1S7 17 7 17s1 0 2 0 2-.5 2-.5 1 .5 2 .5 2 0 2 0-1.5-.5-1.5-1 2-3 2-3c-1.5-2-1-.5-.5-4S18 3 18 3H6z" />
+        {/* Tux silhouette (right) */}
+        <path d="M15 3l-1.2 2.6L13 3l-1 4 1 1-2 3v6h6v-6l-2-3 1-1-1-4z" transform="translate(2,0) scale(0.7)" />
+      </svg>
+    </span>
+  )
+}
+
 function LeafDivider() {
   return (
     <div className="flex items-center justify-center py-6">
@@ -716,9 +729,9 @@ export default function App() {
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
             <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
-              <IconBadge>👔</IconBadge>
-              Código de vestimenta
-            </h3>
+                <DressTuxBadge />
+                Código de vestimenta
+              </h3>
             <p className="mt-2 text-slate-700">Formal</p>
           </div>
         </section>
