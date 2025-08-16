@@ -511,30 +511,30 @@ export default function App() {
             className="rounded-full bg-white/90 p-2 shadow-md ring-1 ring-emerald-200"
           >
             {volume === 0 ? (
-              // Muted speaker with X
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M9 4v12l6-6-6-6z" />
-                <path d="M15.536 4.464a1 1 0 10-1.414-1.414L10 6.172 5.879 2.05A1 1 0 104.464 3.464L8.586 7.586 4.464 11.707a1 1 0 101.414 1.414L10 9.0l4.121 4.121a1 1 0 001.414-1.414L11.414 7.586l4.122-4.122z" />
+              // Muted speaker with X — speaker base + an X (stroke)
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" aria-hidden="true">
+                <path fill="currentColor" d="M3 9v2h4l5 4V5L7 9H3z" />
+                <path fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M14.5 8.5L17.5 11.5M17.5 8.5L14.5 11.5" />
               </svg>
             ) : volume <= 33 ? (
-              // Low volume: single wave
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M9 4v12l6-6-6-6z" />
-                <path d="M14 10a2 2 0 01-2 2v-4a2 2 0 012 2z" />
+              // Low volume: speaker + single small wave
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" aria-hidden="true">
+                <path fill="currentColor" d="M3 9v2h4l5 4V5L7 9H3z" />
+                <path fill="currentColor" d="M14.5 10a1.5 1.5 0 01-1.5 1.5v-3A1.5 1.5 0 0114.5 10z" />
               </svg>
             ) : volume <= 66 ? (
-              // Medium volume: two waves
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M9 4v12l6-6-6-6z" />
-                <path d="M14 8.5c.9.8 1.5 1.9 1.5 3.5s-.6 2.7-1.5 3.5" stroke="currentColor" strokeWidth="0" />
-                <path d="M13 10a3 3 0 01-3 3v-6a3 3 0 013 3z" />
+              // Medium volume: speaker + two waves
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" aria-hidden="true">
+                <path fill="currentColor" d="M3 9v2h4l5 4V5L7 9H3z" />
+                <path fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" d="M13.5 8.5c.7.6 1.1 1.4 1.1 2.5s-.4 1.9-1.1 2.5" />
+                <path fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" d="M15.5 7.5c1 .9 1.5 2.2 1.5 3.5s-.5 2.6-1.5 3.5" />
               </svg>
             ) : (
-              // High volume: three waves
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path d="M9 4v12l6-6-6-6z" />
-                <path d="M14 7c1.5 1.2 2.5 3 2.5 5s-1 3.8-2.5 5" stroke="currentColor" strokeWidth="0" />
-                <path d="M13 10a4 4 0 01-4 4v-8a4 4 0 014 4z" />
+              // High volume: speaker + three waves
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" aria-hidden="true">
+                <path fill="currentColor" d="M3 9v2h4l5 4V5L7 9H3z" />
+                <path fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" d="M13.5 7.5c.9.8 1.4 1.9 1.4 3.5s-.5 2.7-1.4 3.5" />
+                <path fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" d="M15.5 6.5c1.4 1.2 2.2 3 2.2 5s-.8 3.8-2.2 5" />
               </svg>
             )}
           </button>
