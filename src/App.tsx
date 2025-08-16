@@ -341,7 +341,7 @@ export default function App() {
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 10-8 0 4 4 0 008 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" /></svg>
               Nuestros padres
             </h3>
-            <p className="text-slate-700 text-sm mt-1">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
+            <p className="text-emerald-800 font-serif text-base italic text-center mt-2 tracking-wide">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
             <div className="mt-2 grid gap-2 sm:grid-cols-2 text-base">
               <div className="flex flex-col items-center">
                 <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Jorge</span>
