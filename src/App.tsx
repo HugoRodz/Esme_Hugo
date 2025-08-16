@@ -266,6 +266,14 @@ export default function App() {
           <p className="mt-3 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
+          {/* Nuestros padres */}
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-sm font-medium text-emerald-900">Nuestros padres</p>
+            <div className="mt-1 grid gap-1 sm:grid-cols-2 text-sm">
+              <p className="text-slate-700"><span className="text-emerald-800">Jorge:</span> Jorge Rodríguez Alvarez y Raquel Peñaloza Cisneros</p>
+              <p className="text-slate-700"><span className="text-emerald-800">Esmeralda:</span> Sabino Dueñas Montes y Norma Angelica Fuentes Martinez</p>
+            </div>
+          </div>
           <nav aria-label="Secciones" className="mx-auto mt-2 flex flex-wrap items-center justify-center gap-3 text-sm">
             <a href="#evento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Evento</a>
             <a href="#como-llegar" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Cómo llegar</a>
