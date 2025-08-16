@@ -251,6 +251,9 @@ export default function App() {
   const [audioError, setAudioError] = useState<string | null>(null)
   // Small hint shown above the play button briefly
   const [showPlayHint, setShowPlayHint] = useState(true)
+  // WebAudio refs so we can control gain on platforms that ignore audio.volume
+  const audioCtxRef = useRef<AudioContext | null>(null)
+  const gainRef = useRef<GainNode | null>(null)
   // Volume control: 0-100 scale for the slider UI
   const [volume, setVolume] = useState<number>(() => {
     try {
@@ -289,7 +292,14 @@ export default function App() {
     try { localStorage.setItem('bg-volume', String(volume)) } catch (e) { void e }
     const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
     if (!audio) return
-    try { audio.volume = Math.max(0, Math.min(1, volume / 100)) } catch (e) { void e }
+    try {
+      const v = Math.max(0, Math.min(1, volume / 100))
+      if (gainRef.current) {
+        try { gainRef.current.gain.value = v } catch (e) { console.error('set gain failed', e) }
+      } else {
+        try { audio.volume = v } catch (e) { void e }
+      }
+    } catch (e) { void e }
   }, [volume])
 
   // Listen for audio load errors and readiness
@@ -473,16 +483,43 @@ export default function App() {
       <div className="fixed bottom-6 right-6 z-50">
         {showPlayHint && (
           <div className="mb-2 flex justify-end">
-            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200">Escucha nuestra canción <span aria-hidden="true">❤️</span></div>
+            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200 font-serif">Escucha nuestra canción <span aria-hidden="true">❤️</span></div>
           </div>
         )}
         <button
           type="button"
-          onClick={() => {
+          onClick={async () => {
             const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
             if (!audio) return
             // Hide the hint when the user interacts
             setShowPlayHint(false)
+            // Ensure we have a WebAudio graph so volume control can work on mobile
+            try {
+              if (!audioCtxRef.current) {
+                const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext
+                if (Ctx) {
+                  const ctx: AudioContext = new Ctx()
+                  // createMediaElementSource can only be called once per element/context
+                  try {
+                    const src = ctx.createMediaElementSource(audio)
+                    const gain = ctx.createGain()
+                    src.connect(gain)
+                    gain.connect(ctx.destination)
+                    gain.gain.value = Math.max(0, Math.min(1, volume / 100))
+                    audioCtxRef.current = ctx
+                    gainRef.current = gain
+                  } catch (e) {
+                    // If createMediaElementSource fails, ignore and continue with element volume
+                    console.warn('createMediaElementSource failed', e)
+                  }
+                }
+              } else if (audioCtxRef.current.state === 'suspended') {
+                await audioCtxRef.current.resume()
+              }
+            } catch (e) {
+              console.error('AudioContext setup failed', e)
+            }
+
             if (audio.paused) {
               audio.play().catch((err) => { console.error('play failed', err); setAudioError(String(err)) })
             } else {
