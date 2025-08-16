@@ -20,3 +20,10 @@ h1, h2, h3, .font-serif { font-family: Marcellus, ui-serif, Georgia, Cambria, "T
 @media (max-width: 640px) {
 	.parents-block { padding-left: 1rem; padding-right: 1rem; }
 }
+
+/* Justificar texto en el cuerpo del contenido principal (párrafos y listas) */
+.content-body p,
+.content-body li {
+	text-align: justify;
+	text-justify: inter-word;
+}

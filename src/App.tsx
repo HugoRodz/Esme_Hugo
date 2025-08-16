@@ -357,7 +357,7 @@ export default function App() {
           </div>
         </div>
   </div>
-  <main className="mx-auto max-w-5xl px-6 pb-24">
+  <main className="mx-auto max-w-5xl px-6 pb-24 content-body">
         <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
           <div>
             <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
