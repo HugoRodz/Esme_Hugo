@@ -511,14 +511,30 @@ export default function App() {
             className="rounded-full bg-white/90 p-2 shadow-md ring-1 ring-emerald-200"
           >
             {volume === 0 ? (
+              // Muted speaker with X
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M9 4v12l6-6-6-6z" />
-                <path d="M14.121 14.121a1 1 0 01-1.414 1.414L10 12.828 7.293 15.535a1 1 0 11-1.414-1.414L8.586 11.414 6.293 9.121a1 1 0 011.414-1.414L10 9.586l2.707-2.879a1 1 0 011.414 1.414L11.414 11.414l2.707 2.707z" />
+                <path d="M15.536 4.464a1 1 0 10-1.414-1.414L10 6.172 5.879 2.05A1 1 0 104.464 3.464L8.586 7.586 4.464 11.707a1 1 0 101.414 1.414L10 9.0l4.121 4.121a1 1 0 001.414-1.414L11.414 7.586l4.122-4.122z" />
+              </svg>
+            ) : volume <= 33 ? (
+              // Low volume: single wave
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M9 4v12l6-6-6-6z" />
+                <path d="M14 10a2 2 0 01-2 2v-4a2 2 0 012 2z" />
+              </svg>
+            ) : volume <= 66 ? (
+              // Medium volume: two waves
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M9 4v12l6-6-6-6z" />
+                <path d="M14 8.5c.9.8 1.5 1.9 1.5 3.5s-.6 2.7-1.5 3.5" stroke="currentColor" strokeWidth="0" />
+                <path d="M13 10a3 3 0 01-3 3v-6a3 3 0 013 3z" />
               </svg>
             ) : (
+              // High volume: three waves
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path d="M9 4v12l6-6-6-6z" />
-                <path d="M15.293 4.293a1 1 0 011.414 1.414 6 6 0 010 8.486 1 1 0 11-1.414-1.414 4 4 0 000-5.657 1 1 0 010-1.414z" />
+                <path d="M14 7c1.5 1.2 2.5 3 2.5 5s-1 3.8-2.5 5" stroke="currentColor" strokeWidth="0" />
+                <path d="M13 10a4 4 0 01-4 4v-8a4 4 0 014 4z" />
               </svg>
             )}
           </button>
