@@ -472,9 +472,8 @@ export default function App() {
         <section id="avisos" className="mt-8">
           <h2 className="text-2xl font-semibold text-emerald-900">Avisos y restricciones</h2>
           <ul className="mt-3 list-disc pl-6 text-slate-700 space-y-1">
-            <li>Evento principalmente al aire libre. Considera calzado cómodo.</li>
+            <li>No se aceptan niños, solo bebés en brazos.</li>
             <li>Estacionamiento limitado. Sugerimos compartir vehículo cuando sea posible.</li>
-            <li>Cuidemos el espacio: evita confeti o pirotecnia.</li>
             <li>Te recomendamos llegar 15 minutos antes de la ceremonia.</li>
           </ul>
         </section>

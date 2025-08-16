@@ -14,6 +14,9 @@ Invitación web para la boda de Jorge Hugo Rodríguez Peñaloza y Esmeralda Due�
 ## GitHub Pages
 - Workflow en `.github/workflows/deploy.yml`
 - Publica automáticamente al hacer push en `main`
+ - Fuente: GitHub Actions (no se usa rama `gh-pages` ni script `deploy`)
+
+_Nota:_ despliegue de prueba desde Mac para verificar flujo de Actions.
 
 ## Diseño
 - Vite + React + TypeScript
