@@ -249,6 +249,8 @@ export default function App() {
   const [isPlaying, setIsPlaying] = useState(false)
   // Track audio loading / playback errors for diagnostics
   const [audioError, setAudioError] = useState<string | null>(null)
+  // Small hint shown above the play button briefly
+  const [showPlayHint, setShowPlayHint] = useState(true)
   useEffect(() => {
     const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
     if (!audio) return
@@ -263,6 +265,13 @@ export default function App() {
       audio.removeEventListener('pause', onPause)
     }
   }, [])
+
+  // Auto-hide the play hint after a few seconds
+  useEffect(() => {
+    if (!showPlayHint) return
+    const id = setTimeout(() => setShowPlayHint(false), 6000)
+    return () => clearTimeout(id)
+  }, [showPlayHint])
 
   // Listen for audio load errors and readiness
   useEffect(() => {
@@ -443,13 +452,20 @@ export default function App() {
 
       {/* Small floating control shown if autoplay was blocked */}
       <div className="fixed bottom-6 right-6 z-50">
+        {showPlayHint && (
+          <div className="mb-2 flex justify-end">
+            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200">Escucha nuestra canción</div>
+          </div>
+        )}
         <button
           type="button"
           onClick={() => {
             const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
             if (!audio) return
+            // Hide the hint when the user interacts
+            setShowPlayHint(false)
             if (audio.paused) {
-              audio.play().catch(() => {})
+              audio.play().catch((err) => { console.error('play failed', err); setAudioError(String(err)) })
             } else {
               audio.pause()
             }
