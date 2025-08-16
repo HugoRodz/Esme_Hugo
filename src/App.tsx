@@ -454,7 +454,7 @@ export default function App() {
       <div className="fixed bottom-6 right-6 z-50">
         {showPlayHint && (
           <div className="mb-2 flex justify-end">
-            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200">Escucha nuestra canción</div>
+            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200">Escucha nuestra canción <span aria-hidden="true">❤️</span></div>
           </div>
         )}
         <button
