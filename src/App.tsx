@@ -256,21 +256,52 @@ export default function App() {
   useEffect(() => {
     const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
     if (!audio) return
-    const onErr = () => {
-      // Try to get a friendly message
+    const onErr = async () => {
+      // Friendly message from the media error when available
       const code = audio.error?.code ?? 0
       const msg = audio.error?.message || `Error al cargar el audio (code ${code})`
-      setAudioError(String(msg))
       console.error('Audio element error', audio.error)
+
+      // If there's a configured local audio, try to fetch it and create a blob URL as a fallback
+      if (MUSIC.audioUrl) {
+        try {
+          const resp = await fetch(MUSIC.audioUrl, { cache: 'no-store' })
+          if (!resp.ok) {
+            const text = `No se pudo descargar el audio (${resp.status})`
+            setAudioError(text)
+            return
+          }
+          const buffer = await resp.arrayBuffer()
+          const blob = new Blob([buffer], { type: 'audio/mpeg' })
+          const blobUrl = URL.createObjectURL(blob)
+          // assign new src and attempt to play
+          audio.src = blobUrl
+          setAudioError(null)
+          try {
+            await audio.play()
+            return
+          } catch (playErr) {
+            console.error('Reproducción tras fallback fallida', playErr)
+            setAudioError('No se pudo reproducir el audio tras fallback')
+            return
+          }
+        } catch (fetchErr) {
+          console.error('Fallback fetch failed', fetchErr)
+          setAudioError(String(fetchErr))
+          return
+        }
+      }
+
+      setAudioError(String(msg))
     }
     const onReady = () => {
       setAudioError(null)
     }
-    audio.addEventListener('error', onErr)
+    audio.addEventListener('error', onErr as EventListener)
     audio.addEventListener('canplaythrough', onReady)
     audio.addEventListener('loadedmetadata', onReady)
     return () => {
-      audio.removeEventListener('error', onErr)
+      audio.removeEventListener('error', onErr as EventListener)
       audio.removeEventListener('canplaythrough', onReady)
       audio.removeEventListener('loadedmetadata', onReady)
     }
