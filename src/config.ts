@@ -102,5 +102,5 @@ export const MUSIC = {
   // Si prefieres YouTube, pega el ID del video (lo que va después de v=)
   youtubeId: '', // Ej: AbCdEfGhIjk
   // O un archivo de audio propio alojado con permiso (mp3/ogg)
-  audioUrl: '/cancion mp3/Río Roma - Me Cambiaste la Vida (Videoclip).mp3',
+  audioUrl: '/audio/rio-roma-me-cambiaste-la-vida.mp3',
 }
