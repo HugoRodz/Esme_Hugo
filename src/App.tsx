@@ -1,5 +1,5 @@
 import './index.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import QRCode from 'qrcode'
 import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS, ALBUM, MUSIC } from './config'
 
@@ -90,8 +90,8 @@ function LeafDivider() {
 }
 
 function Countdown({ date }: { date: Date }) {
-  const calc = () => {
-    const now = new Date().getTime()
+  const [t, setT] = useState(() => {
+    const now = Date.now()
     const target = date.getTime()
     const diff = Math.max(0, target - now)
     const d = Math.floor(diff / (1000 * 60 * 60 * 24))
@@ -99,12 +99,24 @@ function Countdown({ date }: { date: Date }) {
     const m = Math.floor((diff / (1000 * 60)) % 60)
     const s = Math.floor((diff / 1000) % 60)
     return { d, h, m, s, done: diff === 0 }
-  }
-  const [t, setT] = useState(calc())
+  })
+
   useEffect(() => {
+    const calc = () => {
+      const now = Date.now()
+      const target = date.getTime()
+      const diff = Math.max(0, target - now)
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24))
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24)
+      const m = Math.floor((diff / (1000 * 60)) % 60)
+      const s = Math.floor((diff / 1000) % 60)
+      return { d, h, m, s, done: diff === 0 }
+    }
+    // set initial value and update every second
+    setT(calc())
     const id = setInterval(() => setT(calc()), 1000)
     return () => clearInterval(id)
-  }, [])
+  }, [date])
   return (
     <div className="mt-6 flex items-center justify-center gap-3 sm:gap-4">
       {[
@@ -186,7 +198,21 @@ export default function App() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isLightboxOpen])
+  }, [isLightboxOpen, gallery.length])
+
+  // Reveal animation control for parents block
+  const parentsRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    const node = parentsRef.current || document.getElementById('parents-block')
+    if (!node) return
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) node.classList.add('revealed')
+      })
+    }, { threshold: 0.15 })
+    obs.observe(node)
+    return () => obs.disconnect()
+  }, [])
 
   const ornaments = (
     <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
@@ -206,14 +232,14 @@ export default function App() {
       let cancelled = false
       async function gen() {
         if (!ALBUM.photosUrl) return
-        try {
+  try {
           const url = await QRCode.toDataURL(ALBUM.photosUrl, {
             margin: 1,
             width: 240,
             color: { dark: '#065f46', light: '#ffffff' },
           })
           if (!cancelled) setDataUrl(url)
-        } catch {}
+  } catch (err) { void err }
       }
       gen()
       return () => { cancelled = true }
@@ -295,9 +321,9 @@ export default function App() {
                     await navigator.clipboard.writeText(shareData.url)
                     alert('Enlace copiado')
                   }
-                } catch {
-                  // Ignorar si el usuario cancela o el navegador bloquea compartir
-                  void 0
+                } catch (err) {
+                  // Ignorar errores de compartir/portapapeles — mantenemos la variable para linters
+                  void err
                 }
               }}
             >
@@ -309,8 +335,8 @@ export default function App() {
 
       {/* Nuestros padres: bloque ubicado entre el hero y la sección 'Nuestra historia' */}
       <div className="mx-auto max-w-5xl px-6">
-        <div className="mx-auto max-w-2xl text-center mt-8 mb-8">
-          <div className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-lg px-6 py-5">
+          <div className="mx-auto max-w-2xl text-center mt-6 mb-6 parents-block">
+          <div ref={parentsRef} className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-lg px-4 py-4 sm:px-6 sm:py-5 reveal" id="parents-block">
             <h3 className="text-lg sm:text-xl font-bold text-emerald-900 flex items-center justify-center gap-2 mb-2">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 10-8 0 4 4 0 008 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" /></svg>
               Nuestros padres
@@ -329,8 +355,7 @@ export default function App() {
             </div>
           </div>
         </div>
-      </div>
-
+  </div>
   <main className="mx-auto max-w-5xl px-6 pb-24">
         <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
           <div>
@@ -559,7 +584,7 @@ export default function App() {
                       try {
                         await navigator.clipboard.writeText(ALBUM.photosUrl)
                         alert('Enlace copiado')
-                      } catch {}
+                      } catch (err) { void err }
                     }}
                   >Copiar enlace</button>
                   <button
@@ -567,9 +592,9 @@ export default function App() {
                     onClick={async () => {
                       const shareData = { title: 'Álbum compartido', url: ALBUM.photosUrl }
                       if (navigator.share) {
-                        try { await navigator.share(shareData) } catch {}
-                      } else {
-                        try { await navigator.clipboard.writeText(ALBUM.photosUrl); alert('Enlace copiado') } catch {}
+                        try { await navigator.share(shareData) } catch (err) { void err }
+                        } else {
+                        try { await navigator.clipboard.writeText(ALBUM.photosUrl); alert('Enlace copiado') } catch (err) { void err }
                       }
                     }}
                   >Compartir</button>
