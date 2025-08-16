@@ -79,10 +79,10 @@ function IconBadge({ children }: { children: React.ReactNode }) {
 }
 
 function DressTuxBadge() {
-  const src = `${import.meta.env.BASE_URL}images/dress-tux.svg`
+  const src = `${import.meta.env.BASE_URL}images/dress-flaticon.svg`
   return (
-    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-base ring-1 ring-emerald-200 shadow-sm overflow-hidden">
-      <img src={src} alt="Código de vestimenta" className="h-5 w-5 object-contain" />
+    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-base ring-2 ring-emerald-200 shadow-sm overflow-visible">
+      <img src={src} alt="Código de vestimenta" title="Código de vestimenta" className="h-6 w-6 object-contain text-emerald-700" />
     </span>
   )
 }
@@ -971,6 +971,9 @@ export default function App() {
           <a className="text-emerald-700 hover:underline" href="#">#JorgeYEsme</a>
         </div>
       </footer>
+      <div className="text-center text-xs text-slate-500 mt-2 mb-6">
+        Icono "Vestido de novia" por <a href="https://www.flaticon.es/autores/sbts2018" target="_blank" rel="noopener" className="underline">SBTS2018</a> en <a href="https://www.flaticon.es/" target="_blank" rel="noopener" className="underline">Flaticon</a> (uso con atribución)
+      </div>
 
       {/* Música: no renderizamos un reproductor nativo adicional. Si no hay audio propio, mostramos YouTube como fallback. */}
       {!MUSIC.audioUrl && MUSIC.youtubeId ? (
