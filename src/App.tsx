@@ -235,6 +235,8 @@ export default function App() {
 
   // Track play/pause state for the floating button icon
   const [isPlaying, setIsPlaying] = useState(false)
+  // Track audio loading / playback errors for diagnostics
+  const [audioError, setAudioError] = useState<string | null>(null)
   useEffect(() => {
     const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
     if (!audio) return
@@ -247,6 +249,30 @@ export default function App() {
     return () => {
       audio.removeEventListener('play', onPlay)
       audio.removeEventListener('pause', onPause)
+    }
+  }, [])
+
+  // Listen for audio load errors and readiness
+  useEffect(() => {
+    const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+    if (!audio) return
+    const onErr = () => {
+      // Try to get a friendly message
+      const code = audio.error?.code ?? 0
+      const msg = audio.error?.message || `Error al cargar el audio (code ${code})`
+      setAudioError(String(msg))
+      console.error('Audio element error', audio.error)
+    }
+    const onReady = () => {
+      setAudioError(null)
+    }
+    audio.addEventListener('error', onErr)
+    audio.addEventListener('canplaythrough', onReady)
+    audio.addEventListener('loadedmetadata', onReady)
+    return () => {
+      audio.removeEventListener('error', onErr)
+      audio.removeEventListener('canplaythrough', onReady)
+      audio.removeEventListener('loadedmetadata', onReady)
     }
   }, [])
 
@@ -779,6 +805,17 @@ export default function App() {
           className="fixed bottom-3 right-3 z-30"
         />
       ) : null}
+
+      {/* Audio error notification */}
+      {audioError && (
+        <div className="fixed left-1/2 bottom-24 z-50 -translate-x-1/2 rounded-lg bg-red-50 border border-red-200 px-4 py-2 text-sm text-red-800 shadow">
+          <div className="flex items-center gap-3">
+            <strong>Audio:</strong>
+            <span className="truncate">{audioError}</span>
+            <button className="ml-3 rounded-full bg-red-100 px-2 py-1 text-xs" onClick={() => setAudioError(null)} aria-label="Cerrar aviso audio">✕</button>
+          </div>
+        </div>
+      )}
 
       {/* Lightbox */}
       {isLightboxOpen && (
