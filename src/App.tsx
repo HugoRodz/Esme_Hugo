@@ -346,12 +346,12 @@ export default function App() {
               <div className="flex flex-col items-center">
                 <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Jorge</span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Jorge Rodríguez Alvarez</span>
-                <span className="font-serif text-slate-700 text-sm">Raquel Peñaloza Cisneros</span>
+                <span className="font-serif text-emerald-900 text-lg font-semibold">Raquel Peñaloza Cisneros</span>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Esmeralda</span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Sabino Dueñas Montes</span>
-                <span className="font-serif text-slate-700 text-sm">Norma Angelica Fuentes Martinez</span>
+                <span className="font-serif text-emerald-900 text-lg font-semibold">Norma Angelica Fuentes Martinez</span>
               </div>
             </div>
           </div>
