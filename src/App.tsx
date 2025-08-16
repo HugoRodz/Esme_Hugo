@@ -214,6 +214,25 @@ export default function App() {
     return () => obs.disconnect()
   }, [])
 
+  // Background audio: attempt autoplay, fall back to user-play button if blocked by browser
+  useEffect(() => {
+    const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+    if (!audio) return
+    audio.preload = 'auto'
+    const tryPlay = async () => {
+      try {
+        await audio.play()
+      } catch (err) {
+        void err
+      }
+    }
+    tryPlay()
+    return () => {
+      // optional: pause on unmount
+      try { audio.pause() } catch (e) { void e }
+    }
+  }, [])
+
   const ornaments = (
     <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
       {/* Ramas decorativas suaves */}
@@ -275,6 +294,8 @@ export default function App() {
   }
   return (
     <div className="min-h-screen bg-emerald-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/60 via-emerald-50 to-white">
+  {/* Background audio element (public/audio/song.mp3) */}
+  <audio id="bg-audio" src={`${base}audio/song.mp3`} loop preload="auto" />
       <header className="relative isolate overflow-hidden">
         {ornaments}
         {/* Imagen hero: Colima */}
@@ -332,6 +353,28 @@ export default function App() {
           </div>
         </div>
       </header>
+
+      {/* Small floating control shown if autoplay was blocked */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          type="button"
+          onClick={() => {
+            const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+            if (!audio) return
+            if (audio.paused) {
+              audio.play().catch(() => {})
+            } else {
+              audio.pause()
+            }
+          }}
+          className="rounded-full bg-white/90 p-3 shadow-md ring-1 ring-emerald-200"
+          aria-label="Reproducir / Pausar música de fondo"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M6 4.5v11L16 10 6 4.5z" />
+          </svg>
+        </button>
+      </div>
 
       {/* Nuestros padres: bloque ubicado entre el hero y la sección 'Nuestra historia' */}
       <div className="mx-auto max-w-5xl px-6">
