@@ -744,7 +744,7 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Música: nativo si hay audio propio; fallback a Spotify/YouTube si no */}
+      {/* Música: nativo si hay audio propio; fallback a YouTube si no */}
       {MUSIC.audioUrl ? (
         <audio
           src={MUSIC.audioUrl}
@@ -754,29 +754,6 @@ export default function App() {
           aria-label={`Reproductor: ${MUSIC.title}`}
           title={MUSIC.title}
         />
-      ) : MUSIC.spotifyUrl ? (
-        (() => {
-          // Normaliza posibles prefijos (intl-es, locale) y quita query params
-          try {
-            const u = new URL(MUSIC.spotifyUrl)
-            const parts = u.pathname.split('/').filter(Boolean)
-            const trackIdx = parts.indexOf('track')
-            const id = trackIdx !== -1 && parts[trackIdx+1] ? parts[trackIdx+1] : ''
-            const embed = id ? `https://open.spotify.com/embed/track/${id}` : MUSIC.spotifyUrl.replace('open.spotify.com/track', 'open.spotify.com/embed/track')
-            return (
-              <iframe
-                style={{ borderRadius: 12 }}
-                src={embed}
-                width="320" height="80" frameBorder={0} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                className="fixed bottom-3 right-3 z-30"
-                title={MUSIC.title}
-              />
-            )
-          } catch {
-            return null
-          }
-        })()
       ) : MUSIC.youtubeId ? (
         <iframe
           width="320" height="180"
