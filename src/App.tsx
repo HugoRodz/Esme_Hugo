@@ -511,9 +511,15 @@ export default function App() {
             className="rounded-full bg-white/90 p-2 shadow-md ring-1 ring-emerald-200"
           >
             {volume === 0 ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor"><path d="M9 4v12l6-6-6-6z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M9 4v12l6-6-6-6z" />
+                <path d="M14.121 14.121a1 1 0 01-1.414 1.414L10 12.828 7.293 15.535a1 1 0 11-1.414-1.414L8.586 11.414 6.293 9.121a1 1 0 011.414-1.414L10 9.586l2.707-2.879a1 1 0 011.414 1.414L11.414 11.414l2.707 2.707z" />
+              </svg>
             ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor"><path d="M9 4v12l6-6-6-6z" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M9 4v12l6-6-6-6z" />
+                <path d="M15.293 4.293a1 1 0 011.414 1.414 6 6 0 010 8.486 1 1 0 11-1.414-1.414 4 4 0 000-5.657 1 1 0 010-1.414z" />
+              </svg>
             )}
           </button>
           {showVolume && (
