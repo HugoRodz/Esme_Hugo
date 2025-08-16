@@ -767,17 +767,8 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Música: nativo si hay audio propio; fallback a YouTube si no */}
-      {MUSIC.audioUrl ? (
-        <audio
-          src={MUSIC.audioUrl}
-          controls
-          preload="none"
-          className="fixed bottom-3 right-3 z-30 w-64 max-w-[80vw] rounded-lg bg-white/90 px-2 py-1 ring-1 ring-emerald-200 shadow"
-          aria-label={`Reproductor: ${MUSIC.title}`}
-          title={MUSIC.title}
-        />
-      ) : MUSIC.youtubeId ? (
+      {/* Música: no renderizamos un reproductor nativo adicional. Si no hay audio propio, mostramos YouTube como fallback. */}
+      {!MUSIC.audioUrl && MUSIC.youtubeId ? (
         <iframe
           width="320" height="180"
           src={`https://www.youtube.com/embed/${MUSIC.youtubeId}?modestbranding=1&rel=0`}
