@@ -16,6 +16,11 @@ Invitación web para la boda de Jorge Hugo Rodríguez Peñaloza y Esmeralda Due�
 - Publica automáticamente al hacer push en `main`
  - Fuente: GitHub Actions (no se usa rama `gh-pages` ni script `deploy`)
 
+### Extras añadidos
+- Favicon personalizado en `public/favicon.svg` y referenciado desde `index.html`.
+- Metatags Open Graph/Twitter con imagen absoluta para compartir correctamente.
+- `public/404.html` como fallback para GitHub Pages (redirección a `/boda-jorge-esmeralda/`).
+
 _Nota:_ despliegue de prueba desde Mac para verificar flujo de Actions.
 
 ## Diseño
