@@ -251,6 +251,15 @@ export default function App() {
   const [audioError, setAudioError] = useState<string | null>(null)
   // Small hint shown above the play button briefly
   const [showPlayHint, setShowPlayHint] = useState(true)
+  // Volume control: 0-100 scale for the slider UI
+  const [volume, setVolume] = useState<number>(() => {
+    try {
+      const v = localStorage.getItem('bg-volume')
+      return v ? Number(v) : 80
+    } catch (e) { return 80 }
+  })
+  const [showVolume, setShowVolume] = useState(false)
+  const [prevVolume, setPrevVolume] = useState<number | null>(null)
   useEffect(() => {
     const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
     if (!audio) return
@@ -259,7 +268,9 @@ export default function App() {
     audio.addEventListener('play', onPlay)
     audio.addEventListener('pause', onPause)
     // set initial state
-    setIsPlaying(!audio.paused)
+  setIsPlaying(!audio.paused)
+  // apply saved volume
+  try { audio.volume = Math.max(0, Math.min(1, volume / 100)) } catch (e) { void e }
     return () => {
       audio.removeEventListener('play', onPlay)
       audio.removeEventListener('pause', onPause)
@@ -272,6 +283,14 @@ export default function App() {
     const id = setTimeout(() => setShowPlayHint(false), 6000)
     return () => clearTimeout(id)
   }, [showPlayHint])
+
+  // When volume changes, persist and apply to audio element
+  useEffect(() => {
+    try { localStorage.setItem('bg-volume', String(volume)) } catch (e) { void e }
+    const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+    if (!audio) return
+    try { audio.volume = Math.max(0, Math.min(1, volume / 100)) } catch (e) { void e }
+  }, [volume])
 
   // Listen for audio load errors and readiness
   useEffect(() => {
@@ -483,6 +502,38 @@ export default function App() {
             </svg>
           )}
         </button>
+        {/* Volume control */}
+        <div className="relative mt-3 flex justify-end">
+          <button
+            type="button"
+            aria-label="Volumen"
+            onClick={() => setShowVolume((s) => !s)}
+            className="rounded-full bg-white/90 p-2 shadow-md ring-1 ring-emerald-200"
+          >
+            {volume === 0 ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor"><path d="M9 4v12l6-6-6-6z" /></svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-700" viewBox="0 0 20 20" fill="currentColor"><path d="M9 4v12l6-6-6-6z" /></svg>
+            )}
+          </button>
+          {showVolume && (
+            <div className="absolute bottom-10 right-0 w-40 rounded-md bg-white/95 p-3 shadow ring-1 ring-emerald-200">
+              <label className="block text-xs text-slate-600">Volumen: {volume}%</label>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={volume}
+                onChange={(e) => setVolume(Number(e.target.value))}
+                className="w-full mt-2"
+              />
+              <div className="mt-2 flex justify-between text-xs text-slate-500">
+                <button type="button" onClick={() => { setPrevVolume(volume); setVolume(0) }} className="underline">Silenciar</button>
+                <button type="button" onClick={() => { setVolume(prevVolume ?? 80); setPrevVolume(null) }} className="underline">Restaurar</button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Nuestros padres: bloque ubicado entre el hero y la sección 'Nuestra historia' */}
