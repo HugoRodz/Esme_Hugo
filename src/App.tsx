@@ -2,6 +2,7 @@ import './index.css'
 import { useEffect, useState, useRef } from 'react'
 import QRCode from 'qrcode'
 import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS, ALBUM, MUSIC } from './config'
+import InvitationEnvelope from './components/InvitationEnvelope'
 
 function PreferenciasForm() {
   const [nombre, setNombre] = useState('')
@@ -430,6 +431,8 @@ export default function App() {
     <div className="min-h-screen bg-emerald-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-100/60 via-emerald-50 to-white">
   {/* Background audio element (uses MUSIC.audioUrl if present) */}
   <audio id="bg-audio" src={resolveAudioUrl(MUSIC.audioUrl || `${base}audio/song.mp3`)} loop preload="auto" />
+      {/* Invitation envelope UI */}
+      <InvitationEnvelope />
       <header className="relative isolate overflow-hidden">
         {ornaments}
         {/* Imagen hero: Colima */}
