@@ -545,10 +545,10 @@ export default function App() {
             </svg>
           ) : (
             // outline heart when paused — improved contrast with subtle white background
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-rose-500" viewBox="0 0 24 24" aria-hidden="true">
-              {/* subtle ring backdrop for better contrast without filling the whole circle */}
-              <circle cx="12" cy="12" r="10.5" fill="none" stroke="white" strokeWidth="1.6" opacity="0.95" />
-              <path fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-rose-500" viewBox="0 0 24 24" aria-hidden="true">
+              {/* subtle ring backdrop (thinner) and responsive sizing: smaller on mobile */}
+              <circle cx="12" cy="12" r="9.5" fill="none" stroke="white" strokeWidth="1.2" opacity="0.95" />
+              <path fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
             </svg>
           )}
         </button>
