@@ -79,10 +79,17 @@ function IconBadge({ children }: { children: React.ReactNode }) {
 }
 
 function DressTuxBadge() {
-  const src = `${import.meta.env.BASE_URL}images/dress-flaticon.svg`
   return (
-    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-base ring-2 ring-emerald-200 shadow-sm overflow-visible">
-      <img src={src} alt="Código de vestimenta" title="Código de vestimenta" className="h-6 w-6 object-contain text-emerald-700" />
+    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-base ring-2 ring-emerald-200 shadow-sm overflow-visible" role="img" aria-label="Código de vestimenta">
+      <svg className="h-6 w-6 text-emerald-700" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <g stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 10c0 4 2 6 4 6s4-2 4-6" />
+          <path d="M12 24c4-2 8-2 12 0l-4 16h-4l-4-16z" fill="currentColor" stroke="none"/>
+          <path d="M44 10c0 4-2 6-4 6s-4-2-4-6" />
+          <path d="M48 24c-4-2-8-2-12 0l4 16h4l4-16z" fill="currentColor" stroke="none"/>
+          <path d="M32 18l2 3-2 3-2-3z" />
+        </g>
+      </svg>
     </span>
   )
 }
