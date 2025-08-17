@@ -40,13 +40,13 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   if (resolved) {
     const info = invites[resolved]
     return (
-      <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full rounded-2xl bg-white p-6 shadow-lg ring-1 ring-emerald-100">
           <h3 className="text-xl font-semibold text-emerald-900">Bienvenido, {info.name} 🎉</h3>
           <p className="mt-2 text-slate-700">Número de invitación: <span className="font-mono">{resolved}</span></p>
           <p className="mt-2 text-slate-700">Pases asignados: <strong>{info.passes}</strong></p>
           <div className="mt-4 flex justify-end gap-2">
-            <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch(e){}}} className="rounded-lg px-3 py-2 ring-1 ring-emerald-200">Cambiar número</button>
+            <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch(e){} }} className="rounded-lg px-3 py-2 ring-1 ring-emerald-200">Cambiar número</button>
             <button onClick={() => setResolved(resolved)} className="rounded-lg bg-emerald-600 text-white px-3 py-2">Cerrar</button>
           </div>
         </div>
@@ -55,8 +55,8 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   }
 
   return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center p-4 pointer-events-none">
-      <div className="relative pointer-events-auto envelope-container">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 backdrop-blur-sm">
+      <div className="envelope-container">
         <div className={`envelope rounded-2xl overflow-hidden shadow-lg ring-1 ring-emerald-200 bg-white ${open ? 'open' : ''}`}>
           <div className="flap">
             <img src={`${import.meta.env.BASE_URL}images/Sobreboda.jpeg`} alt="Sobre de invitación" className="block h-32 w-80 object-cover rounded-t-2xl" />
@@ -75,7 +75,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
             </button>
           </div>
         </div>
-        {/* Modal */}
+
         {open && (
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm">
             <div className="rounded-2xl bg-white p-5 shadow-lg ring-1 ring-emerald-100">
