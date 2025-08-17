@@ -72,8 +72,8 @@ function PreferenciasForm() {
 
 function IconBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-base ring-1 ring-emerald-200 shadow-sm">
-      <span aria-hidden="true">{children}</span>
+    <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-base ring-1 ring-emerald-200 shadow-sm">
+      <span aria-hidden="true" className="text-2xl">{children}</span>
     </span>
   )
 }
