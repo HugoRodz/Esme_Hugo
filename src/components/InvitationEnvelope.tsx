@@ -55,14 +55,14 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
       <div className="envelope-container">
-        <div className={`envelope rounded-2xl overflow-hidden shadow-lg ring-1 ring-emerald-200 bg-white ${open ? 'open' : ''}`}>
+        <div className={`envelope rounded-2xl overflow-hidden shadow-lg ring-1 ring-emerald-200 bg-white ${open ? 'open' : ''}`} style={{width: '360px', height: '240px'}}>
           <div className="flap">
-            <img src={`${import.meta.env.BASE_URL}images/Sobreboda.jpeg`} alt="Sobre de invitación" className="block h-32 w-80 object-cover rounded-t-2xl" />
+            <img src={`${import.meta.env.BASE_URL}images/Sobreboda.jpeg`} alt="Sobre de invitación" className="block h-36 w-full object-cover rounded-t-2xl" />
           </div>
           <div className="body">
-            <img src={`${import.meta.env.BASE_URL}images/Sobreboda.jpeg`} alt="Sobre de invitación" className="block h-full w-80 object-cover rounded-b-2xl" />
+            <img src={`${import.meta.env.BASE_URL}images/Sobreboda.jpeg`} alt="Sobre de invitación" className="block h-full w-full object-cover rounded-b-2xl" />
           </div>
           <div className="absolute bottom-3 right-3 flex items-center gap-2">
             <button
