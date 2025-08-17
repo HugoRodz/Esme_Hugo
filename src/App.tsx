@@ -492,10 +492,10 @@ export default function App() {
       <div className="fixed bottom-6 right-6 z-50">
         {showPlayHint && (
           <div className="mb-2 flex justify-end">
-            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200 font-serif">Escucha nuestra canción <span aria-hidden="true">❤️</span></div>
+            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200 font-serif">Presiona el corazón para escuchar nuestra canción</div>
           </div>
         )}
-        <button
+  <button
           type="button"
           onClick={async () => {
             const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
@@ -539,12 +539,14 @@ export default function App() {
           aria-label="Reproducir / Pausar música de fondo"
         >
           {isPlaying ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M6 4h3v12H6zM11 4h3v12h-3z" />
+            // filled heart when playing
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-rose-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path d="M6 4.5v11L16 10 6 4.5z" />
+            // outline heart when paused
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
             </svg>
           )}
         </button>
