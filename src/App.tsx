@@ -544,9 +544,11 @@ export default function App() {
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
           ) : (
-            // outline heart when paused
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
+            // outline heart when paused — improved contrast with subtle white background
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-rose-500" viewBox="0 0 24 24" aria-hidden="true">
+              {/* soft white circular backdrop for better contrast on varied backgrounds */}
+              <circle cx="12" cy="12" r="11" fill="white" opacity="0.92" />
+              <path fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
             </svg>
           )}
         </button>
