@@ -5,6 +5,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const invites = useMemo(() => getInvitations(), [])
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
+  const [verCode, setVerCode] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [resolved, setResolved] = useState<number | null>(null)
   const [imgLoaded, setImgLoaded] = useState(false)
@@ -65,10 +66,12 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   useEffect(() => {
     try {
       const stored = localStorage.getItem('invite-number')
+    const storedCode = localStorage.getItem('invite-code')
       if (stored) {
         const n = Number(stored)
         if (invites[n]) {
           setResolved(n)
+      if (storedCode) setVerCode(storedCode)
         }
       }
     } catch (e) { /* ignore */ }
@@ -112,8 +115,20 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
       setError('No encontramos ese número. Revisa tu invitación.')
       return
     }
+    // verify 3-digit code
+    const expected = invites[n].code
+    const cleaned = String(verCode || '').trim()
+    if (!/^\d{3}$/.test(cleaned)) {
+      setError('Introduce el código de verificación de 3 dígitos')
+      return
+    }
+    if (cleaned !== expected) {
+      setError('Código de verificación incorrecto')
+      return
+    }
     setResolved(n)
     try { localStorage.setItem('invite-number', String(n)) } catch (e) { /* ignore */ }
+    try { localStorage.setItem('invite-code', String(cleaned)) } catch (e) { /* ignore */ }
     if (onOpen) onOpen(n)
     // close the input modal and open the decorative invitation view (difuminada)
     setOpen(false)
@@ -180,15 +195,78 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     return (
       <div className="fixed inset-0 z-60 flex items-center justify-center">
         <div className="absolute inset-0 bg-black/30" onClick={() => setShowInvite(false)} />
-        <div style={{ width: 'min(520px, 92vw)', borderRadius: 14, position: 'relative', zIndex: 30 }}>
+        <div style={{ width: 'min(540px, 94vw)', borderRadius: 12, position: 'relative', zIndex: 30 }}>
           <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 12 }}>
-            {/* diffused volcano background */}
-            <img src={volcanSrc || `${import.meta.env.BASE_URL}images/volcan.png`} alt="" aria-hidden style={{ position: 'absolute', inset: 0, width: '120%', height: '120%', objectFit: 'cover', transform: 'translate(-8%, -6%)', opacity: 0.18, filter: 'blur(6px) saturate(0.9)', zIndex: 1 }} />
-            <div style={{ position: 'relative', zIndex: 2, background: 'linear-gradient(180deg,#fffef6,#fffefa)', border: '1px solid rgba(160,130,40,0.08)', boxShadow: '0 10px 30px rgba(0,0,0,0.06)', padding: 26, fontFamily: 'Marcellus, serif', color: '#70561A', borderRadius: 12 }}>
-              <div style={{ fontSize: 22, textAlign: 'center' }}>Jorge &amp; Esmeralda</div>
-              <div style={{ fontSize: 14, marginTop: 8, color: '#42524a', textAlign: 'center' }}>{info.name} — {info.passes} pases</div>
+            {/* Invitation pass card - refined, centered layout with gold badge */}
+            <div
+              data-invite-card
+              style={{
+                position: 'relative',
+                zIndex: 2,
+                background: 'linear-gradient(180deg,#fffef8,#fffaf4)',
+                border: '1px solid rgba(160,130,40,0.06)',
+                boxShadow: '0 24px 48px rgba(0,0,0,0.14)',
+                padding: 28,
+                fontFamily: 'Marcellus, serif',
+                color: '#2f3f37',
+                borderRadius: 14,
+                overflow: 'hidden'
+              }}
+            >
+              {/* subtle decorative leaves: top-left and bottom-right for balance */}
+              <img
+                src={`${import.meta.env.BASE_URL}images/hojas-de-rama.png`}
+                alt=""
+                aria-hidden
+                style={{ position: 'absolute', top: 10, left: 10, width: 110, height: 'auto', opacity: 0.6, pointerEvents: 'none', zIndex: 0, transform: 'scaleX(-1) rotate(-6deg)' }}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+              />
+              <img
+                src={`${import.meta.env.BASE_URL}images/hojas-de-rama.png`}
+                alt=""
+                aria-hidden
+                style={{ position: 'absolute', bottom: 10, right: 10, width: 110, height: 'auto', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+              />
+
+              {/* gold circular table badge (top-right) */}
+              <div style={{ position: 'absolute', top: -18, right: -18, zIndex: 5 }}>
+                <div style={{ width: 92, height: 92, borderRadius: 46, background: 'radial-gradient(circle at 30% 30%, #FFDFA0, #C99E2A)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.12)', border: '2px solid rgba(255,255,255,0.6)' }}>
+                  <div style={{ textAlign: 'center', lineHeight: 1 }}>
+                    <div style={{ fontSize: 12, color: '#5a3f13', fontWeight: 600 }}>Mesa</div>
+                    <div style={{ fontSize: 26, color: '#3a2b12', fontWeight: 800 }}>{info.table}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '8px 12px' }}>
+                <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6 }}>Jorge &amp; Esmeralda</div>
+                <div style={{ fontSize: 13, marginTop: 6, color: '#42524a' }}>29 de noviembre de 2025 — Comala, Colima</div>
+
+                <div style={{ marginTop: 18, fontFamily: 'Dancing Script, Marcellus, serif', fontSize: 46, color: '#C99E2A', textShadow: '0 2px 0 rgba(255,255,255,0.6)' }}>{info.name}</div>
+
+                <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: 22, alignItems: 'center' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 12, color: '#6b6b6b' }}>Pases</div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: '#284536' }}>{info.passes}</div>
+                  </div>
+                  <div style={{ width: 1, height: 36, background: 'linear-gradient(180deg,#eee,#fff)', opacity: 0.8 }} />
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 12, color: '#6b6b6b' }}>Núm.</div>
+                    <div style={{ fontFamily: 'monospace', fontSize: 18, color: '#284536' }}>{resolved}</div>
+                  </div>
+                </div>
+
+                {/* divider + download */}
+                <div style={{ marginTop: 22, display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
+                  <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg,#e9e6dd,#fff)', borderRadius: 2 }} />
+                  <DownloadButton resolved={resolved} info={info} />
+                  <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg,#fff,#e9e6dd)', borderRadius: 2 }} />
+                </div>
+
                 <div className="mt-4 flex justify-center">
-                <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2 ring-1 ring-emerald-200">Cerrar</button>
+                  <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2 ring-1 ring-emerald-200" style={{ background: '#fff' }}>Cerrar</button>
+                </div>
               </div>
             </div>
           </div>
@@ -248,11 +326,24 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
         <div className="rounded-2xl bg-white p-5 shadow-lg ring-1 ring-emerald-100" style={{ border: '1px solid rgba(46, 80, 54, 0.06)', fontFamily: 'Marcellus, "Dancing Script", serif', position: 'relative', overflow: 'visible' }}>
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', textShadow: '0 1px 0 rgba(255,255,255,0.6)' }}>Introduce tu número de invitación</h3>
-                    <p className="mt-1 text-sm text-slate-600" style={{ fontFamily: 'Inter, ui-sans-serif, system-ui' }}>Lo encontrarás en tu tarjeta</p>
-                  </div>
+                      <h3 className="text-lg font-semibold" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', textShadow: '0 1px 0 rgba(255,255,255,0.6)' }}>Introduce tu número de invitación</h3>
+                    </div>
                 </div>
-                <input value={input} onChange={(e) => setInput(e.target.value)} className="mt-3 w-full rounded-lg border border-emerald-200 px-3 py-2" placeholder="Ej. 5" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }} />
+                <input value={input} onChange={(e) => setInput(e.target.value)} className="mt-3 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten" placeholder="Ej. 5" style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }} />
+                <input
+                  value={verCode}
+                  onChange={(e) => {
+                    // allow only digits and limit to 3 chars
+                    const cleaned = String(e.target.value).replace(/\D/g, '').slice(0, 3)
+                    setVerCode(cleaned)
+                  }}
+                  className="mt-3 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten text-center"
+                  placeholder="Ej. 001"
+                  inputMode="numeric"
+                  pattern="\\d{3}"
+                  maxLength={3}
+                  style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.12)', fontSize: '20px', lineHeight: '1.1' }}
+                />
                 {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
                 {/* volcano image shown plainly in the input modal (no blur) */}
                 <img src={volcanSrc || `${import.meta.env.BASE_URL}images/volcan.png`} alt="" aria-hidden style={{ position: 'absolute', top: -22, right: -22, width: 64, height: 64, objectFit: 'cover', zIndex: 1, borderRadius: '50%', border: '3px solid white', boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }} />
@@ -265,5 +356,77 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
         )}
       </div>
     </div>
+  )
+}
+
+// Small component to download the visible pass as PDF
+function DownloadButton({ resolved, info }: { resolved: number | null, info: any }) {
+  const [loading, setLoading] = useState(false)
+
+  const download = async () => {
+    if (!resolved || !info) return
+    setLoading(true)
+    try {
+      // load html2canvas and jspdf dynamically by injecting script tags
+      const loadScript = (src: string) => new Promise<void>((resolve, reject) => {
+        if (document.querySelector(`script[src="${src}"]`)) return resolve()
+        const s = document.createElement('script')
+        s.src = src
+        s.async = true
+        s.onload = () => resolve()
+        s.onerror = () => reject(new Error('Failed to load ' + src))
+        document.head.appendChild(s)
+      })
+      if (!(window as any).html2canvas) {
+        await loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js')
+      }
+      if (!(window as any).jspdf) {
+        await loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js')
+      }
+  const html2canvas = (window as any).html2canvas
+  const { jsPDF } = (window as any).jspdf || (window as any)
+
+  // find the card element by attribute
+  const card = document.querySelector('[data-invite-card]') as HTMLElement | null
+  if (!card) throw new Error('No se encontró la tarjeta')
+
+  // Render at higher pixel ratio for print clarity
+  const canvas = await html2canvas(card, { scale: 2 })
+  const imgData = canvas.toDataURL('image/jpeg', 0.95)
+
+  // A6 size in points (pt = 1/72in). A6 = 105 x 148 mm
+  const mmToPt = (mm: number) => mm * 72 / 25.4
+  const a6W = mmToPt(105) // ~297.7pt
+  const a6H = mmToPt(148) // ~419.5pt
+
+  // Canvas is in pixels; convert px -> pt (1px = 72/96 pt assuming 96dpi)
+  const pxToPt = (px: number) => px * 72 / 96
+  const imgWPt = pxToPt(canvas.width)
+  const imgHPt = pxToPt(canvas.height)
+
+  // Fit the rendered card inside A6 preserving aspect ratio
+  const scale = Math.min(a6W / imgWPt, a6H / imgHPt)
+  const drawW = imgWPt * scale
+  const drawH = imgHPt * scale
+  const x = (a6W - drawW) / 2
+  const y = (a6H - drawH) / 2
+
+  const pdf = new jsPDF({ unit: 'pt', format: [a6W, a6H] })
+  pdf.addImage(imgData, 'JPEG', x, y, drawW, drawH)
+  const safeName = (info && info.name) ? String(info.name).replace(/\s+/g, '_').toLowerCase() : String(resolved)
+  pdf.save(`${safeName}-invitacion-a6.pdf`)
+    } catch (e) {
+      // fallback: open in new tab as image
+      console.error(e)
+      alert('Error generando PDF: ' + (e as Error).message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <button onClick={download} className="rounded-lg px-3 py-1" style={{ background: 'rgba(197,154,42,0.08)', color: '#6b6b6b', borderRadius: 8 }}>
+      {loading ? 'Generando...' : 'Descarga la tarjeta'}
+    </button>
   )
 }

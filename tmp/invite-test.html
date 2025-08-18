@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prueba Invitación A6</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Marcellus&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    @page { size: 105mm 148mm; margin: 6mm; }
+    html,body{height:100%;margin:0;background:#f6f3ef;display:flex;align-items:center;justify-content:center}
+    .card{
+      width: 96mm; /* leave small margins inside A6 */
+      background: linear-gradient(180deg,#fffef8,#fffaf4);
+      border-radius:12px;
+      padding:18px 16px;
+      box-shadow:0 18px 40px rgba(0,0,0,0.12);
+      font-family: 'Marcellus', serif;
+      color:#2f3f37;
+      position:relative;
+      overflow:hidden;
+    }
+    .paper-texture{position:absolute;inset:0;opacity:0.06;pointer-events:none;background-image:url('file:///Users/Gsrod/boda-jorge-esmeralda/public/images/og_card.jpg');background-size:cover;background-position:center}
+    .badge{position:absolute;top:-18px;right:-18px;width:82px;height:82px;border-radius:41px;background:radial-gradient(circle at 30% 30%, #FFDFA0, #C99E2A);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,0.12);border:2px solid rgba(255,255,255,0.6)}
+    .badge .mesa{font-size:24px;font-weight:800;color:#3a2b12}
+    .title{font-size:16px;color:#8a6b1f;text-align:center}
+    .date{font-size:12px;color:#42524a;margin-top:6px;text-align:center}
+    .name{font-family:'Dancing Script', 'Marcellus', serif;font-size:44px;color:#C99E2A;text-align:center;margin-top:16px}
+    .info{display:flex;justify-content:center;gap:24px;margin-top:14px}
+    .info div{ text-align:center }
+    .divider{height:1px;background:linear-gradient(90deg,#e9e6dd,#fff);margin-top:20px}
+    .leaf{position:absolute;bottom:10px;right:10px;width:110px;opacity:0.45}
+    .download{display:inline-block;margin:12px auto;padding:8px 12px;border-radius:8px;background:rgba(197,154,42,0.08);color:#6b6b6b}
+    @media print{ .card{box-shadow:none} }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="paper-texture" aria-hidden></div>
+    <div class="badge"><div style="text-align:center"><div style="font-size:11px;color:#5a3f13;font-weight:600">Mesa</div><div class="mesa">10</div></div></div>
+    <div style="position:relative;z-index:2">
+      <div class="title">Jorge &amp; Esmeralda</div>
+      <div class="date">29 de noviembre de 2025 — Comala, Colima</div>
+      <div class="name">Juan Pérez</div>
+      <div class="info">
+        <div><div style="font-size:12px;color:#6b6b6b">Pases</div><div style="font-weight:700;font-size:20px;color:#284536">2</div></div>
+        <div><div style="font-size:12px;color:#6b6b6b">Núm.</div><div style="font-family:monospace;font-size:18px;color:#284536">5</div></div>
+      </div>
+      <div class="divider"></div>
+      <div style="text-align:center;margin-top:8px"><span class="download">Descarga la tarjeta</span></div>
+    </div>
+    <img src="file:///Users/Gsrod/boda-jorge-esmeralda/public/images/hojas-de-rama.png" class="leaf" alt=""/>
+  </div>
+</body>
+</html>
