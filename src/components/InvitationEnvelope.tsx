@@ -508,8 +508,21 @@ function DownloadButton({ resolved, info }: { resolved: number | null, info: any
     })
   } catch (e) {}
 
-  // Render at higher pixel ratio for print clarity
-  const canvas = await html2canvas(clone, { scale: 2 })
+  // Ensure the clone matches the on-screen card dimensions so the capture
+  // contains the full card (no accidental cropping). Wait images to decode.
+  try {
+    const rect = card.getBoundingClientRect()
+    clone.style.width = Math.round(rect.width) + 'px'
+    clone.style.height = Math.round(rect.height) + 'px'
+    // wait for images inside clone to decode
+    const imgs = Array.from(clone.querySelectorAll('img')) as HTMLImageElement[]
+    await Promise.all(imgs.map(img => img.complete ? Promise.resolve() : (img.decode ? img.decode() : Promise.resolve())))
+  } catch (e) {
+    // continue anyway
+  }
+
+  // Render at a decent pixel ratio for print clarity
+  const canvas = await html2canvas(clone, { scale: 2, useCORS: true, backgroundColor: null, width: clone.clientWidth, height: clone.clientHeight })
   const imgData = canvas.toDataURL('image/jpeg', 0.95)
 
   // cleanup cloned node
@@ -525,15 +538,21 @@ function DownloadButton({ resolved, info }: { resolved: number | null, info: any
   const imgWPt = pxToPt(canvas.width)
   const imgHPt = pxToPt(canvas.height)
 
-  // Fit the rendered card inside A6 using 'cover' so it fills the page (cropping
-  // if necessary). This avoids a small card centered on a larger white page.
-  const scale = Math.max(a6W / imgWPt, a6H / imgHPt)
+  // Fit the rendered card inside A6 using 'contain' so the whole card is visible
+  // and centered. Add a small margin (6mm) so the card doesn't touch the page edges.
+  const marginMm = 6
+  const a6WAvail = a6W - mmToPt(marginMm) * 2
+  const a6HAvail = a6H - mmToPt(marginMm) * 2
+  const scale = Math.min(a6WAvail / imgWPt, a6HAvail / imgHPt)
   const drawW = imgWPt * scale
   const drawH = imgHPt * scale
   const x = (a6W - drawW) / 2
   const y = (a6H - drawH) / 2
 
   const pdf = new jsPDF({ unit: 'pt', format: [a6W, a6H] })
+  // Add a subtle white background so exported page looks natural when opened
+  pdf.setFillColor(255, 255, 255)
+  pdf.rect(0, 0, a6W, a6H, 'F')
   pdf.addImage(imgData, 'JPEG', x, y, drawW, drawH)
   const safeName = (info && info.name) ? String(info.name).replace(/\s+/g, '_').toLowerCase() : String(resolved)
   pdf.save(`${safeName}-invitacion-a6.pdf`)
