@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-  "build": "tsc -b && vite build",
-  "build:local": "VITE_BASE=/ tsc -b && vite build --base /",
+    "build": "tsc -b && vite build",
+    "build:local": "VITE_BASE=/ tsc -b && vite build --base /",
     "preview": "vite preview",
     "lint": "eslint ."
   },
   "dependencies": {
+    "express": "^5.1.0",
     "qrcode": "^1.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
@@ -28,6 +29,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "playwright": "^1.38.1",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.12",
     "typescript": "~5.8.3",

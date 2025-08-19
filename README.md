@@ -37,6 +37,29 @@ _Nota:_ despliegue de prueba desde Mac para verificar flujo de Actions.
 - Sube tus imágenes a `public/images/` (se versionan con `.gitkeep`).
 - Para usarlas, referencia rutas absolutas desde `public`: `/images/archivo.jpg`.
 
+## Servidor PDF (fallback)
+
+Se agregó un pequeño servidor local que genera PDFs A6 de la invitación cuando la generación cliente falla.
+
+- Archivo: `scripts/pdf-server.mjs`
+- Puerto por defecto: `4410`
+
+Cómo ejecutar (desde la raíz del repo):
+
+```bash
+node scripts/pdf-server.mjs
+# luego en otra terminal
+curl -sS "http://localhost:4410/api/pdf?invite=5&code=001" --output tmp/generated-invite-5.pdf
+```
+
+Estado / health:
+
+```bash
+curl -sS http://localhost:4410/api/health
+```
+
+El PDF de prueba generado se guarda en `tmp/generated-invite-5.pdf`.
+
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:

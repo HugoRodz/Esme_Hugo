@@ -16,6 +16,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const [containerWidth, setContainerWidth] = useState<number>(480)
   const [volcanSrc, setVolcanSrc] = useState<string | null>(null)
   const [showInvite, setShowInvite] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   // Probe which decorative image is actually available on the server to avoid
   // the static-server SPA fallback that returns index.html for missing files.
@@ -58,10 +59,14 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   // responsive container width (92vw up to 480px)
   useEffect(() => {
     const calc = () => setContainerWidth(Math.round(Math.min(window.innerWidth * 0.92, 480)))
-    calc()
-    window.addEventListener('resize', calc)
-    return () => window.removeEventListener('resize', calc)
+  calc()
+  window.addEventListener('resize', calc)
+  const checkMobile = () => setIsMobile(window.innerWidth <= 480)
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+  return () => { window.removeEventListener('resize', calc); window.removeEventListener('resize', checkMobile) }
   }, [])
+
 
   useEffect(() => {
     try {
@@ -230,11 +235,11 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
               />
 
               {/* gold circular table badge (top-right) */}
-              <div style={{ position: 'absolute', top: -18, right: -18, zIndex: 5 }}>
-                <div style={{ width: 92, height: 92, borderRadius: 46, background: 'radial-gradient(circle at 30% 30%, #FFDFA0, #C99E2A)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.12)', border: '2px solid rgba(255,255,255,0.6)' }}>
+              <div style={{ position: 'absolute', top: isMobile ? -12 : -18, right: isMobile ? -12 : -18, zIndex: 5 }}>
+                <div style={{ width: isMobile ? 64 : 92, height: isMobile ? 64 : 92, borderRadius: isMobile ? 32 : 46, background: 'radial-gradient(circle at 30% 30%, #FFDFA0, #C99E2A)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.12)', border: '2px solid rgba(255,255,255,0.6)' }}>
                   <div style={{ textAlign: 'center', lineHeight: 1 }}>
-                    <div style={{ fontSize: 12, color: '#5a3f13', fontWeight: 600 }}>Mesa</div>
-                    <div style={{ fontSize: 26, color: '#3a2b12', fontWeight: 800 }}>{info.table}</div>
+                    <div style={{ fontSize: isMobile ? 10 : 12, color: '#5a3f13', fontWeight: 600 }}>Mesa</div>
+                    <div style={{ fontSize: isMobile ? 18 : 26, color: '#3a2b12', fontWeight: 800 }}>{info.table}</div>
                   </div>
                 </div>
               </div>
@@ -243,17 +248,17 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                 <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6 }}>Jorge &amp; Esmeralda</div>
                 <div style={{ fontSize: 13, marginTop: 6, color: '#42524a' }}>29 de noviembre de 2025 — Comala, Colima</div>
 
-                <div style={{ marginTop: 18, fontFamily: 'Dancing Script, Marcellus, serif', fontSize: 46, color: '#C99E2A', textShadow: '0 2px 0 rgba(255,255,255,0.6)' }}>{info.name}</div>
+                <div style={{ marginTop: 18, fontFamily: 'Dancing Script, Marcellus, serif', fontSize: isMobile ? 30 : 46, color: '#C99E2A', textShadow: '0 2px 0 rgba(255,255,255,0.6)' }}>{info.name}</div>
 
-                <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: 22, alignItems: 'center' }}>
+                <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: isMobile ? 12 : 22, alignItems: 'center', flexDirection: isMobile ? 'column' : 'row' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 12, color: '#6b6b6b' }}>Pases</div>
-                    <div style={{ fontSize: 20, fontWeight: 700, color: '#284536' }}>{info.passes}</div>
+                    <div style={{ fontSize: isMobile ? 18 : 20, fontWeight: 700, color: '#284536' }}>{info.passes}</div>
                   </div>
-                  <div style={{ width: 1, height: 36, background: 'linear-gradient(180deg,#eee,#fff)', opacity: 0.8 }} />
+                  {!isMobile && <div style={{ width: 1, height: 36, background: 'linear-gradient(180deg,#eee,#fff)', opacity: 0.8 }} />}
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 12, color: '#6b6b6b' }}>Núm.</div>
-                    <div style={{ fontFamily: 'monospace', fontSize: 18, color: '#284536' }}>{resolved}</div>
+                    <div style={{ fontFamily: 'monospace', fontSize: isMobile ? 16 : 18, color: '#284536' }}>{resolved}</div>
                   </div>
                 </div>
 
@@ -264,9 +269,9 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                   <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg,#fff,#e9e6dd)', borderRadius: 2 }} />
                 </div>
 
-                <div className="mt-4 flex justify-center">
-                  <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2 ring-1 ring-emerald-200" style={{ background: '#fff' }}>Cerrar</button>
-                </div>
+                  <div className="mt-4 flex justify-center">
+                    <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2 ring-1 ring-emerald-200" style={{ background: '#fff' }}>Cerrar</button>
+                  </div>
               </div>
             </div>
           </div>
@@ -390,9 +395,117 @@ function DownloadButton({ resolved, info }: { resolved: number | null, info: any
   const card = document.querySelector('[data-invite-card]') as HTMLElement | null
   if (!card) throw new Error('No se encontró la tarjeta')
 
+  // To avoid html2canvas/jsPDF failing on unsupported CSS color functions
+  // (for example: "oklch(...)") we clone the card and inline computed
+  // styles as concrete color strings. We try to normalize color functions
+  // via a canvas fallback which yields a browser-normalized color string
+  // (e.g. "rgb(...)" or "#rrggbb"). The clone is rendered off-screen.
+
+  // helper to normalize a single color token using canvas (best-effort)
+  const normalizeColor = (raw: string) => {
+    try {
+      const cvs = document.createElement('canvas')
+      const ctx = cvs.getContext('2d')
+      if (!ctx) return raw
+      // setting fillStyle will cause the canvas to normalize many color formats
+      // including named colors and some functions; if it fails, we keep raw
+      ctx.fillStyle = raw
+      return ctx.fillStyle || raw
+    } catch (e) {
+      return raw
+    }
+  }
+
+  // properties we want to inline from computed styles
+  const colorProps = [
+    'color', 'background-color', 'background', 'border-color',
+    'border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color',
+    'box-shadow', 'text-shadow'
+  ]
+
+  // clone node and inline styles
+  const clone = card.cloneNode(true) as HTMLElement
+  // ensure clone is not visible and does not affect layout
+  clone.style.position = 'absolute'
+  clone.style.left = '-9999px'
+  clone.style.top = '0'
+  clone.style.pointerEvents = 'none'
+  clone.style.opacity = '1'
+
+  const originals = Array.from(card.querySelectorAll('*')) as HTMLElement[]
+  const clones = Array.from(clone.querySelectorAll('*')) as HTMLElement[]
+  // include the root element too
+  originals.unshift(card)
+  clones.unshift(clone)
+
+  for (let i = 0; i < originals.length; i++) {
+    const o = originals[i]
+    const c = clones[i]
+    try {
+      const cs = window.getComputedStyle(o)
+      colorProps.forEach((prop) => {
+        try {
+          // prefer the resolved color for background (background-color)
+          if (prop === 'background') {
+            const v = cs.getPropertyValue('background-color')
+            if (v) c.style.setProperty('background-color', v)
+            return
+          }
+          let v = cs.getPropertyValue(prop)
+          if (!v) return
+
+          // if the value contains function-like color tokens, try to normalize them
+          // e.g. "oklch(...)" inside box-shadow/text-shadow
+          const fnColorRegex = /(oklch|oklab|lch|lab|color)\([^\)]+\)/gi
+          if (fnColorRegex.test(v) || /oklch/i.test(v)) {
+            // If we still detect modern color functions like oklch, use conservative fallbacks
+            // to avoid html2canvas/jsPDF parsing errors in some browsers.
+            const lowerProp = prop.toLowerCase()
+            if (lowerProp === 'color') {
+              v = '#2f3f37' // default body text color used in the card
+            } else if (lowerProp.includes('background') || lowerProp === 'background-color') {
+              v = '#fffef8' // pale cream background similar to card baseline
+            } else if (lowerProp.includes('border')) {
+              v = 'transparent'
+            } else if (lowerProp === 'box-shadow' || lowerProp === 'text-shadow') {
+              v = 'none'
+            } else {
+              // generic fallback
+              v = normalizeColor(v) || '#000'
+            }
+          } else {
+            // try to normalize remaining possible function-like tokens
+            if (fnColorRegex.test(v)) {
+              v = v.replace(fnColorRegex, (match) => {
+                const normalized = normalizeColor(match.trim())
+                return normalized || match
+              })
+            }
+            const wholeFnRegex = /^\s*(oklch|oklab|lch|lab|color)\([^\)]+\)\s*$/i
+            if (wholeFnRegex.test(v)) {
+              v = normalizeColor(v) || v
+            }
+          }
+
+          if (v) c.style.setProperty(prop, v)
+        } catch (e) {
+          // ignore per-element property failures
+        }
+      })
+    } catch (e) {
+      // ignore getComputedStyle failures
+    }
+  }
+
+  // attach clone off-screen, render it, then remove
+  document.body.appendChild(clone)
+
   // Render at higher pixel ratio for print clarity
-  const canvas = await html2canvas(card, { scale: 2 })
+  const canvas = await html2canvas(clone, { scale: 2 })
   const imgData = canvas.toDataURL('image/jpeg', 0.95)
+
+  // cleanup cloned node
+  try { document.body.removeChild(clone) } catch (e) { /* ignore */ }
 
   // A6 size in points (pt = 1/72in). A6 = 105 x 148 mm
   const mmToPt = (mm: number) => mm * 72 / 25.4
