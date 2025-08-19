@@ -17,6 +17,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const [volcanSrc, setVolcanSrc] = useState<string | null>(null)
   const [showInvite, setShowInvite] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
 
   // Probe which decorative image is actually available on the server to avoid
   // the static-server SPA fallback that returns index.html for missing files.
@@ -46,6 +47,61 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     probe()
     return () => { canceled = true }
   }, [])
+
+  // Generate QR inline when an invitation is resolved (hooks must be top-level)
+  useEffect(() => {
+    if (resolved == null) {
+      setQrDataUrl(null)
+      return
+    }
+    const infoForQr = invites[resolved]
+    if (!infoForQr) {
+      setQrDataUrl(null)
+      return
+    }
+    const payload = `${infoForQr.name}|Mesa:${infoForQr.table}|Pases:${infoForQr.passes}`
+    const size = isMobile ? 120 : 160
+    const data = encodeURIComponent(payload)
+    const fallback = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${data}`
+    let cancelled = false
+    setQrDataUrl(null)
+    const tryGenerate = async () => {
+      try {
+        const QR = (window as any).QRCode
+        if (QR && typeof QR.toDataURL === 'function') {
+          const url = await new Promise<string>((resolve, reject) => {
+            QR.toDataURL(payload, { margin: 1, width: size }, (err: any, dataUrl: string) => err ? reject(err) : resolve(dataUrl))
+          })
+          if (!cancelled) setQrDataUrl(url)
+          return
+        }
+        // load lib
+        await new Promise<void>((resolve, reject) => {
+          if (document.querySelector('script[data-qr-lib]')) return resolve()
+          const s = document.createElement('script')
+          s.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js'
+          s.setAttribute('data-qr-lib', '1')
+          s.async = true
+          s.onload = () => resolve()
+          s.onerror = () => reject(new Error('Failed to load QR lib'))
+          document.head.appendChild(s)
+        })
+        const QR2 = (window as any).QRCode
+        if (QR2 && typeof QR2.toDataURL === 'function') {
+          const url = await new Promise<string>((resolve, reject) => {
+            QR2.toDataURL(payload, { margin: 1, width: size }, (err: any, dataUrl: string) => err ? reject(err) : resolve(dataUrl))
+          })
+          if (!cancelled) setQrDataUrl(url)
+          return
+        }
+      } catch (e) {
+        // ignore and fallback
+      }
+      if (!cancelled) setQrDataUrl(fallback)
+    }
+    tryGenerate()
+    return () => { cancelled = true }
+  }, [resolved, isMobile, invites])
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY || window.pageYOffset
@@ -197,6 +253,10 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   // The modal includes a diffused volcano image behind the sheet content.
   if (resolved && showInvite) {
     const info = invites[resolved]
+    // compute fallback external QR URL (inline generator handles dataURL via top-level hook)
+    const qrSize = isMobile ? 120 : 160
+    const qrData = encodeURIComponent(`${info.name}|Mesa:${info.table}|Pases:${info.passes}`)
+    const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=${qrSize}x${qrSize}&data=${qrData}`
     return (
       <div className="fixed inset-0 z-60 flex items-center justify-center">
         <div className="absolute inset-0 bg-black/30" onClick={() => setShowInvite(false)} />
@@ -244,34 +304,42 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                 </div>
               </div>
 
-              <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '8px 12px' }}>
-                <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6 }}>Jorge &amp; Esmeralda</div>
+              {/* Monogram watermark (centered, very low opacity) */}
+              <div aria-hidden style={{ position: 'absolute', top: 18, left: '50%', transform: 'translateX(-50%)', zIndex: 0, pointerEvents: 'none', opacity: 0.06, color: '#C99E2A', fontFamily: 'Marcellus, serif', fontSize: isMobile ? 48 : 84, letterSpacing: 4, fontWeight: 700 }}>
+                J &amp; E
+              </div>
+
+              <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '12px 16px' }}>
+                <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6, fontWeight: 600 }}>Jorge &amp; Esmeralda</div>
                 <div style={{ fontSize: 13, marginTop: 6, color: '#42524a' }}>29 de noviembre de 2025 — Comala, Colima</div>
 
-                <div style={{ marginTop: 18, fontFamily: 'Dancing Script, Marcellus, serif', fontSize: isMobile ? 30 : 46, color: '#C99E2A', textShadow: '0 2px 0 rgba(255,255,255,0.6)' }}>{info.name}</div>
+                <div style={{ marginTop: 22, fontFamily: 'Dancing Script, Marcellus, serif', fontSize: isMobile ? 34 : 54, color: '#C99E2A', textShadow: '0 2px 0 rgba(255,255,255,0.7)', lineHeight: 1 }}>{info.name}</div>
 
-                <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: isMobile ? 12 : 22, alignItems: 'center', flexDirection: isMobile ? 'column' : 'row' }}>
+                <div style={{ marginTop: 18, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 140px', gap: isMobile ? 12 : 18, alignItems: 'center', justifyItems: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 12, color: '#6b6b6b' }}>Pases</div>
-                    <div style={{ fontSize: isMobile ? 18 : 20, fontWeight: 700, color: '#284536' }}>{info.passes}</div>
+                    <div style={{ fontSize: 12, color: '#6b6b6b', letterSpacing: 0.6 }}>Pases</div>
+                    <div style={{ fontSize: isMobile ? 20 : 22, fontWeight: 800, color: '#284536', marginTop: 6 }}>{info.passes}</div>
                   </div>
-                  {!isMobile && <div style={{ width: 1, height: 36, background: 'linear-gradient(180deg,#eee,#fff)', opacity: 0.8 }} />}
-                  <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 12, color: '#6b6b6b' }}>Núm.</div>
-                    <div style={{ fontFamily: 'monospace', fontSize: isMobile ? 16 : 18, color: '#284536' }}>{resolved}</div>
+
+                  {/* QR badge: white rounded box with subtle border and shadow */}
+                  <div style={{ width: isMobile ? 110 : 140, height: isMobile ? 110 : 140, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: 14, boxShadow: '0 8px 20px rgba(0,0,0,0.08)', border: '1px solid rgba(0,0,0,0.04)', padding: 8 }}>
+                    <img src={qrDataUrl || qrSrc} alt={`QR ${info.name}`} style={{ width: isMobile ? 84 : 110, height: isMobile ? 84 : 110, objectFit: 'contain', borderRadius: 6 }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                   </div>
+                  <div style={{ fontSize: 11, color: '#6b6b6b', marginTop: isMobile ? 6 : 0, textAlign: 'center' }}>Presentar en acceso</div>
                 </div>
 
                 {/* divider + download */}
-                <div style={{ marginTop: 22, display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
+                <div style={{ marginTop: 26, display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
                   <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg,#e9e6dd,#fff)', borderRadius: 2 }} />
-                  <DownloadButton resolved={resolved} info={info} />
+                  <div style={{ borderRadius: 12, overflow: 'hidden' }}>
+                    <DownloadButton resolved={resolved} info={info} />
+                  </div>
                   <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg,#fff,#e9e6dd)', borderRadius: 2 }} />
                 </div>
 
-                  <div className="mt-4 flex justify-center">
-                    <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2 ring-1 ring-emerald-200" style={{ background: '#fff' }}>Cerrar</button>
-                  </div>
+                <div className="mt-4 flex justify-center">
+                  <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2" style={{ background: '#fff', border: '1px solid rgba(46,80,54,0.08)', boxShadow: '0 6px 14px rgba(46,80,54,0.03)' }}>Cerrar</button>
+                </div>
               </div>
             </div>
           </div>
@@ -554,6 +622,23 @@ function DownloadButton({ resolved, info }: { resolved: number | null, info: any
   pdf.setFillColor(255, 255, 255)
   pdf.rect(0, 0, a6W, a6H, 'F')
   pdf.addImage(imgData, 'JPEG', x, y, drawW, drawH)
+  // draw small crop marks (6mm from edges)
+  const cm = mmToPt(6)
+  const markLen = mmToPt(4)
+  pdf.setDrawColor(120)
+  // top-left
+  pdf.setLineWidth(0.5)
+  pdf.line(cm - markLen, cm, cm, cm)
+  pdf.line(cm, cm - markLen, cm, cm)
+  // top-right
+  pdf.line(a6W - cm + markLen, cm, a6W - cm, cm)
+  pdf.line(a6W - cm, cm - markLen, a6W - cm, cm)
+  // bottom-left
+  pdf.line(cm - markLen, a6H - cm, cm, a6H - cm)
+  pdf.line(cm, a6H - cm + markLen, cm, a6H - cm)
+  // bottom-right
+  pdf.line(a6W - cm + markLen, a6H - cm, a6W - cm, a6H - cm)
+  pdf.line(a6W - cm, a6H - cm + markLen, a6W - cm, a6H - cm)
   const safeName = (info && info.name) ? String(info.name).replace(/\s+/g, '_').toLowerCase() : String(resolved)
   pdf.save(`${safeName}-invitacion-a6.pdf`)
     } catch (e) {
