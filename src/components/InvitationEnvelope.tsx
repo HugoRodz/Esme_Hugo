@@ -500,6 +500,14 @@ function DownloadButton({ resolved, info }: { resolved: number | null, info: any
   // attach clone off-screen, render it, then remove
   document.body.appendChild(clone)
 
+  // hide interactive elements (buttons, inputs) inside the clone so labels like
+  // "Generando..." are not captured in the final image
+  try {
+    Array.from(clone.querySelectorAll('button,input,textarea,select')).forEach((el: Element) => {
+      try { (el as HTMLElement).style.display = 'none' } catch (e) {}
+    })
+  } catch (e) {}
+
   // Render at higher pixel ratio for print clarity
   const canvas = await html2canvas(clone, { scale: 2 })
   const imgData = canvas.toDataURL('image/jpeg', 0.95)
@@ -517,8 +525,9 @@ function DownloadButton({ resolved, info }: { resolved: number | null, info: any
   const imgWPt = pxToPt(canvas.width)
   const imgHPt = pxToPt(canvas.height)
 
-  // Fit the rendered card inside A6 preserving aspect ratio
-  const scale = Math.min(a6W / imgWPt, a6H / imgHPt)
+  // Fit the rendered card inside A6 using 'cover' so it fills the page (cropping
+  // if necessary). This avoids a small card centered on a larger white page.
+  const scale = Math.max(a6W / imgWPt, a6H / imgHPt)
   const drawW = imgWPt * scale
   const drawH = imgHPt * scale
   const x = (a6W - drawW) / 2
