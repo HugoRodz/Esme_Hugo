@@ -2,7 +2,7 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-# Invitación de boda — Jorge & Esmeralda
+# Invitación de boda — Esmeralda & Jorge
 
 Invitación web para la boda de Jorge Hugo Rodríguez Peñaloza y Esmeralda Dueñas Fuentes. Evento en Comala, Colima. Fecha: 29 de noviembre de 2025.
 

@@ -13,7 +13,7 @@ const outImage = path.join(projectRoot, 'public/images/og_colima_text.jpg')
 const W = 1200
 const H = 630
 
-const title = 'Jorge & Esmeralda'
+const title = 'Esmeralda & Jorge'
 const subtitle = '29 de noviembre de 2025 • Comala, Colima'
 
 const fontCss = `

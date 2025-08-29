@@ -446,7 +446,7 @@ export default function App() {
         </div>
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
           <p className="tracking-widest text-emerald-700/90 uppercase text-xs sm:text-sm">Comala, Colima</p>
-          <h1 className="mt-3 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">Jorge & Esmeralda</h1>
+          <h1 className="mt-3 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">Esmeralda & Jorge</h1>
           <p className="mt-3 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
@@ -468,7 +468,7 @@ export default function App() {
               className="inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-emerald-800 ring-1 ring-emerald-200/70 hover:bg-white shadow-sm"
               onClick={async () => {
                 const shareData = {
-                  title: 'Boda Jorge & Esmeralda',
+                  title: 'Boda Esmeralda & Jorge',
                   text: 'Acompáñanos el 29 de noviembre de 2025 en Comala, Colima',
                   url: window.location.href,
                 }
@@ -622,14 +622,14 @@ export default function App() {
             <p className="text-emerald-800 font-serif text-base italic text-center mt-2 tracking-wide">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
             <div className="mt-2 grid gap-2 sm:grid-cols-2 text-base">
               <div className="flex flex-col items-center">
-                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Jorge</span>
-                <span className="font-serif text-emerald-900 text-lg font-semibold">Jorge Rodríguez Alvarez</span>
-                <span className="font-serif text-emerald-900 text-lg font-semibold">Raquel Peñaloza Cisneros</span>
-              </div>
-              <div className="flex flex-col items-center">
                 <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Esmeralda</span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Sabino Dueñas Montes</span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Norma Angelica Fuentes Martinez</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Jorge</span>
+                <span className="font-serif text-emerald-900 text-lg font-semibold">Jorge Rodríguez Alvarez</span>
+                <span className="font-serif text-emerald-900 text-lg font-semibold">Raquel Peñaloza Cisneros</span>
               </div>
             </div>
           </div>
@@ -713,8 +713,8 @@ export default function App() {
       <p className="text-slate-600">{MAP.ceremony.name}</p>
       <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
             <div className="mt-2 flex flex-wrap gap-2 text-sm">
-              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Ceremonia – Jorge & Esmeralda', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} target="_blank" rel="noopener">Agregar a Google</a>
-              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Ceremonia – Jorge & Esmeralda', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} download="ceremonia.ics">Descargar .ics</a>
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Ceremonia – Esmeralda & Jorge', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Ceremonia – Esmeralda & Jorge', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} download="ceremonia.ics">Descargar .ics</a>
             </div>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
@@ -726,8 +726,8 @@ export default function App() {
       <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
       <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
             <div className="mt-2 flex flex-wrap gap-2 text-sm">
-              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Recepción – Jorge & Esmeralda', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} target="_blank" rel="noopener">Agregar a Google</a>
-              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Recepción – Jorge & Esmeralda', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} download="recepcion.ics">Descargar .ics</a>
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Recepción – Esmeralda & Jorge', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Recepción – Esmeralda & Jorge', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} download="recepcion.ics">Descargar .ics</a>
             </div>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
@@ -974,8 +974,8 @@ export default function App() {
 
       <footer className="border-t border-emerald-200 bg-white/60 backdrop-blur py-6 mt-16">
         <div className="mx-auto max-w-5xl px-6 text-sm text-slate-600 flex items-center justify-between">
-          <span>Jorge & Esmeralda • 29 de noviembre de 2025</span>
-          <a className="text-emerald-700 hover:underline" href="#">#JorgeYEsme</a>
+          <span>Esmeralda & Jorge • 29 de noviembre de 2025</span>
+          <a className="text-emerald-700 hover:underline" href="#">#EsmeYJorge</a>
         </div>
       </footer>
       <div className="text-center text-xs text-slate-500 mt-2 mb-6">

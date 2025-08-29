@@ -306,11 +306,11 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
               {/* Monogram watermark (centered, very low opacity) */}
               <div aria-hidden style={{ position: 'absolute', top: 18, left: '50%', transform: 'translateX(-50%)', zIndex: 0, pointerEvents: 'none', opacity: 0.06, color: '#C99E2A', fontFamily: 'Marcellus, serif', fontSize: isMobile ? 48 : 84, letterSpacing: 4, fontWeight: 700 }}>
-                J &amp; E
+                E &amp; J
               </div>
 
               <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '12px 16px' }}>
-                <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6, fontWeight: 600 }}>Jorge &amp; Esmeralda</div>
+                <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6, fontWeight: 600 }}>Esmeralda &amp; Jorge</div>
                 <div style={{ fontSize: 13, marginTop: 6, color: '#42524a' }}>29 de noviembre de 2025 — Comala, Colima</div>
 
                 <div style={{ marginTop: 22, fontFamily: 'Dancing Script, Marcellus, serif', fontSize: isMobile ? 34 : 54, color: '#C99E2A', textShadow: '0 2px 0 rgba(255,255,255,0.7)', lineHeight: 1 }}>{info.name}</div>
@@ -387,7 +387,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center"
               style={{ width: '86%', height: '78%' }}>
               <div style={{ width: '100%', height: '100%', background: 'linear-gradient(180deg,#fffef6,#fffefa)', borderRadius: 12, border: '1px solid rgba(160,130,40,0.08)', boxShadow: '0 10px 30px rgba(0,0,0,0.06)', padding: 18, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontFamily: 'Marcellus, serif', color: '#70561A' }}>
-                <div style={{ fontSize: 20 }}>Jorge &amp; Esmeralda</div>
+                <div style={{ fontSize: 20 }}>Esmeralda &amp; Jorge</div>
                 <div style={{ fontSize: 14, marginTop: 8, color: '#42524a' }}>29 de noviembre de 2025 — Comala, Colima</div>
               </div>
             </div>
