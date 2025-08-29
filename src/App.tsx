@@ -90,7 +90,7 @@ function DressTuxBadge() {
 
 function LeafDivider() {
   return (
-    <div className="flex items-center justify-center py-6">
+    <div className="flex items-center justify-center py-4">
       <svg className="h-6 w-6 text-emerald-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/>
         <circle cx="12" cy="12" r="1.5" className="fill-emerald-700" />
@@ -444,19 +444,19 @@ export default function App() {
           <svg className="absolute -top-10 -left-10 h-40 w-40 text-emerald-200" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
           <svg className="absolute -bottom-10 -right-10 h-48 w-48 text-emerald-100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
         </div>
-        <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+        <div className="mx-auto max-w-4xl px-6 py-16 text-center">
           <p className="tracking-widest text-emerald-700/90 uppercase text-xs sm:text-sm">Comala, Colima</p>
-          <h1 className="mt-3 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">
+          <h1 className="mt-2 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">
             <span className="block sm:inline">Esmeralda</span>
             <span className="block sm:inline mx-2">&</span>
             <span className="block sm:inline">Jorge</span>
           </h1>
-          <p className="mt-3 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
+          <p className="mt-2 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
           {/* Nuestros padres */}
           {/* sección 'Nuestros padres' movida justo encima de 'Nuestra historia' */}
-          <nav aria-label="Secciones" className="mx-auto mt-2 flex flex-wrap items-center justify-center gap-3 text-sm">
+          <nav aria-label="Secciones" className="mx-auto mt-1 flex flex-wrap items-center justify-center gap-2 text-sm">
             <a href="#evento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Evento</a>
             <a href="#como-llegar" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Cómo llegar</a>
             <a href="#alojamiento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Alojamiento</a>
@@ -465,7 +465,7 @@ export default function App() {
             <a href="#regalos" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Regalos</a>
             <a href="#rsvp" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">RSVP</a>
           </nav>
-          <div className="relative z-10 mt-3 flex items-center justify-center gap-3">
+          <div className="relative z-10 mt-2 flex items-center justify-center gap-3">
             <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow-md hover:shadow-lg hover:bg-emerald-700 transition">Confirmar asistencia</a>
             <button
               type="button"
@@ -617,14 +617,14 @@ export default function App() {
 
       {/* Nuestros padres: bloque ubicado entre el hero y la sección 'Nuestra historia' */}
       <div className="mx-auto max-w-5xl px-6">
-          <div className="mx-auto max-w-2xl text-center mt-6 mb-6 parents-block">
-          <div ref={parentsRef} className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-sm ring-1 ring-emerald-50/70 px-4 py-4 sm:px-6 sm:py-5 reveal" id="parents-block">
-            <h3 className="text-lg sm:text-xl font-bold text-emerald-900 flex items-center justify-center gap-2 mb-2">
+          <div className="mx-auto max-w-2xl text-center mt-3 mb-4 parents-block">
+          <div ref={parentsRef} className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-sm ring-1 ring-emerald-50/70 px-4 py-3 sm:px-6 sm:py-4 reveal" id="parents-block">
+            <h3 className="text-lg sm:text-xl font-bold text-emerald-900 flex items-center justify-center gap-2 mb-1">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 10-8 0 4 4 0 008 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" /></svg>
               Nuestros padres
             </h3>
-            <p className="text-emerald-800 font-serif text-base italic text-center mt-2 tracking-wide">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2 text-base">
+            <p className="text-emerald-800 font-serif text-base italic text-center mt-1 tracking-wide">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
+            <div className="mt-1 grid gap-2 sm:grid-cols-2 text-base">
               <div className="flex flex-col items-center">
                 <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Esmeralda</span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Sabino Dueñas Montes</span>
@@ -639,11 +639,11 @@ export default function App() {
           </div>
         </div>
   </div>
-  <main className="mx-auto max-w-5xl px-6 pb-24 content-body">
-        <section id="historia" className="mt-16 grid gap-8 sm:grid-cols-2 items-center">
+  <main className="mx-auto max-w-5xl px-6 pb-16 content-body">
+        <section id="historia" className="mt-8 grid gap-6 sm:grid-cols-2 items-center">
           <div>
             <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
-            <ol className="mt-4 space-y-6">
+            <ol className="mt-3 space-y-4">
               <li className="relative pl-6">
                 <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
                 <p className="text-sm text-emerald-700">26 feb, 2024 · Sahuayo</p>
@@ -672,7 +672,7 @@ export default function App() {
         <LeafDivider />
 
         {/* Cómo llegar */}
-        <section id="como-llegar" className="mt-8">
+        <section id="como-llegar" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Cómo llegar</h2>
           {MAP.streetNote && (
             <p className="mt-2 text-slate-700">Zona de referencia: {MAP.streetNote}</p>
@@ -757,14 +757,14 @@ export default function App() {
         </section>
 
         {/* Comala, tierra de Esmeralda */}
-        <section id="comala" className="mt-8">
+        <section id="comala" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Comala, tierra de Esmeralda</h2>
           <p className="mt-2 text-slate-700">Comala es un Pueblo Mágico conocido por sus fachadas blancas, portales y cafés tradicionales. Entre sus volcanes cercanos y su historia literaria, el pueblo guarda una calidez que nos acompaña en este día especial. Es de aquí de donde es originaria Esmeralda, y por eso quisimos celebrar en su tierra.</p>
           <a href={mapLink('Comala, Colima')} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Ver Comala en Maps</a>
         </section>
 
         {/* Alojamiento */}
-        <section id="alojamiento" className="mt-8">
+        <section id="alojamiento" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Alojamiento</h2>
           <p className="mt-2 text-slate-700">Por disponibilidad, te sugerimos reservar con anticipación. Opciones en Comala:</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -784,9 +784,9 @@ export default function App() {
         </section>
 
         {/* Avisos y restricciones */}
-        <section id="avisos" className="mt-8">
+        <section id="avisos" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Avisos y restricciones</h2>
-          <ul className="mt-3 list-disc pl-6 text-slate-700 space-y-1">
+          <ul className="mt-2 list-disc pl-6 text-slate-700 space-y-1">
             <li>No se aceptan niños, solo bebés en brazos.</li>
             <li>Estacionamiento limitado. Sugerimos compartir vehículo cuando sea posible.</li>
             <li>Te recomendamos llegar 15 minutos antes de la ceremonia.</li>
@@ -794,7 +794,7 @@ export default function App() {
         </section>
 
         {/* Preferencias de invitado */}
-        <section id="preferencias" className="mt-8">
+        <section id="preferencias" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Preferencias de invitado</h2>
           <PreferenciasForm />
         </section>
@@ -802,9 +802,9 @@ export default function App() {
         <LeafDivider />
 
         {/* Galería */}
-        <section id="galeria" className="mt-8">
+        <section id="galeria" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Galería</h2>
-          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
             {gallery.map((name, idx) => (
               <button
                 key={name}
@@ -815,7 +815,7 @@ export default function App() {
                 <img
                   src={img(name)}
                   alt={name}
-                  className="h-40 w-full object-cover sm:h-48 md:h-56 group-hover:scale-[1.03] transition"
+                  className="h-36 w-full object-cover sm:h-44 md:h-48 group-hover:scale-[1.03] transition"
                   loading="lazy"
                 />
               </button>
@@ -826,11 +826,11 @@ export default function App() {
         <LeafDivider />
 
         {/* Álbum compartido */}
-        <section id="album" className="mt-8">
+        <section id="album" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Álbum compartido</h2>
           <p className="mt-2 text-slate-700">Ayúdanos a guardar recuerdos de la fiesta. Sube tus fotos y videos al álbum compartido.</p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3 items-start">
-            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm sm:col-span-2">
+          <div className="mt-3 grid gap-3 sm:grid-cols-3 items-start">
+            <div className="rounded-xl border border-emerald-200 bg-white p-4 shadow-sm sm:col-span-2">
               <p className="text-sm text-emerald-800">Enlace al álbum</p>
               {ALBUM.photosUrl ? (
                 <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -870,14 +870,14 @@ export default function App() {
         </section>
 
         {/* Regalos */}
-        <section id="regalos" className="mt-8">
+        <section id="regalos" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Regalos</h2>
           <p className="mt-2 text-slate-700">{GIFTS.message}</p>
 
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl border border-emerald-200 bg-white p-4 shadow-sm">
               <h3 className="font-medium text-emerald-900">Transferencia bancaria</h3>
-              <dl className="mt-3 space-y-2 text-slate-700">
+              <dl className="mt-2 space-y-2 text-slate-700">
                 <div>
                   <dt className="text-sm text-emerald-700">Banco</dt>
                   <dd className="font-medium">{GIFTS.bank.bankName}</dd>
@@ -915,7 +915,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="rsvp" className="mt-8">
+        <section id="rsvp" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900">Confirma tu asistencia</h2>
           {RSVP.formUrl ? (
             <div className="mt-4">
@@ -957,13 +957,13 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="border-t border-emerald-200 bg-white/60 backdrop-blur py-6 mt-16">
+      <footer className="border-t border-emerald-200 bg-white/60 backdrop-blur py-4 mt-12">
         <div className="mx-auto max-w-5xl px-6 text-sm text-slate-600 flex items-center justify-between">
           <span>Esmeralda & Jorge • 29 de noviembre de 2025</span>
           <a className="text-emerald-700 hover:underline" href="#">#EsmeYJorge</a>
         </div>
       </footer>
-      <div className="text-center text-xs text-slate-500 mt-2 mb-6">
+      <div className="text-center text-xs text-slate-500 mt-2 mb-4">
         Icono "Vestido de novia" por <a href="https://www.flaticon.es/autores/sbts2018" target="_blank" rel="noopener" className="underline">SBTS2018</a> en <a href="https://www.flaticon.es/" target="_blank" rel="noopener" className="underline">Flaticon</a> (uso con atribución)
       </div>
 
