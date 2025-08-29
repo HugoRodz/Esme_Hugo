@@ -446,7 +446,11 @@ export default function App() {
         </div>
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
           <p className="tracking-widest text-emerald-700/90 uppercase text-xs sm:text-sm">Comala, Colima</p>
-          <h1 className="mt-3 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">Esmeralda & Jorge</h1>
+          <h1 className="mt-3 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">
+            <span className="block sm:inline">Esmeralda</span>
+            <span className="block sm:inline mx-2">&</span>
+            <span className="block sm:inline">Jorge</span>
+          </h1>
           <p className="mt-3 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
           <LeafDivider />
