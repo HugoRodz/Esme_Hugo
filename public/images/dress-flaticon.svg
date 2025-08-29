@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Wrapper SVG that embeds the Flaticon PNG as fallback (licencia: requiere atribución a SBTS2018 via Flaticon) -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
-  <!-- Using the Flaticon CDN PNG as the image source to avoid adding binary to repo -->
-  <image href="https://cdn-icons-png.flaticon.com/512/3669/3669567.png" width="512" height="512" preserveAspectRatio="xMidYMid meet" />
-</svg>
