@@ -91,10 +91,11 @@ function DressTuxBadge() {
 function LeafDivider() {
   return (
     <div className="flex items-center justify-center py-4">
-      <svg className="h-6 w-6 text-emerald-600" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/>
-        <circle cx="12" cy="12" r="1.5" className="fill-emerald-700" />
-      </svg>
+      <div className="flex items-center space-x-3">
+        <div className="h-px w-12 bg-gradient-to-r from-transparent to-emerald-300"></div>
+        <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+        <div className="h-px w-12 bg-gradient-to-l from-transparent to-emerald-300"></div>
+      </div>
     </div>
   )
 }
@@ -368,17 +369,7 @@ export default function App() {
     }
   }, [])
 
-  const ornaments = (
-    <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-      {/* Ramas decorativas suaves */}
-      <svg className="absolute -top-12 -left-12 h-56 w-56 text-emerald-100/80 animate-[float_12s_ease-in-out_infinite]" viewBox="0 0 200 200" fill="currentColor">
-        <path d="M20 120c40-40 70-60 120-70-30 20-50 40-60 60 20-10 40-15 60-10-25 10-45 25-60 45 10-5 25-5 40 0-30 10-55 25-80 45-10-20-15-45-20-70z" />
-      </svg>
-      <svg className="absolute -bottom-16 -right-16 h-72 w-72 text-emerald-100/70 animate-[float_16s_ease-in-out_infinite_reverse]" viewBox="0 0 200 200" fill="currentColor">
-        <path d="M180 80c-30 10-60 30-90 70 15-35 20-60 10-90-5 30-20 55-45 80 5-15 5-30 0-40-15 25-25 50-30 80 35-25 70-40 110-50-20 0-30 0-50 10 25-25 55-45 95-60z" />
-      </svg>
-    </div>
-  )
+
 
   function AlbumQRCard() {
     const [dataUrl, setDataUrl] = useState<string>('')
@@ -434,16 +425,12 @@ export default function App() {
       {/* Invitation envelope UI */}
       <InvitationEnvelope />
       <header className="relative isolate overflow-hidden">
-        {ornaments}
         {/* Imagen hero: Colima */}
         <div className="absolute inset-0 -z-10">
           <img src={heroSrc} alt="Comala, Colima" className="h-full w-full object-cover opacity-60" loading="eager" />
           <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-emerald-50/30 to-white"></div>
         </div>
-        <div className="absolute inset-0 pointer-events-none -z-10">
-          <svg className="absolute -top-10 -left-10 h-40 w-40 text-emerald-200" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
-          <svg className="absolute -bottom-10 -right-10 h-48 w-48 text-emerald-100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c4 6 4 14 0 20-4-6-4-14 0-20z"/></svg>
-        </div>
+
         <div className="mx-auto max-w-4xl px-6 py-16 text-center">
           <p className="tracking-widest text-emerald-700/90 uppercase text-xs sm:text-sm">Comala, Colima</p>
           <h1 className="mt-2 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">
