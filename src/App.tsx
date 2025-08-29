@@ -452,7 +452,7 @@ export default function App() {
             <a href="#regalos" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Regalos</a>
             <a href="#rsvp" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">RSVP</a>
           </nav>
-          <div className="relative z-10 mt-2 flex items-center justify-center gap-3">
+          <div className="relative z-10 mt-8 flex items-center justify-center gap-3">
             <a href="#rsvp" className="inline-block rounded-full bg-emerald-600 px-6 py-3 text-white font-medium shadow-md hover:shadow-lg hover:bg-emerald-700 transition">Confirmar asistencia</a>
             <button
               type="button"
@@ -613,12 +613,22 @@ export default function App() {
             <p className="text-emerald-800 font-serif text-base italic text-center mt-1 tracking-wide">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
             <div className="mt-1 grid gap-2 sm:grid-cols-2 text-base">
               <div className="flex flex-col items-center">
-                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Esmeralda</span>
+                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm">
+                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center">
+                    <span className="text-white text-xs">👰</span>
+                  </div>
+                  Esmeralda
+                </span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Sabino Dueñas Montes</span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Norma Angelica Fuentes Martinez</span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm"><svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5 text-emerald-500' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z' /></svg> Jorge</span>
+                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm">
+                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <span className="text-white text-xs">🤵🏻‍♂️</span>
+                  </div>
+                  Jorge
+                </span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Jorge Rodríguez Alvarez</span>
                 <span className="font-serif text-emerald-900 text-lg font-semibold">Raquel Peñaloza Cisneros</span>
               </div>
