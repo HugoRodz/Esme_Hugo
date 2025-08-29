@@ -779,25 +779,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Itinerario de boda */}
-        <section id="itinerario" className="mt-8">
-          <h2 className="text-2xl font-semibold text-emerald-900">Itinerario</h2>
-          <ol className="mt-4 space-y-4">
-            <li className="relative pl-6">
-              <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
-              <p className="text-sm text-emerald-700">13:30</p>
-              <h3 className="font-medium text-emerald-900">Ceremonia</h3>
-              <p className="text-slate-700">{MAP.ceremony.name}</p>
-            </li>
-            <li className="relative pl-6">
-              <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
-              <p className="text-sm text-emerald-700">15:45</p>
-              <h3 className="font-medium text-emerald-900">Recepción</h3>
-              <p className="text-slate-700">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
-            </li>
-          </ol>
-        </section>
-
         {/* Avisos y restricciones */}
         <section id="avisos" className="mt-8">
           <h2 className="text-2xl font-semibold text-emerald-900">Avisos y restricciones</h2>
