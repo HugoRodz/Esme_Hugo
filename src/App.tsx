@@ -71,7 +71,14 @@ function PreferenciasForm() {
   )
 }
 
-function IconBadge({ children }: { children: React.ReactNode }) {
+function IconBadge({ children, imgSrc, alt }: { children?: React.ReactNode, imgSrc?: string, alt?: string }) {
+  if (imgSrc) {
+    return (
+      <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-base ring-1 ring-emerald-200 shadow-sm overflow-hidden">
+        <img src={imgSrc} alt={alt || ''} className="h-8 w-8 object-contain" />
+      </span>
+    )
+  }
   return (
     <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-base ring-1 ring-emerald-200 shadow-sm">
       <span aria-hidden="true" className="text-2xl">{children}</span>
@@ -436,7 +443,7 @@ export default function App() {
           <h1 className="mt-2 text-5xl sm:text-7xl font-serif text-emerald-900 drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">
             <span className="block sm:inline">Esmeralda</span>
             <span className="block sm:inline mx-2">&</span>
-            <span className="block sm:inline">Jorge</span>
+            <span className="block sm:inline">Hugo</span>
           </h1>
           <p className="mt-2 text-slate-700/90">Nos casamos el 29 de noviembre de 2025</p>
           <Countdown date={EVENT_DATETIME} />
@@ -459,7 +466,7 @@ export default function App() {
               className="inline-flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-emerald-800 ring-1 ring-emerald-200/70 hover:bg-white shadow-sm"
               onClick={async () => {
                 const shareData = {
-                  title: 'Boda Esmeralda & Jorge',
+                  title: 'Boda Esmeralda & Hugo',
                   text: 'Acompáñanos el 29 de noviembre de 2025 en Comala, Colima',
                   url: window.location.href,
                 }
@@ -603,43 +610,61 @@ export default function App() {
       </div>
 
       {/* Nuestros padres: bloque ubicado entre el hero y la sección 'Nuestra historia' */}
+
       <div className="mx-auto max-w-5xl px-6">
-          <div className="mx-auto max-w-2xl text-center mt-3 mb-4 parents-block">
-          <div ref={parentsRef} className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-sm ring-1 ring-emerald-50/70 px-4 py-3 sm:px-6 sm:py-4 reveal" id="parents-block">
+        <div className="mx-auto max-w-2xl text-center mt-3 mb-4 parents-block">
+          <div
+            ref={parentsRef}
+            className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-sm ring-1 ring-emerald-50/70 px-4 py-3 sm:px-6 sm:py-4 reveal"
+            id="parents-block"
+          >
             <h3 className="text-lg sm:text-xl font-bold text-emerald-900 flex items-center justify-center gap-2 mb-1">
               <img src={`${base}images/apreton-de-manos.png`} alt="Nuestros padres" className="h-6 w-6" />
               Nuestros padres
             </h3>
-            <p className="text-emerald-800 font-serif text-base italic text-center mt-1 tracking-wide">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
-            <div className="mt-1 grid gap-2 sm:grid-cols-2 text-base">
-              <div className="flex flex-col items-center">
-                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm">
-                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center">
-                    <span className="text-white text-xs">👰</span>
-                  </div>
-                  Esmeralda
-                </span>
-                <span className="font-serif text-emerald-900 text-lg font-semibold">Sabino Dueñas Montes</span>
-                <span className="font-serif text-emerald-900 text-lg font-semibold">Norma Angelica Fuentes Martinez</span>
+            <p className="text-emerald-800 font-serif text-base italic text-center mt-1 tracking-wide">
+              Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.
+            </p>
+            <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:gap-6 justify-center">
+              {/* Familia de Esmeralda */}
+              <div className="flex-1 min-w-[0]">
+                <div className="rounded-xl border border-pink-200 bg-pink-50/60 px-4 py-3 flex flex-col items-center shadow-sm">
+                  <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm mb-1">
+                    <div className="h-6 w-6 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 flex items-center justify-center">
+                      <span className="text-white text-xs">👰</span>
+                    </div>
+                    Esmeralda
+                  </span>
+                  <span className="block sm:hidden text-xs text-pink-700 font-semibold mb-1">Familia de Esmeralda</span>
+                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Sabino Dueñas Montes</span>
+                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Norma Angelica Fuentes Martinez</span>
+                </div>
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm">
-                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-                    <span className="text-white text-xs">🤵🏻‍♂️</span>
-                  </div>
-                  Jorge
-                </span>
-                <span className="font-serif text-emerald-900 text-lg font-semibold">Jorge Rodríguez Alvarez</span>
-                <span className="font-serif text-emerald-900 text-lg font-semibold">Raquel Peñaloza Cisneros</span>
+              {/* Familia de Hugo */}
+              <div className="flex-1 min-w-[0] mt-2 sm:mt-0">
+                <div className="rounded-xl border border-blue-200 bg-blue-50/60 px-4 py-3 flex flex-col items-center shadow-sm">
+                  <span className="text-emerald-700 font-medium flex items-center gap-2 tracking-wide text-sm mb-1">
+                    <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                      <span className="text-white text-xs">🤵🏻‍♂️</span>
+                    </div>
+                    Hugo
+                  </span>
+                  <span className="block sm:hidden text-xs text-blue-700 font-semibold mb-1">Familia de Hugo</span>
+                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Jorge Rodríguez Alvarez</span>
+                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Raquel Peñaloza Cisneros</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-  </div>
+      </div>
   <main className="mx-auto max-w-5xl px-6 pb-16 content-body">
         <section id="historia" className="mt-8 grid gap-6 sm:grid-cols-2 items-center">
           <div>
-            <h2 className="text-2xl font-semibold text-emerald-900">Nuestra historia</h2>
+            <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+              <img src={`${base}images/antiguo-rollo.png`} alt="Historia" className="h-6 w-6" />
+              Nuestra historia
+            </h2>
             <ol className="mt-3 space-y-4">
               <li className="relative pl-6">
                 <span className="absolute left-0 top-2 h-3 w-3 rounded-full bg-emerald-600" aria-hidden="true"></span>
@@ -670,7 +695,10 @@ export default function App() {
 
         {/* Cómo llegar */}
         <section id="como-llegar" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Cómo llegar</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/destino.png`} alt="Destino" className="h-6 w-6" />
+            Cómo llegar
+          </h2>
           {MAP.streetNote && (
             <p className="mt-2 text-slate-700">Zona de referencia: {MAP.streetNote}</p>
           )}
@@ -714,8 +742,8 @@ export default function App() {
       <p className="text-slate-600">{MAP.ceremony.name}</p>
       <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
             <div className="mt-2 flex flex-wrap gap-2 text-sm">
-              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Ceremonia – Esmeralda & Jorge', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} target="_blank" rel="noopener">Agregar a Google</a>
-              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Ceremonia – Esmeralda & Jorge', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} download="ceremonia.ics">Descargar .ics</a>
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Ceremonia – Esmeralda & Hugo', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Ceremonia – Esmeralda & Hugo', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} download="ceremonia.ics">Descargar .ics</a>
             </div>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
@@ -727,8 +755,8 @@ export default function App() {
       <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
       <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
             <div className="mt-2 flex flex-wrap gap-2 text-sm">
-              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Recepción – Esmeralda & Jorge', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} target="_blank" rel="noopener">Agregar a Google</a>
-              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Recepción – Esmeralda & Jorge', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} download="recepcion.ics">Descargar .ics</a>
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Recepción – Esmeralda & Hugo', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Recepción – Esmeralda & Hugo', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} download="recepcion.ics">Descargar .ics</a>
             </div>
           </div>
           <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
@@ -762,12 +790,18 @@ export default function App() {
 
         {/* Alojamiento */}
         <section id="alojamiento" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Alojamiento</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/hotel.png`} alt="Hotel" className="h-6 w-6" />
+            Alojamiento
+          </h2>
           <p className="mt-2 text-slate-700">Por disponibilidad, te sugerimos reservar con anticipación. Opciones en Comala:</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {HOTELS.map((h) => (
               <div key={h.name} className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm">
-                <h3 className="font-medium text-emerald-900 flex items-center gap-2"><IconBadge>🏨</IconBadge>{h.name}</h3>
+                <h3 className="font-medium text-emerald-900 flex items-center gap-2">
+                  <IconBadge imgSrc={`${base}images/hotel.png`} alt="Hotel" />
+                  {h.name}
+                </h3>
                 <p className="mt-1 text-slate-700">{h.address}</p>
                 <div className="mt-2 flex flex-wrap gap-2 text-sm">
                   {h.phones.map((p) => (
@@ -796,7 +830,10 @@ export default function App() {
 
         {/* Preferencias de invitado */}
         <section id="preferencias" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Preferencias de invitado</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/retroalimentacion.png`} alt="Retroalimentación" className="h-6 w-6" />
+            Preferencias de invitado
+          </h2>
           <PreferenciasForm />
         </section>
 
@@ -804,7 +841,10 @@ export default function App() {
 
         {/* Galería */}
         <section id="galeria" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Galería</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/foto-familiar.png`} alt="Foto familiar" className="h-6 w-6" />
+            Galería
+          </h2>
           <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
             {gallery.map((name, idx) => (
               <button
@@ -828,7 +868,10 @@ export default function App() {
 
         {/* Álbum compartido */}
         <section id="album" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Álbum compartido</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/galeria.png`} alt="Galería" className="h-6 w-6" />
+            Álbum compartido
+          </h2>
           <p className="mt-2 text-slate-700">Ayúdanos a guardar recuerdos de la fiesta. Sube tus fotos y videos al álbum compartido.</p>
           <div className="mt-3 grid gap-3 sm:grid-cols-3 items-start">
             <div className="rounded-xl border border-emerald-200 bg-white p-4 shadow-sm sm:col-span-2">
@@ -872,7 +915,10 @@ export default function App() {
 
         {/* Regalos */}
         <section id="regalos" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Regalos</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/presente-3d.png`} alt="Regalo" className="h-6 w-6" />
+            Regalos
+          </h2>
           <p className="mt-2 text-slate-700">{GIFTS.message}</p>
 
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -917,7 +963,10 @@ export default function App() {
         </section>
 
         <section id="rsvp" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Confirma tu asistencia</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/confirmado-rsvp.png`} alt="Confirmado" className="h-6 w-6" />
+            Confirma tu asistencia
+          </h2>
           {RSVP.formUrl ? (
             <div className="mt-4">
               <a
@@ -935,7 +984,7 @@ export default function App() {
                   {(RSVP.whatsapps || []).map((num) => {
                     const normalized = num.replace('+','')
                     const local = normalized.startsWith('52') ? normalized.slice(2) : normalized
-                    const label = local.startsWith('452') ? 'Jorge' : (local.startsWith('312') ? 'Esmeralda' : 'WhatsApp')
+                    const label = local.startsWith('452') ? 'Hugo' : (local.startsWith('312') ? 'Esmeralda' : 'WhatsApp')
                     return (
                       <a
                         key={num}

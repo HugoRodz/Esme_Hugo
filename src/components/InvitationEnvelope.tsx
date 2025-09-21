@@ -140,7 +140,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   // preload the envelope image to detect load/error and avoid distortion
   useEffect(() => {
-    const src = `${import.meta.env.BASE_URL}images/Sobreboda.jpeg`
+  const src = `${import.meta.env.BASE_URL}images/Gemini_Generated_Image_58y2758y2758y275.png`
     const img = new Image()
     img.src = src
     img.onload = () => { setImgLoaded(true); setImgError(false) }
@@ -153,7 +153,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   // preload to capture natural size and compute aspect ratio
   useEffect(() => {
-    const src = `${import.meta.env.BASE_URL}images/Sobreboda.jpeg`
+  const src = `${import.meta.env.BASE_URL}images/Gemini_Generated_Image_58y2758y2758y275.png`
     const img = new Image()
     img.src = src
     img.onload = () => {
@@ -306,11 +306,11 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
               {/* Monogram watermark (centered, very low opacity) */}
               <div aria-hidden style={{ position: 'absolute', top: 18, left: '50%', transform: 'translateX(-50%)', zIndex: 0, pointerEvents: 'none', opacity: 0.06, color: '#C99E2A', fontFamily: 'Marcellus, serif', fontSize: isMobile ? 48 : 84, letterSpacing: 4, fontWeight: 700 }}>
-                E &amp; J
+                E &amp; H
               </div>
 
               <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', padding: '12px 16px' }}>
-                <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6, fontWeight: 600 }}>Esmeralda &amp; Jorge</div>
+                <div style={{ fontSize: 18, color: '#8a6b1f', letterSpacing: 0.6, fontWeight: 600 }}>Esmeralda &amp; Hugo</div>
                 <div style={{ fontSize: 13, marginTop: 6, color: '#42524a' }}>29 de noviembre de 2025 — Comala, Colima</div>
 
                 <div style={{ marginTop: 22, fontFamily: 'Dancing Script, Marcellus, serif', fontSize: isMobile ? 34 : 54, color: '#C99E2A', textShadow: '0 2px 0 rgba(255,255,255,0.7)', lineHeight: 1 }}>{info.name}</div>
@@ -328,14 +328,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                   <div style={{ fontSize: 11, color: '#6b6b6b', marginTop: isMobile ? 6 : 0, textAlign: 'center' }}>Presentar en acceso</div>
                 </div>
 
-                {/* divider + download */}
-                <div style={{ marginTop: 26, display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'center' }}>
-                  <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg,#e9e6dd,#fff)', borderRadius: 2 }} />
-                  <div style={{ borderRadius: 12, overflow: 'hidden' }}>
-                    <DownloadButton resolved={resolved} info={info} />
-                  </div>
-                  <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg,#fff,#e9e6dd)', borderRadius: 2 }} />
-                </div>
+                {/* La funcionalidad de descarga de PDF está temporalmente removida */}
 
                 <div className="mt-4 flex justify-center">
                   <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2" style={{ background: '#fff', border: '1px solid rgba(46,80,54,0.08)', boxShadow: '0 6px 14px rgba(46,80,54,0.03)' }}>Cerrar</button>
@@ -349,8 +342,15 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   }
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-white">
-      <div className="fixed inset-0 bg-white"></div>
+    <div className="fixed inset-0 z-[999] flex items-center justify-center">
+      {/* En móviles, si el sobre está visible y no está resuelto, ocultamos todo el fondo */}
+      <div 
+        className="fixed inset-0" 
+        style={{ 
+          background: isMobile && !resolved ? '#fff' : 'linear-gradient(to bottom, #fff9f0, #fff)',
+          opacity: isMobile && !resolved ? 1 : undefined
+        }}
+      ></div>
       <div className="envelope-container relative z-10">
         <div
           className={`envelope rounded-2xl overflow-hidden shadow-lg ring-1 ring-emerald-200 bg-white ${open ? 'open' : ''}`}
@@ -359,24 +359,15 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
             width: `${containerWidth}px`,
             height: imgRatio ? `${Math.round(containerWidth * imgRatio)}px` : '320px',
             position: 'relative',
-            backgroundImage: `url(${import.meta.env.BASE_URL}images/Sobreboda.jpeg)`,
+            backgroundImage: `url(${import.meta.env.BASE_URL}images/Gemini_Generated_Image_58y2758y2758y275.png)`,
             backgroundSize: 'cover',
             // keep focus centered vertically once the container has the correct ratio
             backgroundPosition: 'center 50%',
             backgroundRepeat: 'no-repeat',
             // Add a solid background to prevent content from showing through
-            backgroundColor: '#FFFFFF'
-          }}
-          style={{
-            // compute height to match image aspect ratio so it doesn't get cropped
-            width: `${containerWidth}px`,
-            height: imgRatio ? `${Math.round(containerWidth * imgRatio)}px` : '320px',
-            position: 'relative',
-            backgroundImage: `url(${import.meta.env.BASE_URL}images/Sobreboda.jpeg)`,
-            backgroundSize: 'cover',
-            // keep focus centered vertically once the container has the correct ratio
-            backgroundPosition: 'center 50%',
-            backgroundRepeat: 'no-repeat'
+            backgroundColor: '#FFFFFF',
+            // Add a drop shadow for depth
+            boxShadow: '0 12px 36px rgba(0,0,0,0.12)'
           }}
         >
           {!imgLoaded && imgError && (
@@ -397,11 +388,11 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           </div>
 
           {/* inner sheet visible only when the decorative invitation is shown (difuminada) */}
-          {showInvite && (
+          {showInvite && resolved && (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center"
               style={{ width: '86%', height: '78%' }}>
               <div style={{ width: '100%', height: '100%', background: 'linear-gradient(180deg,#fffef6,#fffefa)', borderRadius: 12, border: '1px solid rgba(160,130,40,0.08)', boxShadow: '0 10px 30px rgba(0,0,0,0.06)', padding: 18, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', fontFamily: 'Marcellus, serif', color: '#70561A' }}>
-                <div style={{ fontSize: 20 }}>Esmeralda &amp; Jorge</div>
+                <div style={{ fontSize: 20 }}>Esmeralda &amp; Hugo</div>
                 <div style={{ fontSize: 14, marginTop: 8, color: '#42524a' }}>29 de noviembre de 2025 — Comala, Colima</div>
               </div>
             </div>
@@ -446,227 +437,4 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   )
 }
 
-// Small component to download the visible pass as PDF
-function DownloadButton({ resolved, info }: { resolved: number | null, info: any }) {
-  const [loading, setLoading] = useState(false)
 
-  const download = async () => {
-    if (!resolved || !info) return
-    setLoading(true)
-    try {
-      // load html2canvas and jspdf dynamically by injecting script tags
-      const loadScript = (src: string) => new Promise<void>((resolve, reject) => {
-        if (document.querySelector(`script[src="${src}"]`)) return resolve()
-        const s = document.createElement('script')
-        s.src = src
-        s.async = true
-        s.onload = () => resolve()
-        s.onerror = () => reject(new Error('Failed to load ' + src))
-        document.head.appendChild(s)
-      })
-      if (!(window as any).html2canvas) {
-        await loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js')
-      }
-      if (!(window as any).jspdf) {
-        await loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js')
-      }
-  const html2canvas = (window as any).html2canvas
-  const { jsPDF } = (window as any).jspdf || (window as any)
-
-  // find the card element by attribute
-  const card = document.querySelector('[data-invite-card]') as HTMLElement | null
-  if (!card) throw new Error('No se encontró la tarjeta')
-
-  // To avoid html2canvas/jsPDF failing on unsupported CSS color functions
-  // (for example: "oklch(...)") we clone the card and inline computed
-  // styles as concrete color strings. We try to normalize color functions
-  // via a canvas fallback which yields a browser-normalized color string
-  // (e.g. "rgb(...)" or "#rrggbb"). The clone is rendered off-screen.
-
-  // helper to normalize a single color token using canvas (best-effort)
-  const normalizeColor = (raw: string) => {
-    try {
-      const cvs = document.createElement('canvas')
-      const ctx = cvs.getContext('2d')
-      if (!ctx) return raw
-      // setting fillStyle will cause the canvas to normalize many color formats
-      // including named colors and some functions; if it fails, we keep raw
-      ctx.fillStyle = raw
-      return ctx.fillStyle || raw
-    } catch (e) {
-      return raw
-    }
-  }
-
-  // properties we want to inline from computed styles
-  const colorProps = [
-    'color', 'background-color', 'background', 'border-color',
-    'border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color',
-    'box-shadow', 'text-shadow'
-  ]
-
-  // clone node and inline styles
-  const clone = card.cloneNode(true) as HTMLElement
-  // ensure clone is not visible and does not affect layout
-  clone.style.position = 'absolute'
-  clone.style.left = '-9999px'
-  clone.style.top = '0'
-  clone.style.pointerEvents = 'none'
-  clone.style.opacity = '1'
-
-  const originals = Array.from(card.querySelectorAll('*')) as HTMLElement[]
-  const clones = Array.from(clone.querySelectorAll('*')) as HTMLElement[]
-  // include the root element too
-  originals.unshift(card)
-  clones.unshift(clone)
-
-  for (let i = 0; i < originals.length; i++) {
-    const o = originals[i]
-    const c = clones[i]
-    try {
-      const cs = window.getComputedStyle(o)
-      colorProps.forEach((prop) => {
-        try {
-          // prefer the resolved color for background (background-color)
-          if (prop === 'background') {
-            const v = cs.getPropertyValue('background-color')
-            if (v) c.style.setProperty('background-color', v)
-            return
-          }
-          let v = cs.getPropertyValue(prop)
-          if (!v) return
-
-          // if the value contains function-like color tokens, try to normalize them
-          // e.g. "oklch(...)" inside box-shadow/text-shadow
-          const fnColorRegex = /(oklch|oklab|lch|lab|color)\([^\)]+\)/gi
-          if (fnColorRegex.test(v) || /oklch/i.test(v)) {
-            // If we still detect modern color functions like oklch, use conservative fallbacks
-            // to avoid html2canvas/jsPDF parsing errors in some browsers.
-            const lowerProp = prop.toLowerCase()
-            if (lowerProp === 'color') {
-              v = '#2f3f37' // default body text color used in the card
-            } else if (lowerProp.includes('background') || lowerProp === 'background-color') {
-              v = '#fffef8' // pale cream background similar to card baseline
-            } else if (lowerProp.includes('border')) {
-              v = 'transparent'
-            } else if (lowerProp === 'box-shadow' || lowerProp === 'text-shadow') {
-              v = 'none'
-            } else {
-              // generic fallback
-              v = normalizeColor(v) || '#000'
-            }
-          } else {
-            // try to normalize remaining possible function-like tokens
-            if (fnColorRegex.test(v)) {
-              v = v.replace(fnColorRegex, (match) => {
-                const normalized = normalizeColor(match.trim())
-                return normalized || match
-              })
-            }
-            const wholeFnRegex = /^\s*(oklch|oklab|lch|lab|color)\([^\)]+\)\s*$/i
-            if (wholeFnRegex.test(v)) {
-              v = normalizeColor(v) || v
-            }
-          }
-
-          if (v) c.style.setProperty(prop, v)
-        } catch (e) {
-          // ignore per-element property failures
-        }
-      })
-    } catch (e) {
-      // ignore getComputedStyle failures
-    }
-  }
-
-  // attach clone off-screen, render it, then remove
-  document.body.appendChild(clone)
-
-  // hide interactive elements (buttons, inputs) inside the clone so labels like
-  // "Generando..." are not captured in the final image
-  try {
-    Array.from(clone.querySelectorAll('button,input,textarea,select')).forEach((el: Element) => {
-      try { (el as HTMLElement).style.display = 'none' } catch (e) {}
-    })
-  } catch (e) {}
-
-  // Ensure the clone matches the on-screen card dimensions so the capture
-  // contains the full card (no accidental cropping). Wait images to decode.
-  try {
-    const rect = card.getBoundingClientRect()
-    clone.style.width = Math.round(rect.width) + 'px'
-    clone.style.height = Math.round(rect.height) + 'px'
-    // wait for images inside clone to decode
-    const imgs = Array.from(clone.querySelectorAll('img')) as HTMLImageElement[]
-    await Promise.all(imgs.map(img => img.complete ? Promise.resolve() : (img.decode ? img.decode() : Promise.resolve())))
-  } catch (e) {
-    // continue anyway
-  }
-
-  // Render at a decent pixel ratio for print clarity
-  const canvas = await html2canvas(clone, { scale: 2, useCORS: true, backgroundColor: null, width: clone.clientWidth, height: clone.clientHeight })
-  const imgData = canvas.toDataURL('image/jpeg', 0.95)
-
-  // cleanup cloned node
-  try { document.body.removeChild(clone) } catch (e) { /* ignore */ }
-
-  // A6 size in points (pt = 1/72in). A6 = 105 x 148 mm
-  const mmToPt = (mm: number) => mm * 72 / 25.4
-  const a6W = mmToPt(105) // ~297.7pt
-  const a6H = mmToPt(148) // ~419.5pt
-
-  // Canvas is in pixels; convert px -> pt (1px = 72/96 pt assuming 96dpi)
-  const pxToPt = (px: number) => px * 72 / 96
-  const imgWPt = pxToPt(canvas.width)
-  const imgHPt = pxToPt(canvas.height)
-
-  // Fit the rendered card inside A6 using 'contain' so the whole card is visible
-  // and centered. Add a small margin (6mm) so the card doesn't touch the page edges.
-  const marginMm = 6
-  const a6WAvail = a6W - mmToPt(marginMm) * 2
-  const a6HAvail = a6H - mmToPt(marginMm) * 2
-  const scale = Math.min(a6WAvail / imgWPt, a6HAvail / imgHPt)
-  const drawW = imgWPt * scale
-  const drawH = imgHPt * scale
-  const x = (a6W - drawW) / 2
-  const y = (a6H - drawH) / 2
-
-  const pdf = new jsPDF({ unit: 'pt', format: [a6W, a6H] })
-  // Add a subtle white background so exported page looks natural when opened
-  pdf.setFillColor(255, 255, 255)
-  pdf.rect(0, 0, a6W, a6H, 'F')
-  pdf.addImage(imgData, 'JPEG', x, y, drawW, drawH)
-  // draw small crop marks (6mm from edges)
-  const cm = mmToPt(6)
-  const markLen = mmToPt(4)
-  pdf.setDrawColor(120)
-  // top-left
-  pdf.setLineWidth(0.5)
-  pdf.line(cm - markLen, cm, cm, cm)
-  pdf.line(cm, cm - markLen, cm, cm)
-  // top-right
-  pdf.line(a6W - cm + markLen, cm, a6W - cm, cm)
-  pdf.line(a6W - cm, cm - markLen, a6W - cm, cm)
-  // bottom-left
-  pdf.line(cm - markLen, a6H - cm, cm, a6H - cm)
-  pdf.line(cm, a6H - cm + markLen, cm, a6H - cm)
-  // bottom-right
-  pdf.line(a6W - cm + markLen, a6H - cm, a6W - cm, a6H - cm)
-  pdf.line(a6W - cm, a6H - cm + markLen, a6W - cm, a6H - cm)
-  const safeName = (info && info.name) ? String(info.name).replace(/\s+/g, '_').toLowerCase() : String(resolved)
-  pdf.save(`${safeName}-invitacion-a6.pdf`)
-    } catch (e) {
-      // fallback: open in new tab as image
-      console.error(e)
-      alert('Error generando PDF: ' + (e as Error).message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  return (
-    <button onClick={download} className="rounded-lg px-3 py-1" style={{ background: 'rgba(197,154,42,0.08)', color: '#6b6b6b', borderRadius: 8 }}>
-      {loading ? 'Generando...' : 'Descarga la tarjeta'}
-    </button>
-  )
-}

@@ -11,10 +11,10 @@ export const GIFTS = {
   message:
     'El mejor obsequio es tu presencia. Si deseas hacernos un regalo, agradeceremos mucho una contribución para nuestro nuevo hogar.',
   bank: {
-    bankName: 'Banco (editar)',
-    beneficiary: 'Beneficiario (editar)',
-    clabe: '000000000000000000', // CLABE a 18 dígitos (editar)
-    accountNumber: '0000000000', // Número de cuenta (opcional)
+    bankName: 'BANORTE',
+    beneficiary: 'Esmeralda & Hugo',
+    clabe: '072528013331911200',
+    accountNumber: '4189140079564968',
   },
 }
 
