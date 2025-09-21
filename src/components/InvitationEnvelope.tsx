@@ -21,25 +21,52 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
 
 
-  // useEffect para bloquear/desbloquear scroll y fondo según estado
+  // Scroll lock avanzado para iPhone/Safari
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    let scrollY = 0;
     if (isMobile && !resolved) {
+      scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
       document.body.style.background = '#fff';
+      document.documentElement.style.overflow = 'hidden';
       document.documentElement.style.background = '#fff';
     } else {
+      // Restaurar scroll y estilos
+      const top = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
       document.body.style.background = '';
+      document.documentElement.style.overflow = '';
       document.documentElement.style.background = '';
+      // Restaurar scroll solo si estaba bloqueado
+      if (top) {
+        window.scrollTo(0, -parseInt(top || '0'));
+      }
     }
     return () => {
+      const top = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
       document.body.style.background = '';
+      document.documentElement.style.overflow = '';
       document.documentElement.style.background = '';
+      if (top) {
+        window.scrollTo(0, -parseInt(top || '0'));
+      }
     };
   }, [isMobile, resolved]);
 
