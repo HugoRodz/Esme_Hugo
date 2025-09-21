@@ -607,7 +607,7 @@ export default function App() {
           <div className="mx-auto max-w-2xl text-center mt-3 mb-4 parents-block">
           <div ref={parentsRef} className="inline-block w-full rounded-2xl border-2 border-emerald-300 bg-white/80 shadow-sm ring-1 ring-emerald-50/70 px-4 py-3 sm:px-6 sm:py-4 reveal" id="parents-block">
             <h3 className="text-lg sm:text-xl font-bold text-emerald-900 flex items-center justify-center gap-2 mb-1">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 10-8 0 4 4 0 008 0zm6 4v2a2 2 0 01-2 2h-1.5M3 16v2a2 2 0 002 2h1.5" /></svg>
+              <img src={`${base}images/apreton-de-manos.png`} alt="Nuestros padres" className="h-6 w-6" />
               Nuestros padres
             </h3>
             <p className="text-emerald-800 font-serif text-base italic text-center mt-1 tracking-wide">Gracias mamá y papá por enseñarnos el valor del amor y acompañarnos siempre.</p>
