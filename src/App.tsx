@@ -695,30 +695,42 @@ export default function App() {
           )}
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
-              <div className="px-4 pt-4">
-                <h3 className="font-medium text-emerald-900">{MAP.ceremony.name}</h3>
-                <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
+              <div className="flex flex-col h-64 sm:h-72">
+                <div className="px-4 pt-4 pb-2 shrink-0">
+                  <h3 className="font-medium text-emerald-900">{MAP.ceremony.name}</h3>
+                  <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
+                </div>
+                <div className="flex-1">
+                  <iframe
+                    className="w-full h-full min-h-[120px]"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={mapEmbed(MAP.ceremony.query)}
+                    title={`Mapa ${MAP.ceremony.name}`}
+                    style={{ border: 0 }}
+                    allowFullScreen
+                  />
+                </div>
               </div>
-              <iframe
-                className="h-72 w-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                src={mapEmbed(MAP.ceremony.query)}
-                title={`Mapa ${MAP.ceremony.name}`}
-              />
             </div>
             <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
-              <div className="px-4 pt-4">
-                <h3 className="font-medium text-emerald-900">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</h3>
-                <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
+              <div className="flex flex-col h-64 sm:h-72">
+                <div className="px-4 pt-4 pb-2 shrink-0">
+                  <h3 className="font-medium text-emerald-900">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</h3>
+                  <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="text-sm text-emerald-700 hover:underline">Abrir en Google Maps</a>
+                </div>
+                <div className="flex-1">
+                  <iframe
+                    className="w-full h-full min-h-[120px]"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={mapEmbed(MAP.reception.query)}
+                    title={`Mapa ${MAP.reception.name}`}
+                    style={{ border: 0 }}
+                    allowFullScreen
+                  />
+                </div>
               </div>
-              <iframe
-                className="h-72 w-full"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                src={mapEmbed(MAP.reception.query)}
-                title={`Mapa ${MAP.reception.name}`}
-              />
             </div>
           </div>
         </section>
@@ -945,11 +957,6 @@ export default function App() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-5">
-              <h3 className="font-medium text-emerald-900">Otras opciones</h3>
-              <p className="mt-2 text-slate-700">Si prefieres, escríbenos y te compartimos más opciones o un número para transferencia.</p>
-              <a href="#rsvp" className="mt-3 inline-block text-emerald-700 hover:underline">Contactarnos</a>
-            </div>
           </div>
         </section>
 

@@ -257,9 +257,9 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           className={`relative rounded-2xl shadow-lg overflow-visible transition-all ${minimized ? 'w-56 h-14' : ''}`}
           style={{
             width: minimized ? undefined : `${Math.min(containerWidth, 320)}px`,
-            background: scrolled ? 'rgba(255, 255, 255, 0.72)' : 'linear-gradient(180deg,#ffffffef,#fffef6)',
+            background: minimized ? 'rgba(255,255,255,0.35)' : 'linear-gradient(180deg,#ffffffef,#fffef6)',
             border: '1px solid rgba(160, 130, 40, 0.18)',
-            boxShadow: scrolled ? '0 6px 18px rgba(0,0,0,0.06)' : '0 10px 30px rgba(0,0,0,0.08)'
+            boxShadow: minimized ? '0 2px 8px rgba(0,0,0,0.08)' : '0 10px 30px rgba(0,0,0,0.08)'
           }}
         >
           {/* decorative leaf image uploaded by user (shows on the resolved card) */}
