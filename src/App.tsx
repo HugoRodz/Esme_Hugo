@@ -301,7 +301,7 @@ export default function App() {
   // Auto-hide the play hint after a few seconds
   useEffect(() => {
     if (!showPlayHint) return
-    const id = setTimeout(() => setShowPlayHint(false), 6000)
+    const id = setTimeout(() => setShowPlayHint(false), 10000)
     return () => clearTimeout(id)
   }, [showPlayHint])
 
@@ -492,8 +492,10 @@ export default function App() {
       {/* Small floating control shown if autoplay was blocked */}
       <div className="fixed bottom-6 right-6 z-50">
         {showPlayHint && (
-          <div className="mb-2 flex justify-end">
-            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200 font-serif">Presiona el corazón para escuchar nuestra canción</div>
+          <div className="mb-2 flex justify-end w-full">
+            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200 font-serif w-full max-w-xs sm:max-w-none text-center mx-auto animate-fade-in-up">
+              <span className="inline-block align-middle">🎵</span> <span className="align-middle text-[0.98rem] sm:text-[1.05rem]">Escucha nuestra canción</span>
+            </div>
           </div>
         )}
   <button
@@ -544,8 +546,8 @@ export default function App() {
               <path fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
             </svg>
           )}
-          <span className="ml-2 text-emerald-900 font-serif text-[1.05rem] hidden sm:inline-block group-hover:animate-fade-in-up transition-all duration-500" style={{letterSpacing: '0.01em'}}>
-            <span className="inline-block align-middle">🎵</span> Escucha nuestra canción
+          <span className="ml-2 text-emerald-900 font-serif text-[0.98rem] sm:text-[1.05rem] transition-all duration-500 group-hover:animate-fade-in-up" style={{letterSpacing: '0.01em'}}>
+            <span className="inline-block align-middle">🎵</span> <span className="align-middle">Escucha nuestra canción</span>
           </span>
         </button>
         {/* Volume control */}
