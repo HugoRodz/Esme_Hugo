@@ -13,7 +13,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const [imgError, setImgError] = useState(false)
   const [imgRatio, setImgRatio] = useState<number | null>(null)
   const [minimized, setMinimized] = useState(true)
-  const [scrolled, setScrolled] = useState(false)
   const [containerWidth, setContainerWidth] = useState<number>(480)
   const [volcanSrc, setVolcanSrc] = useState<string | null>(null)
   const [showInvite, setShowInvite] = useState(false)
@@ -154,13 +153,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     return () => { cancelled = true }
   }, [resolved, isMobile, invites])
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY || window.pageYOffset
-      setScrolled(y > 20)
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
+    // Eliminado efecto de scroll, ya no se usa para transparencia
   }, [])
 
   // responsive container width (92vw up to 480px)
