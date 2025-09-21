@@ -1009,8 +1009,8 @@ export default function App() {
 
       <footer className="border-t border-emerald-200 bg-white/60 backdrop-blur py-4 mt-12">
         <div className="mx-auto max-w-5xl px-6 text-sm text-slate-600 flex items-center justify-between">
-          <span>Esmeralda & Jorge • 29 de noviembre de 2025</span>
-          <a className="text-emerald-700 hover:underline" href="#">#EsmeYJorge</a>
+          <span>Esmeralda & Hugo • 29 de noviembre de 2025</span>
+          <a className="text-emerald-700 hover:underline" href="#">#Esme&Hugo</a>
         </div>
       </footer>
       <div className="text-center text-xs text-slate-500 mt-2 mb-4">

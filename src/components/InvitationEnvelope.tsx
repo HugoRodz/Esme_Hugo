@@ -140,7 +140,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   // preload the envelope image to detect load/error and avoid distortion
   useEffect(() => {
-  const src = `${import.meta.env.BASE_URL}images/Gemini_Generated_Image_58y2758y2758y275.png`
+  const src = `${import.meta.env.BASE_URL}images/nueva.png`
     const img = new Image()
     img.src = src
     img.onload = () => { setImgLoaded(true); setImgError(false) }
@@ -153,7 +153,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   // preload to capture natural size and compute aspect ratio
   useEffect(() => {
-  const src = `${import.meta.env.BASE_URL}images/Gemini_Generated_Image_58y2758y2758y275.png`
+  const src = `${import.meta.env.BASE_URL}images/nueva.png`
     const img = new Image()
     img.src = src
     img.onload = () => {
@@ -359,7 +359,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
             width: `${containerWidth}px`,
             height: imgRatio ? `${Math.round(containerWidth * imgRatio)}px` : '320px',
             position: 'relative',
-            backgroundImage: `url(${import.meta.env.BASE_URL}images/Gemini_Generated_Image_58y2758y2758y275.png)`,
+            backgroundImage: `url(${import.meta.env.BASE_URL}images/nueva.png)`,
             backgroundSize: 'cover',
             // keep focus centered vertically once the container has the correct ratio
             backgroundPosition: 'center 50%',
