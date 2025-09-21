@@ -349,10 +349,24 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
-      <div className="envelope-container">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-white">
+      <div className="fixed inset-0 bg-white"></div>
+      <div className="envelope-container relative z-10">
         <div
           className={`envelope rounded-2xl overflow-hidden shadow-lg ring-1 ring-emerald-200 bg-white ${open ? 'open' : ''}`}
+          style={{
+            // compute height to match image aspect ratio so it doesn't get cropped
+            width: `${containerWidth}px`,
+            height: imgRatio ? `${Math.round(containerWidth * imgRatio)}px` : '320px',
+            position: 'relative',
+            backgroundImage: `url(${import.meta.env.BASE_URL}images/Sobreboda.jpeg)`,
+            backgroundSize: 'cover',
+            // keep focus centered vertically once the container has the correct ratio
+            backgroundPosition: 'center 50%',
+            backgroundRepeat: 'no-repeat',
+            // Add a solid background to prevent content from showing through
+            backgroundColor: '#FFFFFF'
+          }}
           style={{
             // compute height to match image aspect ratio so it doesn't get cropped
             width: `${containerWidth}px`,
