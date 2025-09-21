@@ -663,8 +663,8 @@ export default function App() {
                     Esmeralda
                   </span>
                   <span className="block sm:hidden text-xs text-pink-700 font-semibold mb-1">Familia de Esmeralda</span>
-                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Sabino Dueñas Montes</span>
                   <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Norma Angelica Fuentes Martinez</span>
+                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Sabino Dueñas Montes</span>
                 </div>
               </div>
               {/* Familia de Hugo */}
@@ -677,8 +677,8 @@ export default function App() {
                     Hugo
                   </span>
                   <span className="block sm:hidden text-xs text-blue-700 font-semibold mb-1">Familia de Hugo</span>
-                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Jorge Rodríguez Alvarez</span>
                   <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Raquel Peñaloza Cisneros</span>
+                  <span className="font-serif text-emerald-900 text-base sm:text-lg font-semibold text-center">Jorge Rodríguez Alvarez</span>
                 </div>
               </div>
             </div>
