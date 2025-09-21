@@ -491,13 +491,7 @@ export default function App() {
 
       {/* Small floating control shown if autoplay was blocked */}
       <div className="fixed bottom-6 right-6 z-50">
-        {showPlayHint && (
-          <div className="mb-2 flex justify-end w-full">
-            <div className="rounded-md bg-white/95 px-3 py-1 text-sm text-emerald-800 shadow ring-1 ring-emerald-200 font-serif w-full max-w-xs sm:max-w-none text-center mx-auto animate-fade-in-up">
-              <span className="inline-block align-middle">🎵</span> <span className="align-middle text-[0.98rem] sm:text-[1.05rem]">Escucha nuestra canción</span>
-            </div>
-          </div>
-        )}
+  {/* Eliminado el mensaje flotante temporal de 'Escucha nuestra canción' */}
   <button
           type="button"
           onClick={async () => {
