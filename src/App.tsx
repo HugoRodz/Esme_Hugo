@@ -501,15 +501,12 @@ export default function App() {
           onClick={async () => {
             const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
             if (!audio) return
-            // Hide the hint when the user interacts
             setShowPlayHint(false)
-            // Ensure we have a WebAudio graph so volume control can work on mobile
             try {
               if (!audioCtxRef.current) {
                 const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext
                 if (Ctx) {
                   const ctx: AudioContext = new Ctx()
-                  // createMediaElementSource can only be called once per element/context
                   try {
                     const src = ctx.createMediaElementSource(audio)
                     const gain = ctx.createGain()
@@ -519,7 +516,6 @@ export default function App() {
                     audioCtxRef.current = ctx
                     gainRef.current = gain
                   } catch (e) {
-                    // If createMediaElementSource fails, ignore and continue with element volume
                     console.warn('createMediaElementSource failed', e)
                   }
                 }
@@ -529,29 +525,28 @@ export default function App() {
             } catch (e) {
               console.error('AudioContext setup failed', e)
             }
-
             if (audio.paused) {
               audio.play().catch((err) => { console.error('play failed', err); setAudioError(String(err)) })
             } else {
               audio.pause()
             }
           }}
-          className="rounded-full bg-white/90 p-3 shadow-md ring-1 ring-emerald-200"
+          className="rounded-full bg-white/90 p-3 shadow-md ring-1 ring-emerald-200 flex items-center gap-2 group"
           aria-label="Reproducir / Pausar música de fondo"
         >
           {isPlaying ? (
-            // filled heart when playing
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-rose-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-rose-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
           ) : (
-            // outline heart when paused — improved contrast with subtle white background
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-rose-500" viewBox="0 0 24 24" aria-hidden="true">
-              {/* subtle ring backdrop (thinner) and responsive sizing: smaller on mobile */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-rose-500 group-hover:animate-pulse" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="12" cy="12" r="9.5" fill="none" stroke="white" strokeWidth="1.2" opacity="0.95" />
               <path fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
             </svg>
           )}
+          <span className="ml-2 text-emerald-900 font-serif text-[1.05rem] hidden sm:inline-block group-hover:animate-fade-in-up transition-all duration-500" style={{letterSpacing: '0.01em'}}>
+            <span className="inline-block align-middle">🎵</span> Escucha nuestra canción
+          </span>
         </button>
         {/* Volume control */}
         <div className="relative mt-3 flex justify-end">
