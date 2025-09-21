@@ -1,3 +1,4 @@
+// ...existing code...
 import './index.css'
 import { useEffect, useState, useRef } from 'react'
 import QRCode from 'qrcode'
@@ -153,6 +154,8 @@ function Countdown({ date }: { date: Date }) {
 }
 
 export default function App() {
+  // Estado para minimizar la barra de música
+  const [musicMinimized, setMusicMinimized] = useState(false)
   const base = import.meta.env.BASE_URL
   const img = (name: string) => `${base}images/${encodeURIComponent(name)}`
   // Cache-buster para evitar posibles 404 cacheados en Pages en el hero
@@ -491,66 +494,99 @@ export default function App() {
 
       {/* Small floating control shown if autoplay was blocked */}
       <div className="fixed bottom-6 right-6 z-50">
-  {/* Eliminado el mensaje flotante temporal de 'Escucha nuestra canción' */}
-  <button
-          type="button"
-          onClick={async () => {
-            const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
-            if (!audio) return
-            setShowPlayHint(false)
-            try {
-              if (!audioCtxRef.current) {
-                const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext
-                if (Ctx) {
-                  const ctx: AudioContext = new Ctx()
-                  try {
-                    const src = ctx.createMediaElementSource(audio)
-                    const gain = ctx.createGain()
-                    src.connect(gain)
-                    gain.connect(ctx.destination)
-                    gain.gain.value = Math.max(0, Math.min(1, volume / 100))
-                    audioCtxRef.current = ctx
-                    gainRef.current = gain
-                  } catch (e) {
-                    console.warn('createMediaElementSource failed', e)
-                  }
+        <div className="flex items-center">
+          <button
+            type="button"
+            onClick={async () => {
+              if (musicMinimized) {
+                // Si está minimizado y hacen clic, pausar música y restaurar mensaje
+                const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+                if (audio && !audio.paused) {
+                  audio.pause()
+                  audio.currentTime = 0
+                  setIsPlaying(false) // Actualiza visual inmediatamente
                 }
-              } else if (audioCtxRef.current.state === 'suspended') {
-                await audioCtxRef.current.resume()
+                setMusicMinimized(false)
+                setShowPlayHint(true)
+              } else {
+                // Expandir y reproducir música inmediatamente
+                setMusicMinimized(true)
+                const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+                if (audio && audio.paused) {
+                  audio.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false))
+                }
               }
-            } catch (e) {
-              console.error('AudioContext setup failed', e)
-            }
-            if (audio.paused) {
-              audio.play().catch((err) => { console.error('play failed', err); setAudioError(String(err)) })
-            } else {
-              audio.pause()
-            }
-          }}
-          className="rounded-full bg-white/90 p-3 shadow-md ring-1 ring-emerald-200 flex items-center gap-2 group"
-          aria-label="Reproducir / Pausar música de fondo"
-        >
-          {isPlaying ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-rose-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-rose-500 group-hover:animate-pulse" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="12" r="9.5" fill="none" stroke="white" strokeWidth="1.2" opacity="0.95" />
-              <path fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
-            </svg>
+            }}
+            className="rounded-full p-3 shadow-md ring-1 ring-emerald-200 flex items-center justify-center"
+            style={{ background: 'rgba(255,255,255,0.35)' }}
+            aria-label={musicMinimized ? 'Restaurar barra de música' : 'Minimizar barra de música'}
+          >
+            {isPlaying ? (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-rose-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8.24 4 9.91 4.81 11 6.09 12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-rose-500 group-hover:animate-pulse" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9.5" fill="none" stroke="white" strokeWidth="1.2" opacity="0.95" />
+                <path fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" d="M3.172 5.172a4.5 4.5 0 016.364 0L12 7.636l1.464-1.464a4.5 4.5 0 116.364 6.364L12 20.364l-7.828-7.828a4.5 4.5 0 010-6.364z" />
+              </svg>
+            )}
+          </button>
+          {!musicMinimized && (
+            <button
+              type="button"
+              onClick={async () => {
+                const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
+                if (!audio) return
+                setShowPlayHint(false)
+                try {
+                  if (!audioCtxRef.current) {
+                    const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext
+                    if (Ctx) {
+                      const ctx: AudioContext = new Ctx()
+                      try {
+                        const src = ctx.createMediaElementSource(audio)
+                        const gain = ctx.createGain()
+                        src.connect(gain)
+                        gain.connect(ctx.destination)
+                        gain.gain.value = Math.max(0, Math.min(1, volume / 100))
+                        audioCtxRef.current = ctx
+                        gainRef.current = gain
+                      } catch (e) {
+                        console.warn('createMediaElementSource failed', e)
+                      }
+                    }
+                  } else if (audioCtxRef.current.state === 'suspended') {
+                    await audioCtxRef.current.resume()
+                  }
+                } catch (e) {
+                  console.error('AudioContext setup failed', e)
+                }
+                if (audio.paused) {
+                  audio.play().then(() => setIsPlaying(true)).catch((err) => { console.error('play failed', err); setAudioError(String(err)); setIsPlaying(false) })
+                } else {
+                  audio.pause()
+                  setIsPlaying(false)
+                }
+              }}
+              className="ml-2 rounded-full p-3 flex items-center gap-2"
+              style={{ background: 'rgba(255,255,255,0.0)' }}
+              aria-label="Reproducir / Pausar música de fondo"
+            >
+              <span className="ml-2 text-emerald-900 font-serif text-[0.98rem] sm:text-[1.05rem] transition-all duration-500 group-hover:animate-fade-in-up" style={{letterSpacing: '0.01em'}}>
+                <span className="inline-block align-middle">🎵</span> <span className="align-middle">Escucha nuestra canción</span>
+              </span>
+            </button>
           )}
-          <span className="ml-2 text-emerald-900 font-serif text-[0.98rem] sm:text-[1.05rem] transition-all duration-500 group-hover:animate-fade-in-up" style={{letterSpacing: '0.01em'}}>
-            <span className="inline-block align-middle">🎵</span> <span className="align-middle">Escucha nuestra canción</span>
-          </span>
-        </button>
+        </div>
         {/* Volume control */}
         <div className="relative mt-3 flex justify-end">
           <button
             type="button"
             aria-label="Volumen"
             onClick={() => setShowVolume((s) => !s)}
-            className="rounded-full bg-white/90 p-2 shadow-md ring-1 ring-emerald-200"
+            className="rounded-full p-2 shadow-md ring-1 ring-emerald-200"
+            style={{ background: 'rgba(255,255,255,0.35)' }}
           >
             {volume === 0 ? (
               // Muted speaker with X — speaker base + an X (stroke)

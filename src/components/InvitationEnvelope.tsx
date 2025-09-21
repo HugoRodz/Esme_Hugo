@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { getInvitations } from '../data/invitations'
 
 export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber: number) => void }) {
-  // (Eliminado useEffect duplicado y mal colocado)
   const invites = useMemo(() => getInvitations(), [])
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
@@ -20,7 +19,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
 
 
-  // Scroll lock avanzado para iPhone/Safari
   useEffect(() => {
     if (typeof window === 'undefined') return;
     let scrollY = 0;
@@ -36,7 +34,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
       document.documentElement.style.overflow = 'hidden';
       document.documentElement.style.background = '#fff';
     } else {
-      // Restaurar scroll y estilos
       const top = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
@@ -47,7 +44,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
       document.body.style.background = '';
       document.documentElement.style.overflow = '';
       document.documentElement.style.background = '';
-      // Restaurar scroll solo si estaba bloqueado
       if (top) {
         window.scrollTo(0, -parseInt(top || '0'));
       }
@@ -69,8 +65,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     };
   }, [isMobile, resolved]);
 
-  // Probe which decorative image is actually available on the server to avoid
-  // the static-server SPA fallback that returns index.html for missing files.
   useEffect(() => {
     let canceled = false
     async function probe() {
@@ -98,7 +92,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     return () => { canceled = true }
   }, [])
 
-  // Generate QR inline when an invitation is resolved (hooks must be top-level)
   useEffect(() => {
     if (resolved == null) {
       setQrDataUrl(null)
@@ -125,7 +118,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           if (!cancelled) setQrDataUrl(url)
           return
         }
-        // load lib
         await new Promise<void>((resolve, reject) => {
           if (document.querySelector('script[data-qr-lib]')) return resolve()
           const s = document.createElement('script')
@@ -145,7 +137,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           return
         }
       } catch (e) {
-        // ignore and fallback
       }
       if (!cancelled) setQrDataUrl(fallback)
     }
@@ -153,10 +144,8 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     return () => { cancelled = true }
   }, [resolved, isMobile, invites])
   useEffect(() => {
-    // Eliminado efecto de scroll, ya no se usa para transparencia
   }, [])
 
-  // responsive container width (92vw up to 480px)
   useEffect(() => {
     const calc = () => setContainerWidth(Math.round(Math.min(window.innerWidth * 0.92, 480)))
   calc()
@@ -182,7 +171,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     } catch (e) { /* ignore */ }
   }, [invites])
 
-  // preload the envelope image to detect load/error and avoid distortion
   useEffect(() => {
   const src = `${import.meta.env.BASE_URL}images/nueva.png`
     const img = new Image()
@@ -195,7 +183,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     }
   }, [])
 
-  // preload to capture natural size and compute aspect ratio
   useEffect(() => {
   const src = `${import.meta.env.BASE_URL}images/nueva.png`
     const img = new Image()
@@ -220,7 +207,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
       setError('No encontramos ese número. Revisa tu invitación.')
       return
     }
-    // verify 3-digit code
     const expected = invites[n].code
     const cleaned = String(verCode || '').trim()
     if (!/^\d{3}$/.test(cleaned)) {
@@ -235,7 +221,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     try { localStorage.setItem('invite-number', String(n)) } catch (e) { /* ignore */ }
     try { localStorage.setItem('invite-code', String(cleaned)) } catch (e) { /* ignore */ }
     if (onOpen) onOpen(n)
-    // close the input modal and open the decorative invitation view (difuminada)
     setOpen(false)
     setShowInvite(true)
   }
@@ -243,7 +228,6 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   if (resolved && !showInvite) {
     const info = invites[resolved]
     return (
-  // top-left non-intrusive card with minimize/maximize and decorative plants
   <div className="fixed top-4 left-4 sm:top-6 sm:left-6 z-50">
   {/* overlay removed to avoid global opacity */}
         <div
@@ -258,8 +242,8 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           {/* decorative leaf image uploaded by user (shows on the resolved card) */}
           <img
             src={`${import.meta.env.BASE_URL}images/hojas-de-rama.png`}
-            alt="hoja decorativa"
-            aria-hidden
+            alt=""
+            aria-hidden="true"
             className="pointer-events-none absolute -top-14 -left-8"
             style={{ width: 120, height: 80, opacity: 0.9, objectFit: 'contain', zIndex: 1 }}
           />
@@ -274,17 +258,17 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
               )}
             </div>
             <div className="flex items-center gap-2">
-              <button onClick={() => setMinimized(!minimized)} title={minimized ? 'Maximizar' : 'Minimizar'} className="rounded-md p-1 ring-1" style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(160,130,40,0.12)' }}>
+              <button onClick={() => setMinimized(!minimized)} title={minimized ? 'Maximizar' : 'Minimizar'} className="rounded-md p-1 ring-1 bg-white/70 border border-[rgba(160,130,40,0.12)]">
                 {minimized ? (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-700" viewBox="0 0 20 20" fill="currentColor"><path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/></svg>
                 ) : (
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-700" viewBox="0 0 20 20" fill="currentColor"><path d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/></svg>
                 )}
               </button>
-              <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch(e){} }} title="Cerrar" className="rounded-md p-1" style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(160,130,40,0.12)' }}>
+              <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch(e){} }} title="Cerrar" className="rounded-md p-1 bg-white/70 border border-[rgba(160,130,40,0.12)]">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/></svg>
               </button>
-              <button onClick={() => setShowInvite(true)} title="Abrir" className="rounded-md px-2 py-1 text-sm" style={{ background: 'rgba(46, 80, 54, 0.06)', border: '1px solid rgba(160,130,40,0.08)' }}>Abrir</button>
+              <button onClick={() => setShowInvite(true)} title="Abrir" className="rounded-md px-2 py-1 text-sm bg-[rgba(46,80,54,0.06)] border border-[rgba(160,130,40,0.08)]">Abrir</button>
             </div>
           </div>
         </div>
@@ -326,14 +310,14 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
               <img
                 src={`${import.meta.env.BASE_URL}images/hojas-de-rama.png`}
                 alt=""
-                aria-hidden
+                aria-hidden="true"
                 style={{ position: 'absolute', top: 10, left: 10, width: 110, height: 'auto', opacity: 0.6, pointerEvents: 'none', zIndex: 0, transform: 'scaleX(-1) rotate(-6deg)' }}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
               />
               <img
                 src={`${import.meta.env.BASE_URL}images/hojas-de-rama.png`}
                 alt=""
-                aria-hidden
+                aria-hidden="true"
                 style={{ position: 'absolute', bottom: 10, right: 10, width: 110, height: 'auto', opacity: 0.5, pointerEvents: 'none', zIndex: 0 }}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
               />
@@ -375,7 +359,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                 {/* La funcionalidad de descarga de PDF está temporalmente removida */}
 
                 <div className="mt-4 flex justify-center">
-                  <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2" style={{ background: '#fff', border: '1px solid rgba(46,80,54,0.08)', boxShadow: '0 6px 14px rgba(46,80,54,0.03)' }}>Cerrar</button>
+                  <button onClick={() => setShowInvite(false)} className="rounded-lg px-4 py-2 bg-white border border-[rgba(46,80,54,0.08)] shadow-[0_6px_14px_rgba(46,80,54,0.03)]">Cerrar</button>
                 </div>
               </div>
             </div>
@@ -470,10 +454,10 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                 />
                 {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
                 {/* volcano image shown plainly in the input modal (no blur) */}
-                <img src={volcanSrc || `${import.meta.env.BASE_URL}images/volcan.png`} alt="" aria-hidden style={{ position: 'absolute', top: -22, right: -22, width: 64, height: 64, objectFit: 'cover', zIndex: 1, borderRadius: '50%', border: '3px solid white', boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }} />
+                <img src={volcanSrc || `${import.meta.env.BASE_URL}images/volcan.png`} alt="" aria-hidden="true" style={{ position: 'absolute', top: -22, right: -22, width: 64, height: 64, objectFit: 'cover', zIndex: 1, borderRadius: '50%', border: '3px solid white', boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }} />
                 <div className="mt-4 flex justify-end gap-2">
                   <button onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 ring-1 ring-emerald-200">Cancelar</button>
-                  <button onClick={submit} className="rounded-lg bg-emerald-600 text-white px-3 py-2">Abrir</button>
+                  <button onClick={submit} className="rounded-lg bg-emerald-600 text-white px-3 py-2 hover:bg-emerald-700 transition">Abrir</button>
                 </div>
               </div>
             </div>
