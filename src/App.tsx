@@ -782,9 +782,13 @@ export default function App() {
 
         {/* Avisos y restricciones */}
         <section id="avisos" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Avisos y restricciones</h2>
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/notificaciones.png`} alt="Avisos" className="h-6 w-6" />
+            Avisos y restricciones
+          </h2>
           <ul className="mt-2 list-disc pl-6 text-slate-700 space-y-1">
-            <li>No se aceptan niños, solo bebés en brazos.</li>
+            <li>Para que todos puedan relajarse y disfrutar plenamente, la celebración será solo para adultos.</li>
+            <li>Les invitamos a considerar que en Comala habrá fiestas durante esas fechas, por lo que lo mejor es reservar hospedaje lo antes posible.</li>
             <li>Estacionamiento limitado. Sugerimos compartir vehículo cuando sea posible.</li>
             <li>Te recomendamos llegar 15 minutos antes de la ceremonia.</li>
           </ul>
