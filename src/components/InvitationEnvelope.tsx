@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getInvitations } from '../data/invitations'
 
 export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber: number) => void }) {
+  // (Eliminado useEffect duplicado y mal colocado)
   const invites = useMemo(() => getInvitations(), [])
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
@@ -18,6 +19,29 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const [showInvite, setShowInvite] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
+
+
+  // useEffect para bloquear/desbloquear scroll y fondo según estado
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (isMobile && !resolved) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.background = '#fff';
+      document.documentElement.style.background = '#fff';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.background = '';
+      document.documentElement.style.background = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.style.background = '';
+      document.documentElement.style.background = '';
+    };
+  }, [isMobile, resolved]);
 
   // Probe which decorative image is actually available on the server to avoid
   // the static-server SPA fallback that returns index.html for missing files.
@@ -343,14 +367,20 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center">
-      {/* Fondo modal: blanco sólido solo cuando el sobre está activo y no resuelto */}
+      {/* Fondo modal: blanco sólido, cubre toda la pantalla y bloquea scroll en móvil */}
       <div 
-        className="fixed inset-0 transition-colors duration-300" 
-        style={{ 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
           background: isMobile && !resolved ? '#fff' : 'linear-gradient(to bottom, #fff9f0, #fff)',
           zIndex: 0
         }}
       ></div>
+      {/* Bloquear scroll y fondo del body/html en móvil mientras el sobre está activo */}
+      {/* Controlar scroll y fondo del body/html de forma reactiva */}
       <div className="envelope-container relative z-10">
         <div
           className={`envelope rounded-2xl overflow-hidden shadow-lg ring-1 ring-emerald-200 bg-white ${open ? 'open' : ''}`}
