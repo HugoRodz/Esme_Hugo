@@ -343,35 +343,31 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center">
-      {/* En móviles, si el sobre está visible y no está resuelto, ocultamos todo el fondo */}
+      {/* Fondo modal: blanco sólido solo cuando el sobre está activo y no resuelto */}
       <div 
-        className="fixed inset-0" 
+        className="fixed inset-0 transition-colors duration-300" 
         style={{ 
           background: isMobile && !resolved ? '#fff' : 'linear-gradient(to bottom, #fff9f0, #fff)',
-          opacity: isMobile && !resolved ? 1 : undefined
+          zIndex: 0
         }}
       ></div>
       <div className="envelope-container relative z-10">
         <div
           className={`envelope rounded-2xl overflow-hidden shadow-lg ring-1 ring-emerald-200 bg-white ${open ? 'open' : ''}`}
           style={{
-            // compute height to match image aspect ratio so it doesn't get cropped
             width: `${containerWidth}px`,
             height: imgRatio ? `${Math.round(containerWidth * imgRatio)}px` : '320px',
             position: 'relative',
-            backgroundImage: `url(${import.meta.env.BASE_URL}images/nueva.png)`,
+            backgroundImage: imgLoaded && !imgError ? `url(${import.meta.env.BASE_URL}images/nueva.png)` : 'none',
             backgroundSize: 'cover',
-            // keep focus centered vertically once the container has the correct ratio
             backgroundPosition: 'center 50%',
             backgroundRepeat: 'no-repeat',
-            // Add a solid background to prevent content from showing through
             backgroundColor: '#FFFFFF',
-            // Add a drop shadow for depth
             boxShadow: '0 12px 36px rgba(0,0,0,0.12)'
           }}
         >
-          {!imgLoaded && imgError && (
-            <div className="absolute inset-0 flex items-center justify-center p-4 bg-white/60">
+          {imgError && (
+            <div className="absolute inset-0 flex items-center justify-center p-4 bg-white/80">
               <div className="text-slate-600 text-center">Imagen del sobre no encontrada</div>
             </div>
           )}
