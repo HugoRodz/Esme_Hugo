@@ -13,7 +13,7 @@ const outImage = path.join(projectRoot, 'public/images/og_colima_text.jpg')
 const W = 1200
 const H = 630
 
-const title = 'Esmeralda & Jorge'
+const title = 'Esmeralda & Hugo'
 const subtitle = '29 de noviembre de 2025 • Comala, Colima'
 
 const fontCss = `
@@ -65,7 +65,7 @@ async function main() {
     </defs>
     <rect x='18' y='18' rx='18' ry='18' fill='rgba(236,253,245,0.85)' stroke='rgba(16,185,129,0.35)' width='64' height='28'/>
     <text x='50' y='38' font-family='Inter' font-size='16' fill='#064e3b'>Boda</text>
-    <text x='48' y='520' font-family='Marcellus' font-size='80' fill='#ffffff' style='text-shadow: 0 2px 14px rgba(0,0,0,.5)'>Jorge &amp; Esmeralda</text>
+  <text x='48' y='520' font-family='Marcellus' font-size='80' fill='#ffffff' style='text-shadow: 0 2px 14px rgba(0,0,0,.5)'>Hugo &amp; Esmeralda</text>
     <text x='48' y='575' font-family='Inter' font-size='28' fill='#e6fffa'>29 de noviembre de 2025 • Comala, Colima</text>
   </svg>`
 

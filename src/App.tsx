@@ -180,7 +180,7 @@ export default function App() {
   }
   const makeICS = (title: string, start: Date, end: Date, details: string, location: string) => {
     const ics = [
-      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//boda//jorge-esmeralda//ES',
+  'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//boda//esme-hugo//ES',
       'BEGIN:VEVENT',
       `DTSTART:${fmtDate(start)}`,
       `DTEND:${fmtDate(end)}`,

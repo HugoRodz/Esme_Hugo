@@ -2,9 +2,9 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-# Invitación de boda — Esmeralda & Jorge
+# Invitación de boda — Esmeralda & Hugo
 
-Invitación web para la boda de Jorge Hugo Rodríguez Peñaloza y Esmeralda Dueñas Fuentes. Evento en Comala, Colima. Fecha: 29 de noviembre de 2025.
+Invitación web para la boda de Hugo Rodríguez Peñaloza y Esmeralda Dueñas Fuentes. Evento en Comala, Colima. Fecha: 29 de noviembre de 2025.
 
 ## Scripts
 - `npm run dev`: entorno de desarrollo
@@ -19,7 +19,7 @@ Invitación web para la boda de Jorge Hugo Rodríguez Peñaloza y Esmeralda Due�
 ### Extras añadidos
 - Favicon personalizado en `public/favicon.svg` y referenciado desde `index.html`.
 - Metatags Open Graph/Twitter con imagen absoluta para compartir correctamente.
-- `public/404.html` como fallback para GitHub Pages (redirección a `/boda-jorge-esmeralda/`).
+- `public/404.html` como fallback para GitHub Pages (redirección a `/Esme_Hugo/`).
 
 _Nota:_ despliegue de prueba desde Mac para verificar flujo de Actions.
 
