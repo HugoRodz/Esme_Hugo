@@ -194,20 +194,24 @@ export default function App() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const isLightboxOpen = lightboxIndex !== null
   const gallery = useMemo(() => [
-    'WhatsApp Image 2025-08-14 at 1.54.13 AM (1).jpeg',
+    // 14 de agosto (solo las que existen)
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (3).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (4).jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.13 AM (5).jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.13 AM (6).jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.13 AM (7).jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.13 AM (8).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.13 AM.jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.14 AM (1).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.14 AM (2).jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.14 AM (3).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.14 AM (4).jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.14 AM (5).jpeg',
-    'WhatsApp Image 2025-08-14 at 1.54.14 AM.jpeg',
+    // 28 de agosto (nuevas)
+    'WhatsApp Image 2025-08-28 at 20.29.07.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.29.27.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.29.49.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.31.30.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.31.50.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.32.17.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.32.27.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.43.16.jpeg',
+    'WhatsApp Image 2025-08-28 at 20.44.44.jpeg',
+    // 19 de octubre
+    'WhatsApp Image 2025-10-19 at 01.08.11.jpeg',
   ], [])
 
   useEffect(() => {
