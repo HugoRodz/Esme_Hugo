@@ -244,6 +244,16 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   if (resolved && !showInvite) {
     const info = invites[resolved]
+    const firstName = (info.name || '').trim().split(/\s+/)[0] || info.name
+    const nNorm = (firstName || '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase()
+    const fem = new Set([
+      'norma','blanca','raquel','esmeralda','angelica','angela','paola','maria','marcela','diana','karla','alejandra','fernanda','patricia','veronica','brenda','guadalupe','lupita','sofia','andrea','pamela','adriana','monica','silvia','edith'
+    ])
+    const masc = new Set([
+      'hugo','jorge','sabino','fernando','luis','carlos','jose','miguel','juan','ricardo','alejandro','manuel','antonio','roberto'
+    ])
+    const isFemale = fem.has(nNorm) || (!masc.has(nNorm) && nNorm.endsWith('a'))
+    const saludo = `Bienvenid${isFemale ? 'a' : 'o'}, ${firstName} ❤️`
     return (
   <div className="fixed top-4 left-4 sm:top-6 sm:left-6 z-50">
   {/* overlay removed to avoid global opacity */}
@@ -256,22 +266,60 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
             boxShadow: minimized ? '0 2px 8px rgba(0,0,0,0.08)' : '0 10px 30px rgba(0,0,0,0.08)'
           }}
         >
-          {/* decorative leaf image uploaded by user (shows on the resolved card) */}
-          <img
-            src={`${import.meta.env.BASE_URL}images/hojas-de-rama.png`}
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-14 -left-8"
-            style={{ width: 120, height: 80, opacity: 0.9, objectFit: 'contain', zIndex: 1 }}
-          />
+          {/* decorative leaf image (oculta en modo minimizado para no estorbar) */}
+          {!minimized && (
+            <img
+              src={`${import.meta.env.BASE_URL}images/hojas-de-rama.png`}
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none absolute -top-14 -left-8"
+              style={{ width: 120, height: 80, opacity: 0.9, objectFit: 'contain', zIndex: 1 }}
+            />
+          )}
           <div className={`p-3 ${minimized ? 'flex items-center gap-2' : 'p-4'}`} style={{ position: 'relative', zIndex: 2 }}>
             <div className="flex-1">
-              <div style={{ color: '#70561A', fontFamily: 'Marcellus, "Brush Script MT", "Segoe Script", "Dancing Script", cursive' }} className={`${minimized ? 'text-sm' : 'text-xl'}`}>Bienvenido, {info.name}</div>
+              <div
+                style={{ color: '#70561A', fontFamily: 'Marcellus, "Brush Script MT", "Segoe Script", "Dancing Script", cursive' }}
+                className={minimized ? 'text-xs sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[11.5rem]' : 'text-xl'}
+                title={saludo}
+              >
+                {saludo}
+              </div>
               {!minimized && (
-                <>
-                  <p className="mt-1 text-slate-700 text-sm">Número de invitación: <span className="font-mono">{resolved}</span></p>
-                  <p className="mt-1 text-slate-700 text-sm">Pases asignados: <strong>{info.passes}</strong></p>
-                </>
+                <div style={{ marginTop: 6, marginBottom: 10, textAlign: 'center' }}>
+                  <div
+                    aria-label="Pases asignados"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '4px 8px',
+                      borderRadius: 10,
+                      background: 'linear-gradient(180deg, #fffdf8, #fff7e9)',
+                      border: '1px solid rgba(201,158,42,0.22)',
+                      boxShadow: '0 6px 14px rgba(201,158,42,0.10)'
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'Marcellus, serif',
+                        fontSize: 10,
+                        letterSpacing: 0.8,
+                        textTransform: 'uppercase',
+                        color: '#8a6b1f'
+                      }}
+                    >Pases</span>
+                    <span aria-hidden style={{ width: 1, height: 14, background: 'rgba(201,158,42,0.25)' }} />
+                    <span
+                      style={{
+                        fontFamily: 'Marcellus, serif',
+                        fontWeight: 800,
+                        fontSize: 16,
+                        color: '#2f3f37'
+                      }}
+                    >{info.passes}</span>
+                  </div>
+                </div>
               )}
             </div>
             <div className="flex items-center gap-2">
@@ -285,7 +333,9 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
               <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch { /* ignore */ } }} title="Cerrar" className="rounded-md p-1 bg-white/70 border border-[rgba(160,130,40,0.12)]">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/></svg>
               </button>
-              <button onClick={() => setShowInvite(true)} title="Abrir" className="rounded-md px-2 py-1 text-sm bg-[rgba(46,80,54,0.06)] border border-[rgba(160,130,40,0.08)]">Abrir</button>
+              {!minimized && (
+                <button onClick={() => setShowInvite(true)} title="Abrir" className="rounded-md px-2 py-1 text-sm bg-[rgba(46,80,54,0.06)] border border-[rgba(160,130,40,0.08)]">Abrir</button>
+              )}
             </div>
           </div>
         </div>

@@ -1048,9 +1048,7 @@ export default function App() {
           <a className="text-emerald-700 hover:underline" href="#">#Esme&Hugo</a>
         </div>
       </footer>
-      <div className="text-center text-xs text-slate-500 mt-2 mb-4">
-        Icono "Vestido de novia" por <a href="https://www.flaticon.es/autores/sbts2018" target="_blank" rel="noopener" className="underline">SBTS2018</a> en <a href="https://www.flaticon.es/" target="_blank" rel="noopener" className="underline">Flaticon</a> (uso con atribución)
-      </div>
+  {/* Atribución de icono retirada a petición del usuario */}
 
       {/* Música: no renderizamos un reproductor nativo adicional. Si no hay audio propio, mostramos YouTube como fallback. */}
       {!MUSIC.audioUrl && MUSIC.youtubeId ? (

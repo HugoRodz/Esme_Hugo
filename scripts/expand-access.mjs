@@ -37,7 +37,7 @@ Maria Rincón	1	5	156
 Luis Manuel Flores	1	5	157
 Julieta Salazar	1	5	158
 Amaranta Romero	2	6	261
-Alejandra Torre	1	6	161
+Alejandra Torres	1	6	161
 Sugey Barrera	1	6	162
 Maria Gálvez Valencia	1	6	163
 Adriana Flores Cardenas	1	6	164
@@ -49,7 +49,7 @@ Martha Torres	1	7	172
 Andrea Torres	1	7	173
 Nayeli Hurtado	1	7	174
 Hector Salazar	2	7	272
-Angelica	2	7	273
+Angelica Ramirez Navarro	2	7	273
 Tania Murillo	2	8	281
 Mayra Martinez	2	8	282
 Erika Aguirre	2	8	283
@@ -58,7 +58,7 @@ Fatima castrejón	2	8	285
 Fernando Calderón Calderón	3	9	391
 Rodrigo Arcila	2	9	291
 Diego Arcila	2	9	292
-Telus	2	9	293
+Victor Hugo Nuñez	2	9	293
 Israel Calderon	2	9	294
 Naviel Berber	2	10	201
 Fernando Berber	1	10	101
