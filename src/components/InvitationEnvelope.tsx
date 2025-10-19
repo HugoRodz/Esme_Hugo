@@ -95,6 +95,12 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           const ct = res.headers.get('content-type') || ''
           return res.ok && ct.startsWith('image')
         }
+        // Preferir imagen personalizada de pareja si existe
+        if (await tryHead('pareja-de-boda.png')) {
+          if (!canceled) setVolcanSrc(`${base}images/pareja-de-boda.png`)
+          return
+        }
+        // Fallback a volcán (png/svg) si no está la imagen personalizada
         if (await tryHead('volcan.png')) {
           if (!canceled) setVolcanSrc(`${base}images/volcan.png`)
           return
@@ -218,7 +224,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     // Nueva validación: mesa + código
     const mesa = Number(input)
     const cleaned = String(verCode || '').trim()
-    if (!Number.isInteger(mesa) || mesa < 1 || mesa > 50) {
+  if (!Number.isInteger(mesa) || mesa < 1 || mesa > 12) {
       setError('Introduce un número de mesa válido')
       return
     }
@@ -561,12 +567,33 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
         <div className="rounded-2xl bg-white p-5 shadow-lg ring-1 ring-emerald-100" style={{ border: '1px solid rgba(46, 80, 54, 0.06)', fontFamily: 'Marcellus, "Dancing Script", serif', position: 'relative', overflow: 'visible' }}>
                 <div className="flex items-start justify-between">
                   <div>
-                      <h3 className="text-lg font-semibold" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', textShadow: '0 1px 0 rgba(255,255,255,0.6)' }}>Introduce tu mesa</h3>
-                    </div>
+                    <h3 className="text-xl sm:text-2xl font-semibold" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', textShadow: '0 1px 0 rgba(255,255,255,0.6)' }}>Tu invitación te espera ✨</h3>
+                    <p className="mt-1 text-sm text-slate-600">Ingresa tu mesa y tu código para abrirla.</p>
+                  </div>
                 </div>
-                <label htmlFor="mesa-input" className="mt-3 block text-sm text-emerald-700">Número de mesa</label>
-                <input id="mesa-input" value={input} onChange={(e) => setInput(e.target.value)} className="mt-1 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten" placeholder="Ej. 1" style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }} />
-                <label htmlFor="code-input" className="mt-3 block text-sm text-emerald-700">Código de verificación</label>
+                <label
+                  htmlFor="mesa-input"
+                  className="mt-3 block text-sm font-semibold font-serif"
+                  style={{ color: '#C59A2A' }}
+                >Número de mesa</label>
+                <input
+                  id="mesa-input"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="mt-1 w-full rounded-xl border border-emerald-200/70 bg-white/90 px-3 py-2.5 handwritten text-center shadow-sm outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-300"
+                  placeholder="Ej. 1"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  aria-describedby="mesa-hint"
+                  autoFocus
+                  style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }}
+                />
+                <p id="mesa-hint" className="mt-1 text-xs text-slate-500">Del 1 al 12</p>
+                <label
+                  htmlFor="code-input"
+                  className="mt-3 block text-sm font-semibold font-serif"
+                  style={{ color: '#C59A2A' }}
+                >Código de verificación</label>
                 <input
                   id="code-input"
                   value={verCode}
@@ -575,16 +602,35 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                     const cleaned = String(e.target.value).replace(/\D/g, '').slice(0, 3)
                     setVerCode(cleaned)
                   }}
-                  className="mt-3 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten text-center"
+                  className="mt-1 w-full rounded-xl border border-emerald-200/70 bg-white/90 px-3 py-2.5 handwritten text-center shadow-sm outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-300 tracking-widest"
                   placeholder="Ej. 001"
                   inputMode="numeric"
                   pattern="\\d{3}"
                   maxLength={3}
-                  style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.12)', fontSize: '20px', lineHeight: '1.1' }}
+                  aria-describedby="code-hint"
+                  style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.12)', fontSize: '20px', lineHeight: '1.1', fontVariantNumeric: 'tabular-nums', letterSpacing: '0.12em' }}
                 />
+                <p id="code-hint" className="mt-1 text-xs text-slate-500">3 dígitos (ej. 001)</p>
                 {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
                 {/* volcano image shown plainly in the input modal (no blur) */}
-                <img src={volcanSrc || `${import.meta.env.BASE_URL}images/volcan.png`} alt="" aria-hidden="true" style={{ position: 'absolute', top: -22, right: -22, width: 64, height: 64, objectFit: 'cover', zIndex: 1, borderRadius: '50%', border: '3px solid white', boxShadow: '0 6px 18px rgba(0,0,0,0.12)' }} />
+                <img
+                  src={volcanSrc || `${import.meta.env.BASE_URL}images/pareja-de-boda.png`}
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    top: -10,
+                    right: -10,
+                    width: 56,
+                    height: 56,
+                    objectFit: 'cover',
+                    zIndex: 1,
+                    borderRadius: '50%',
+                    border: '2px solid rgba(201,158,42,0.9)', // borde dorado sutil
+                    outline: '3px solid #fff', // aro blanco exterior
+                    boxShadow: '0 6px 18px rgba(0,0,0,0.12)'
+                  }}
+                />
                 <div className="mt-4 flex justify-end gap-2">
                   <button onClick={() => setOpen(false)} className="rounded-lg px-3 py-2 ring-1 ring-emerald-200">Cancelar</button>
                   <button onClick={submit} className="rounded-lg bg-emerald-600 text-white px-3 py-2 hover:bg-emerald-700 transition">Abrir</button>
