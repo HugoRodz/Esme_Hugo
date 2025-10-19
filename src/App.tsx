@@ -725,6 +725,67 @@ export default function App() {
 
         <LeafDivider />
 
+        
+
+        
+
+        {/* Comala, tierra de Esmeralda */}
+        <section id="comala" className="mt-6">
+          <h2 className="text-2xl font-semibold text-emerald-900">Comala, tierra de Esmeralda</h2>
+          <p className="mt-2 text-slate-700">Comala es un Pueblo Mágico conocido por sus fachadas blancas, portales y cafés tradicionales. Entre sus volcanes cercanos y su historia literaria, el pueblo guarda una calidez que nos acompaña en este día especial. Es de aquí de donde es originaria Esmeralda, y por eso quisimos celebrar en su tierra.</p>
+          <a href={mapLink('Comala, Colima')} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Ver Comala en Maps</a>
+        </section>
+
+  {/* La Molienda (Museo) */}
+  <section id="museo-la-molienda" className="mt-8 grid gap-6 sm:grid-cols-5 items-center">
+          <div className="sm:col-span-3">
+            <h2 className="text-2xl font-semibold text-emerald-900">La Molienda (Museo)</h2>
+            <p className="mt-2 text-slate-700">La Molienda es un museo y espacio cultural en Comala, parte de la antigua Hacienda Noguera. Antiguamente vinculada a las labores de molienda, hoy preserva su historia entre muros de cal y jardines arbolados. Es un sitio íntimo y con encanto, ideal para celebrar rodeados de tradición y naturaleza.</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="inline-block text-emerald-700 hover:underline">Ver ubicación</a>
+              {MAP.streetNote && <span className="text-slate-600">Referencia: {MAP.streetNote}</span>}
+            </div>
+          </div>
+          {/* Se retiró el mapa embebido para no saturar con iframes */}
+        </section>
+
+  {/* Evento: Ceremonia, Recepción, Código de vestimenta */}
+  <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
+          <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
+            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
+              <IconBadge>💍</IconBadge>
+              Ceremonia
+            </h3>
+            <p className="mt-2 text-slate-700">29/11/2025 • 13:30 h</p>
+            <p className="text-slate-600">{MAP.ceremony.name}</p>
+            <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
+            <div className="mt-2 flex flex-wrap gap-2 text-sm">
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Ceremonia – Esmeralda & Hugo', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Ceremonia – Esmeralda & Hugo', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} download="ceremonia.ics">Descargar .ics</a>
+            </div>
+          </div>
+          <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
+            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
+              <IconBadge>🥂</IconBadge>
+              Recepción
+            </h3>
+            <p className="mt-2 text-slate-700">29/11/2025 • 15:45 h</p>
+            <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
+            <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
+            <div className="mt-2 flex flex-wrap gap-2 text-sm">
+              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Recepción – Esmeralda & Hugo', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} target="_blank" rel="noopener">Agregar a Google</a>
+              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Recepción – Esmeralda & Hugo', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} download="recepcion.ics">Descargar .ics</a>
+            </div>
+          </div>
+          <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
+            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
+                <DressTuxBadge />
+                Código de vestimenta
+              </h3>
+            <p className="mt-2 text-slate-700">Formal</p>
+          </div>
+        </section>
+
         {/* Cómo llegar */}
         <section id="como-llegar" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
@@ -774,62 +835,6 @@ export default function App() {
               </div>
             </div>
           </div>
-        </section>
-
-        <section id="evento" className="mt-8 grid gap-6 sm:grid-cols-3">
-          <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
-              <IconBadge>💍</IconBadge>
-              Ceremonia
-            </h3>
-            <p className="mt-2 text-slate-700">29/11/2025 • 13:30 h</p>
-      <p className="text-slate-600">{MAP.ceremony.name}</p>
-      <a href={mapLink(MAP.ceremony.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
-            <div className="mt-2 flex flex-wrap gap-2 text-sm">
-              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Ceremonia – Esmeralda & Hugo', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} target="_blank" rel="noopener">Agregar a Google</a>
-              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Ceremonia – Esmeralda & Hugo', EVENT_DATETIME, new Date(EVENT_DATETIME.getTime()+90*60000), 'Ceremonia de boda', MAP.ceremony.name)} download="ceremonia.ics">Descargar .ics</a>
-            </div>
-          </div>
-          <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
-              <IconBadge>🥂</IconBadge>
-              Recepción
-            </h3>
-            <p className="mt-2 text-slate-700">29/11/2025 • 15:45 h</p>
-      <p className="text-slate-600">{MAP.reception.name}{MAP.streetNote ? ` · ${MAP.streetNote}` : ''}</p>
-      <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="mt-1 inline-block text-emerald-700 hover:underline">Ver mapa</a>
-            <div className="mt-2 flex flex-wrap gap-2 text-sm">
-              <a className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100" href={makeGoogleCal('Recepción – Esmeralda & Hugo', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} target="_blank" rel="noopener">Agregar a Google</a>
-              <a className="rounded-full bg-white px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-50" href={makeICS('Recepción – Esmeralda & Hugo', RECEPTION_DATETIME, new Date(RECEPTION_DATETIME.getTime()+240*60000), 'Recepción de boda', MAP.reception.name)} download="recepcion.ics">Descargar .ics</a>
-            </div>
-          </div>
-          <div className="rounded-xl border border-emerald-200 bg-white p-6 shadow-sm">
-            <h3 className="font-semibold text-emerald-900 flex items-center gap-2">
-                <DressTuxBadge />
-                Código de vestimenta
-              </h3>
-            <p className="mt-2 text-slate-700">Formal</p>
-          </div>
-        </section>
-
-        {/* La Molienda (Museo) */}
-        <section id="museo-la-molienda" className="mt-8 grid gap-6 sm:grid-cols-5 items-center">
-          <div className="sm:col-span-3">
-            <h2 className="text-2xl font-semibold text-emerald-900">La Molienda (Museo)</h2>
-            <p className="mt-2 text-slate-700">La Molienda es un museo y espacio cultural en Comala, parte de la antigua Hacienda Noguera. Antiguamente vinculada a las labores de molienda, hoy preserva su historia entre muros de cal y jardines arbolados. Es un sitio íntimo y con encanto, ideal para celebrar rodeados de tradición y naturaleza.</p>
-            <div className="mt-3 flex flex-wrap gap-3">
-              <a href={mapLink(MAP.reception.query)} target="_blank" rel="noopener" className="inline-block text-emerald-700 hover:underline">Ver ubicación</a>
-              {MAP.streetNote && <span className="text-slate-600">Referencia: {MAP.streetNote}</span>}
-            </div>
-          </div>
-          {/* Se retiró el mapa embebido para no saturar con iframes */}
-        </section>
-
-        {/* Comala, tierra de Esmeralda */}
-        <section id="comala" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900">Comala, tierra de Esmeralda</h2>
-          <p className="mt-2 text-slate-700">Comala es un Pueblo Mágico conocido por sus fachadas blancas, portales y cafés tradicionales. Entre sus volcanes cercanos y su historia literaria, el pueblo guarda una calidez que nos acompaña en este día especial. Es de aquí de donde es originaria Esmeralda, y por eso quisimos celebrar en su tierra.</p>
-          <a href={mapLink('Comala, Colima')} target="_blank" rel="noopener" className="mt-3 inline-block text-emerald-700 hover:underline">Ver Comala en Maps</a>
         </section>
 
         {/* Alojamiento */}
