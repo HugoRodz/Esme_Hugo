@@ -564,8 +564,11 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                       <h3 className="text-lg font-semibold" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', textShadow: '0 1px 0 rgba(255,255,255,0.6)' }}>Introduce tu mesa</h3>
                     </div>
                 </div>
-                <input value={input} onChange={(e) => setInput(e.target.value)} className="mt-3 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten" placeholder="Ej. 1" style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }} />
+                <label htmlFor="mesa-input" className="mt-3 block text-sm text-emerald-700">Número de mesa</label>
+                <input id="mesa-input" value={input} onChange={(e) => setInput(e.target.value)} className="mt-1 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten" placeholder="Ej. 1" style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }} />
+                <label htmlFor="code-input" className="mt-3 block text-sm text-emerald-700">Código de verificación</label>
                 <input
+                  id="code-input"
                   value={verCode}
                   onChange={(e) => {
                     // allow only digits and limit to 3 chars
