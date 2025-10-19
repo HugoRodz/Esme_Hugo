@@ -19,6 +19,25 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   const [isMobile, setIsMobile] = useState(false)
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
 
+  // Forzar inicio limpio si la URL trae ?reset=1 o ?nuevo=1
+  useEffect(() => {
+    try {
+      const sp = new URLSearchParams(window.location.search)
+      const forceReset = sp.get('reset') === '1' || sp.get('nuevo') === '1'
+      if (forceReset) {
+        localStorage.removeItem('invite-number')
+        localStorage.removeItem('invite-code')
+        setResolved(null)
+        setVerCode('')
+        // Limpia la URL para no dejar los params
+        const url = new URL(window.location.href)
+        url.searchParams.delete('reset')
+        url.searchParams.delete('nuevo')
+        window.history.replaceState({}, '', url.toString())
+      }
+    } catch { /* ignore */ }
+  }, [])
+
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -330,7 +349,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-700" viewBox="0 0 20 20" fill="currentColor"><path d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/></svg>
                 )}
               </button>
-              <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch { /* ignore */ } }} title="Cerrar" className="rounded-md p-1 bg-white/70 border border-[rgba(160,130,40,0.12)]">
+              <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number'); localStorage.removeItem('invite-code') } catch { /* ignore */ } }} title="Cerrar" className="rounded-md p-1 bg-white/70 border border-[rgba(160,130,40,0.12)]">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/></svg>
               </button>
               {!minimized && (
