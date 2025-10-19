@@ -462,8 +462,8 @@ export default function App() {
             <a href="#como-llegar" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Cómo llegar</a>
             <a href="#alojamiento" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Alojamiento</a>
             <a href="#galeria" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Galería</a>
-            <a href="#album" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Álbum</a>
             <a href="#regalos" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Regalos</a>
+            <a href="#album" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">Álbum</a>
             <a href="#rsvp" className="rounded-full bg-white/70 px-3 py-1 text-emerald-800 ring-1 ring-emerald-200 hover:bg-white shadow-sm">RSVP</a>
           </nav>
           <div className="relative z-10 mt-8 flex items-center justify-center gap-3">
@@ -722,8 +722,7 @@ export default function App() {
             <img src={img('propuesta de matrimonio.jpeg')} alt="Propuesta de matrimonio" className="h-full w-full object-cover" loading="lazy" />
           </div>
         </section>
-
-        <LeafDivider />
+        
 
         
 
@@ -888,7 +887,7 @@ export default function App() {
 
         <LeafDivider />
 
-        {/* Galería */}
+  {/* Galería */}
         <section id="galeria" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
             <img src={`${base}images/foto-familiar.png`} alt="Foto familiar" className="h-6 w-6" />
@@ -914,8 +913,54 @@ export default function App() {
         </section>
 
         <LeafDivider />
+        
+  {/* Regalos (movido antes de Álbum) */}
+  <section id="regalos" className="mt-6">
+          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
+            <img src={`${base}images/presente-3d.png`} alt="Regalo" className="h-6 w-6" />
+            Regalos
+          </h2>
+          <p className="mt-2 text-slate-700">{GIFTS.message}</p>
 
-        {/* Álbum compartido */}
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl border border-emerald-200 bg-white p-4 shadow-sm">
+              <h3 className="font-medium text-emerald-900">Transferencia bancaria</h3>
+              <dl className="mt-2 space-y-2 text-slate-700">
+                <div>
+                  <dt className="text-sm text-emerald-700">Banco</dt>
+                  <dd className="font-medium">{GIFTS.bank.bankName}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-emerald-700">Beneficiario</dt>
+                  <dd className="font-medium">{GIFTS.bank.beneficiary}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-emerald-700">CLABE</dt>
+                  <dd className="font-mono select-all break-all">{GIFTS.bank.clabe}</dd>
+                </div>
+                <div>
+                  <dt className="text-sm text-emerald-700">Cuenta</dt>
+                  <dd className="font-mono select-all break-all">{GIFTS.bank.accountNumber}</dd>
+                </div>
+              </dl>
+              <div className="mt-3 flex gap-2">
+                <button
+                  className="rounded-lg bg-emerald-600 px-3 py-2 text-white text-sm hover:bg-emerald-700"
+                  onClick={() => navigator.clipboard.writeText(GIFTS.bank.clabe)}
+                >Copiar CLABE</button>
+                <button
+                  className="rounded-lg bg-emerald-50 px-3 py-2 text-emerald-800 text-sm ring-1 ring-emerald-200 hover:bg-emerald-100"
+                  onClick={() => navigator.clipboard.writeText(GIFTS.bank.accountNumber)}
+                >Copiar cuenta</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+  <LeafDivider />
+
+        {/* Álbum compartido (ahora después de Regalos) */}
         <section id="album" className="mt-6">
           <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
             <img src={`${base}images/galeria.png`} alt="Galería" className="h-6 w-6" />
@@ -959,50 +1004,6 @@ export default function App() {
               )}
             </div>
             <AlbumQRCard />
-          </div>
-        </section>
-
-        {/* Regalos */}
-        <section id="regalos" className="mt-6">
-          <h2 className="text-2xl font-semibold text-emerald-900 flex items-center gap-2">
-            <img src={`${base}images/presente-3d.png`} alt="Regalo" className="h-6 w-6" />
-            Regalos
-          </h2>
-          <p className="mt-2 text-slate-700">{GIFTS.message}</p>
-
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-xl border border-emerald-200 bg-white p-4 shadow-sm">
-              <h3 className="font-medium text-emerald-900">Transferencia bancaria</h3>
-              <dl className="mt-2 space-y-2 text-slate-700">
-                <div>
-                  <dt className="text-sm text-emerald-700">Banco</dt>
-                  <dd className="font-medium">{GIFTS.bank.bankName}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm text-emerald-700">Beneficiario</dt>
-                  <dd className="font-medium">{GIFTS.bank.beneficiary}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm text-emerald-700">CLABE</dt>
-                  <dd className="font-mono select-all break-all">{GIFTS.bank.clabe}</dd>
-                </div>
-                <div>
-                  <dt className="text-sm text-emerald-700">Cuenta</dt>
-                  <dd className="font-mono select-all break-all">{GIFTS.bank.accountNumber}</dd>
-                </div>
-              </dl>
-              <div className="mt-3 flex gap-2">
-                <button
-                  className="rounded-lg bg-emerald-600 px-3 py-2 text-white text-sm hover:bg-emerald-700"
-                  onClick={() => navigator.clipboard.writeText(GIFTS.bank.clabe)}
-                >Copiar CLABE</button>
-                <button
-                  className="rounded-lg bg-emerald-50 px-3 py-2 text-emerald-800 text-sm ring-1 ring-emerald-200 hover:bg-emerald-100"
-                  onClick={() => navigator.clipboard.writeText(GIFTS.bank.accountNumber)}
-                >Copiar cuenta</button>
-              </div>
-            </div>
-
           </div>
         </section>
 
