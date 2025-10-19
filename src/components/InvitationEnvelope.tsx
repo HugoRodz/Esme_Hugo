@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getInvitations } from '../data/invitations'
+import { ACCESS_BASE, EXCEPTIONS, expandAccess } from '../data/access'
 
 export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber: number) => void }) {
   const invites = useMemo(() => getInvitations(), [])
@@ -84,9 +85,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           return
         }
         if (!canceled) setVolcanSrc(`${base}images/colima.jpeg`)
-      } catch (e) {
-        if (!canceled) setVolcanSrc(`${import.meta.env.BASE_URL}images/colima.jpeg`)
-      }
+  } catch { if (!canceled) setVolcanSrc(`${import.meta.env.BASE_URL}images/colima.jpeg`) }
     }
     probe()
     return () => { canceled = true }
@@ -108,12 +107,13 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     const fallback = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${data}`
     let cancelled = false
     setQrDataUrl(null)
-    const tryGenerate = async () => {
+  const tryGenerate = async () => {
       try {
-        const QR = (window as any).QRCode
+    type QrLib = { toDataURL: (text: string, opts: { margin?: number; width?: number }, cb: (err: unknown, dataUrl: string) => void) => void }
+    const QR = (window as unknown as { QRCode?: QrLib }).QRCode
         if (QR && typeof QR.toDataURL === 'function') {
           const url = await new Promise<string>((resolve, reject) => {
-            QR.toDataURL(payload, { margin: 1, width: size }, (err: any, dataUrl: string) => err ? reject(err) : resolve(dataUrl))
+            QR.toDataURL(payload, { margin: 1, width: size }, (err: unknown, dataUrl: string) => err ? reject(err) : resolve(dataUrl))
           })
           if (!cancelled) setQrDataUrl(url)
           return
@@ -128,23 +128,21 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
           s.onerror = () => reject(new Error('Failed to load QR lib'))
           document.head.appendChild(s)
         })
-        const QR2 = (window as any).QRCode
+        const QR2 = (window as unknown as { QRCode?: QrLib }).QRCode
         if (QR2 && typeof QR2.toDataURL === 'function') {
           const url = await new Promise<string>((resolve, reject) => {
-            QR2.toDataURL(payload, { margin: 1, width: size }, (err: any, dataUrl: string) => err ? reject(err) : resolve(dataUrl))
+            QR2.toDataURL(payload, { margin: 1, width: size }, (err: unknown, dataUrl: string) => err ? reject(err) : resolve(dataUrl))
           })
           if (!cancelled) setQrDataUrl(url)
           return
         }
-      } catch (e) {
-      }
+      } catch (e) { void e }
       if (!cancelled) setQrDataUrl(fallback)
     }
     tryGenerate()
     return () => { cancelled = true }
   }, [resolved, isMobile, invites])
-  useEffect(() => {
-  }, [])
+  
 
   useEffect(() => {
     const calc = () => setContainerWidth(Math.round(Math.min(window.innerWidth * 0.92, 480)))
@@ -168,7 +166,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
       if (storedCode) setVerCode(storedCode)
         }
       }
-    } catch (e) { /* ignore */ }
+  } catch { /* ignore */ }
   }, [invites])
 
   useEffect(() => {
@@ -190,7 +188,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
     img.onload = () => {
       setImgLoaded(true)
       setImgError(false)
-      try { setImgRatio(img.naturalHeight / img.naturalWidth) } catch (e) { setImgRatio(null) }
+  try { setImgRatio(img.naturalHeight / img.naturalWidth) } catch { setImgRatio(null) }
     }
     img.onerror = () => { setImgLoaded(false); setImgError(true); setImgRatio(null) }
     return () => { img.onload = null; img.onerror = null }
@@ -198,29 +196,48 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
 
   const submit = () => {
     setError(null)
-    const n = Number(input)
-    if (!Number.isInteger(n) || n < 1 || n > 120) {
-      setError('Introduce un número válido (1–120)')
-      return
-    }
-    if (!invites[n]) {
-      setError('No encontramos ese número. Revisa tu invitación.')
-      return
-    }
-    const expected = invites[n].code
+    // Nueva validación: mesa + código
+    const mesa = Number(input)
     const cleaned = String(verCode || '').trim()
+    if (!Number.isInteger(mesa) || mesa < 1 || mesa > 50) {
+      setError('Introduce un número de mesa válido')
+      return
+    }
     if (!/^\d{3}$/.test(cleaned)) {
-      setError('Introduce el código de verificación de 3 dígitos')
+      setError('Introduce el código de 3 dígitos')
       return
     }
-    if (cleaned !== expected) {
-      setError('Código de verificación incorrecto')
+  const expanded = expandAccess(ACCESS_BASE, EXCEPTIONS)
+    const match = expanded.find(r => String(r.table) === String(mesa) && r.code === cleaned)
+    if (!match) {
+      setError('Mesa o código incorrectos')
       return
     }
-    setResolved(n)
-    try { localStorage.setItem('invite-number', String(n)) } catch (e) { /* ignore */ }
-    try { localStorage.setItem('invite-code', String(cleaned)) } catch (e) { /* ignore */ }
-    if (onOpen) onOpen(n)
+    // Resolver invitado en el mapa 'invites' para mostrar tarjeta. Usamos primera coincidencia por nombre.
+  const idx = Object.entries(invites).find((entry) => entry[1].name === match.name)?.[0]
+    const base = ACCESS_BASE.find(b => b.name === match.name)
+    const n = idx ? Number(idx) : null
+    if (!n) {
+      // Fallback: crear un invitado temporal
+      const maxIndex = Object.keys(invites).map(Number).reduce((a, b) => Math.max(a, b), 0)
+      const tempIndex = isFinite(maxIndex) ? maxIndex + 1 : 1000
+      invites[tempIndex] = { name: match.name, passes: base?.passes ?? 1, code: cleaned, table: mesa }
+      setResolved(tempIndex)
+  try { localStorage.setItem('invite-number', String(tempIndex)) } catch { /* ignore */ }
+  try { localStorage.setItem('invite-code', String(cleaned)) } catch { /* ignore */ }
+      if (onOpen) onOpen(tempIndex)
+    } else {
+      // Sincronizar datos reales (pases correctos y mesa ingresada)
+      if (base) {
+        invites[n] = { ...invites[n], name: match.name, passes: base.passes, code: cleaned, table: mesa }
+      } else {
+        invites[n] = { ...invites[n], table: mesa, code: cleaned }
+      }
+      setResolved(n)
+  try { localStorage.setItem('invite-number', String(n)) } catch { /* ignore */ }
+  try { localStorage.setItem('invite-code', String(cleaned)) } catch { /* ignore */ }
+      if (onOpen) onOpen(n)
+    }
     setOpen(false)
     setShowInvite(true)
   }
@@ -265,7 +282,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-700" viewBox="0 0 20 20" fill="currentColor"><path d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"/></svg>
                 )}
               </button>
-              <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch(e){} }} title="Cerrar" className="rounded-md p-1 bg-white/70 border border-[rgba(160,130,40,0.12)]">
+              <button onClick={() => { setResolved(null); try { localStorage.removeItem('invite-number') } catch { /* ignore */ } }} title="Cerrar" className="rounded-md p-1 bg-white/70 border border-[rgba(160,130,40,0.12)]">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-600" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/></svg>
               </button>
               <button onClick={() => setShowInvite(true)} title="Abrir" className="rounded-md px-2 py-1 text-sm bg-[rgba(46,80,54,0.06)] border border-[rgba(160,130,40,0.08)]">Abrir</button>
@@ -281,6 +298,17 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
   // The modal includes a diffused volcano image behind the sheet content.
   if (resolved && showInvite) {
     const info = invites[resolved]
+    // Calcular distribución de pases por mesa (excepciones) para mostrar en la tarjeta
+  const baseItem = ACCESS_BASE.find(b => b.name === info.name)
+  const arrangement = baseItem ? EXCEPTIONS[baseItem.name] : undefined
+    const dist: Record<string, number> = {}
+    if (arrangement && arrangement.length > 0) {
+      for (const m of arrangement) dist[String(m)] = (dist[String(m)] || 0) + 1
+    } else {
+      const total = baseItem?.passes ?? info.passes
+      dist[String(info.table)] = total
+    }
+  const hasException = arrangement && new Set(arrangement).size > 1
     // compute fallback external QR URL (inline generator handles dataURL via top-level hook)
     const qrSize = isMobile ? 120 : 160
     const qrData = encodeURIComponent(`${info.name}|Mesa:${info.table}|Pases:${info.passes}`)
@@ -346,7 +374,7 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                 <div style={{ marginTop: 18, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 140px', gap: isMobile ? 12 : 18, alignItems: 'center', justifyItems: 'center' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: 12, color: '#6b6b6b', letterSpacing: 0.6 }}>Pases</div>
-                    <div style={{ fontSize: isMobile ? 20 : 22, fontWeight: 800, color: '#284536', marginTop: 6 }}>{info.passes}</div>
+                    <div style={{ fontSize: isMobile ? 20 : 22, fontWeight: 800, color: '#284536', marginTop: 6 }}>{baseItem?.passes ?? info.passes}</div>
                   </div>
 
                   {/* QR badge: white rounded box with subtle border and shadow */}
@@ -354,6 +382,36 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                     <img src={qrDataUrl || qrSrc} alt={`QR ${info.name}`} style={{ width: isMobile ? 84 : 110, height: isMobile ? 84 : 110, objectFit: 'contain', borderRadius: 6 }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
                   </div>
                   <div style={{ fontSize: 11, color: '#6b6b6b', marginTop: isMobile ? 6 : 0, textAlign: 'center' }}>Presentar en acceso</div>
+                </div>
+
+                {/* Distribución por mesa (para excepciones) */}
+                <div style={{ marginTop: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                    <img src={`${import.meta.env.BASE_URL}images/cena.png`} alt="icono cena" width={18} height={18} style={{ width: 18, height: 18, objectFit: 'contain', filter: 'drop-shadow(0 1px 0 rgba(0,0,0,0.06))' }} />
+                    <div style={{ fontSize: 12, color: '#6b5520', letterSpacing: 0.4, fontWeight: 700 }}>Distribución por mesa</div>
+                  </div>
+                  <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
+                    {Object.entries(dist).sort((a,b)=>Number(a[0])-Number(b[0])).map(([mesa, count]) => (
+                      <div key={mesa} title={`Mesa ${mesa}: ${count} pase(s)`}
+                        style={{
+                          padding: '6px 12px',
+                          borderRadius: 999,
+                          border: '1px solid rgba(160,130,40,0.16)',
+                          background: Number(mesa)===info.table ? 'linear-gradient(180deg, rgba(255,244,217,0.9), rgba(255,238,200,0.9))' : 'rgba(255,255,255,0.85)',
+                          color: '#3a2b12',
+                          fontSize: 12,
+                          boxShadow: Number(mesa)===info.table ? '0 4px 12px rgba(201,158,42,0.18)' : '0 2px 8px rgba(0,0,0,0.04)'
+                        }}>
+                        <span style={{ fontWeight: 700 }}>Mesa {mesa}</span>
+                        <span style={{ opacity: 0.75 }}> × {count}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {hasException ? (
+                    <div style={{ marginTop: 10, textAlign: 'center', fontSize: 12, color: '#6b6b6b' }}>
+                      Tus pases están repartidos entre varias mesas; por favor verifica tu mesa de acceso.
+                    </div>
+                  ) : null}
                 </div>
 
                 {/* La funcionalidad de descarga de PDF está temporalmente removida */}
@@ -434,10 +492,10 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
         <div className="rounded-2xl bg-white p-5 shadow-lg ring-1 ring-emerald-100" style={{ border: '1px solid rgba(46, 80, 54, 0.06)', fontFamily: 'Marcellus, "Dancing Script", serif', position: 'relative', overflow: 'visible' }}>
                 <div className="flex items-start justify-between">
                   <div>
-                      <h3 className="text-lg font-semibold" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', textShadow: '0 1px 0 rgba(255,255,255,0.6)' }}>Introduce tu número de invitación</h3>
+                      <h3 className="text-lg font-semibold" style={{ fontFamily: 'Dancing Script, Marcellus, serif', color: '#C59A2A', textShadow: '0 1px 0 rgba(255,255,255,0.6)' }}>Introduce tu mesa</h3>
                     </div>
                 </div>
-                <input value={input} onChange={(e) => setInput(e.target.value)} className="mt-3 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten" placeholder="Ej. 5" style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }} />
+                <input value={input} onChange={(e) => setInput(e.target.value)} className="mt-3 w-full rounded-lg border border-emerald-200 px-3 py-2 handwritten" placeholder="Ej. 1" style={{ color: '#C59A2A', borderColor: 'rgba(197,154,42,0.18)', fontSize: '20px', lineHeight: '1.1' }} />
                 <input
                   value={verCode}
                   onChange={(e) => {

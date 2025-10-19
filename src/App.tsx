@@ -1,6 +1,6 @@
 // ...existing code...
 import './index.css'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import QRCode from 'qrcode'
 import { EVENT_DATETIME, RECEPTION_DATETIME, GIFTS, MAP, RSVP, HOTELS, ALBUM, MUSIC } from './config'
 import InvitationEnvelope from './components/InvitationEnvelope'
@@ -193,7 +193,7 @@ export default function App() {
   }
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const isLightboxOpen = lightboxIndex !== null
-  const gallery = [
+  const gallery = useMemo(() => [
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (1).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (3).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.13 AM (4).jpeg',
@@ -208,7 +208,7 @@ export default function App() {
     'WhatsApp Image 2025-08-14 at 1.54.14 AM (4).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.14 AM (5).jpeg',
     'WhatsApp Image 2025-08-14 at 1.54.14 AM.jpeg',
-  ]
+  ], [])
 
   useEffect(() => {
     if (!isLightboxOpen) return
@@ -219,7 +219,7 @@ export default function App() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [isLightboxOpen, gallery.length])
+  }, [isLightboxOpen, gallery])
 
   // Reveal animation control for parents block
   const parentsRef = useRef<HTMLDivElement | null>(null)
@@ -237,7 +237,7 @@ export default function App() {
 
   // Background audio: attempt autoplay, fall back to user-play button if blocked by browser
   // Helper to resolve audio URL taking into account Vite base and origin
-  const resolveAudioUrl = (url: string) => {
+  const resolveAudioUrl = useCallback((url: string) => {
     if (!url) return ''
     if (/^https?:\/\//.test(url)) return url
     // base usually ends with '/'
@@ -246,7 +246,7 @@ export default function App() {
     const resolved = `${window.location.origin}${basePath}${clean}`
     console.debug('Resolved audio URL', { url, base, resolved })
     return resolved
-  }
+  }, [base])
 
   useEffect(() => {
     const audio = document.getElementById('bg-audio') as HTMLAudioElement | null
@@ -280,7 +280,7 @@ export default function App() {
     try {
       const v = localStorage.getItem('bg-volume')
       return v ? Number(v) : 80
-    } catch (e) { return 80 }
+    } catch { return 80 }
   })
   const [showVolume, setShowVolume] = useState(false)
   const [prevVolume, setPrevVolume] = useState<number | null>(null)
@@ -299,7 +299,7 @@ export default function App() {
       audio.removeEventListener('play', onPlay)
       audio.removeEventListener('pause', onPause)
     }
-  }, [])
+  }, [volume])
 
   // Auto-hide the play hint after a few seconds
   useEffect(() => {
@@ -369,7 +369,7 @@ export default function App() {
     const onReady = () => {
       setAudioError(null)
     }
-    audio.addEventListener('error', onErr as EventListener)
+  audio.addEventListener('error', onErr as EventListener)
     audio.addEventListener('canplaythrough', onReady)
     audio.addEventListener('loadedmetadata', onReady)
     return () => {
@@ -377,13 +377,13 @@ export default function App() {
       audio.removeEventListener('canplaythrough', onReady)
       audio.removeEventListener('loadedmetadata', onReady)
     }
-  }, [])
+  }, [resolveAudioUrl])
 
 
 
   function AlbumQRCard() {
     const [dataUrl, setDataUrl] = useState<string>('')
-    useEffect(() => {
+  useEffect(() => {
       let cancelled = false
       async function gen() {
         if (!ALBUM.photosUrl) return
@@ -398,7 +398,7 @@ export default function App() {
       }
       gen()
       return () => { cancelled = true }
-    }, [])
+  }, [])
     return (
       <div className="rounded-xl border border-emerald-200 bg-white p-5 shadow-sm text-sm">
         <p className="text-emerald-900 font-medium">Escanéame para subir</p>
@@ -541,9 +541,10 @@ export default function App() {
                 setShowPlayHint(false)
                 try {
                   if (!audioCtxRef.current) {
-                    const Ctx = (window as any).AudioContext || (window as any).webkitAudioContext
+                    const Ctx: typeof AudioContext | undefined = (window as unknown as { AudioContext?: typeof AudioContext }).AudioContext
+                      || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
                     if (Ctx) {
-                      const ctx: AudioContext = new Ctx()
+                      const ctx = new Ctx()
                       try {
                         const src = ctx.createMediaElementSource(audio)
                         const gain = ctx.createGain()

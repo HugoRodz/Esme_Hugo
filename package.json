@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:local": "VITE_BASE=/ tsc -b && vite build --base /",
+  "build": "vite build",
+  "build:local": "VITE_BASE=/ vite build --base /",
+  "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "lint": "eslint ."
   },
