@@ -794,6 +794,11 @@ export default function App() {
           {MAP.streetNote && (
             <p className="mt-2 text-slate-700">Zona de referencia: {MAP.streetNote}</p>
           )}
+          <p className="mt-2 text-slate-700">
+            La ceremonia y la recepción serán dentro de la misma Hacienda Noguera: la ceremonia en el
+            <span className="font-medium"> Jardín de la Molienda</span> y la recepción en
+            <span className="font-medium"> La Molienda (Museo)</span>.
+          </p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div className="overflow-hidden rounded-xl ring-1 ring-emerald-200 bg-white/70 backdrop-blur">
               <div className="flex flex-col h-64 sm:h-72">

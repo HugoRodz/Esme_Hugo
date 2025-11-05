@@ -33,8 +33,8 @@ export const RSVP = {
 // Mapa y cómo llegar (lugares del evento)
 export const MAP = {
   ceremony: {
-    name: 'Parque Central',
-    query: 'Parque Central, Comala, Colima',
+  name: 'Jardín de la Molienda',
+  query: 'La Molienda, Hacienda Noguera, Comala, Colima',
   },
   reception: {
     name: 'La Molienda',
