@@ -17,7 +17,7 @@ export const EXCEPTIONS: Record<string, number[]> = {
   'Blanca Esthela Dueñas Montes': [1, 1, 1, 2, 3],
   'Anabel Dueñas Montes': [1, 2, 2, 2],
   'Jose Trinidad Fuentes Martinez': [1, 1, 2],
-  'Fernando Calderón Calderón': [9, 9, 10],
+  'Fernando Calderón Calderón': [9, 9, 9],
 }
 
 export const ACCESS_BASE: AccessBase[] = [
