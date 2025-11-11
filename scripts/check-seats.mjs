@@ -8,7 +8,7 @@ const src = fs.readFileSync(file, 'utf8')
 
 function parseExceptions(text) {
   const out = new Map()
-  const excBlockMatch = text.match(/export\s+const\s+EXCEPTIONS:[\s\S]*?=\s*{([\s\S]*?)}\s*;/)
+  const excBlockMatch = text.match(/export\s+const\s+EXCEPTIONS:[\s\S]*?=\s*{([\s\S]*?)}\s*;?/)
   if (!excBlockMatch) return out
   const block = excBlockMatch[1]
   const re = /['"]([^'"\\]+)['"]\s*:\s*\[\s*([^\]]*?)\s*]/g
@@ -26,7 +26,7 @@ function parseExceptions(text) {
 
 function parseAccessBase(text) {
   const out = []
-  const baseBlockMatch = text.match(/export\s+const\s+ACCESS_BASE:[\s\S]*?=\s*\[([\s\S]*?)]\s*;/)
+  const baseBlockMatch = text.match(/export\s+const\s+ACCESS_BASE:[\s\S]*?=\s*\[([\s\S]*?)]\s*;?/)
   if (!baseBlockMatch) return out
   const block = baseBlockMatch[1]
   // Match objects like: { name: 'X', passes: 2, table: 3, code: '123' }
