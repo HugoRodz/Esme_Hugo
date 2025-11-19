@@ -462,7 +462,19 @@ export default function InvitationEnvelope({ onOpen }: { onOpen?: (inviteNumber:
                 {/* Distribución por mesa (para excepciones) */}
                 <div style={{ marginTop: 16 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-                    <img src={`${import.meta.env.BASE_URL}images/cena.png`} alt="icono cena" width={18} height={18} style={{ width: 18, height: 18, objectFit: 'contain', filter: 'drop-shadow(0 1px 0 rgba(0,0,0,0.06))' }} />
+                    <img
+                      src={`${import.meta.env.BASE_URL}images/cena.png`}
+                      alt="icono cena"
+                      width={18}
+                      height={18}
+                      loading="lazy"
+                      style={{ width: 18, height: 18, objectFit: 'contain', filter: 'drop-shadow(0 1px 0 rgba(0,0,0,0.06))' }}
+                      onError={(e) => {
+                        const img = e.currentTarget as HTMLImageElement
+                        img.onerror = null
+                        img.src = `${import.meta.env.BASE_URL}images/apreton-de-manos.png`
+                      }}
+                    />
                     <div style={{ fontSize: 12, color: '#6b5520', letterSpacing: 0.4, fontWeight: 700 }}>Distribución por mesa</div>
                   </div>
                   <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
