@@ -80,7 +80,7 @@ export const ACCESS_BASE: AccessBase[] = [
   { name: 'Roberto Rodriguez', passes: 2, table: 11, code: '212' },
   { name: 'Antonio Rodriguez', passes: 2, table: 11, code: '213' },
   { name: 'Brenda Rodriguez', passes: 2, table: 11, code: '214' },
-  { name: 'Rodrigo Rubio', passes: 2, table: 11, code: '215' },
+  { name: 'Celia Campos', passes: 2, table: 11, code: '215' },
   { name: 'Yaritza Rodríguez', passes: 2, table: 11, code: '216' },
   { name: 'Sara Peñaloza', passes: 3, table: 12, code: '321' },
   { name: 'Manuel Robledo', passes: 2, table: 12, code: '221' },
