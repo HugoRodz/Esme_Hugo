@@ -48,7 +48,7 @@ export const ACCESS_BASE: AccessBase[] = [
   { name: 'Luis Manuel Flores', passes: 1, table: 5, code: '157' },
   { name: 'Gemma Morfin', passes: 1, table: 5, code: '158' },
   { name: 'Amaranta Romero', passes: 2, table: 6, code: '261' },
-  { name: 'Alejandra Torres', passes: 1, table: 6, code: '161' },
+  { name: 'Lizbeth Cardenas', passes: 2, table: 6, code: '161' },
   { name: 'Antonio Izquierdo', passes: 1, table: 6, code: '162' },
   { name: 'Zerlina Arroyo', passes: 1, table: 6, code: '163' },
   { name: 'Jose Ruiz Contreras', passes: 1, table: 6, code: '164' },
